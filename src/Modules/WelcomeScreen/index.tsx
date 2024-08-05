@@ -9,6 +9,7 @@ import {TextInput} from 'react-native-paper';
 import ThreeLogosComponent from '../../Components/ThreeLogosComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import MyTextInput from '../../Components/MyTextInput';
+import MyButton from '../../Components/MyButton';
 
 const WelcomeScreen = () => {
   const screenContext = useScreenContext();
@@ -46,18 +47,14 @@ const WelcomeScreen = () => {
         />
         <ThreeLogosComponent />
         <View style={screenStyles.bottomButtonsContainer}>
-          <TouchableOpacity style={[screenStyles.button, screenStyles.button1]}>
+          <MyButton  style={screenStyles.button1}>
             <AntDesign name="qrcode" color={ColorPalette.white} size={20} />
             <Text style={screenStyles.whiteText}>I'm At My Table</Text>
-          </TouchableOpacity>
+          </MyButton>
           {/* bakcground colorconditionally render */}
-          <TouchableOpacity
-            style={[
-              screenStyles.button,
-              {backgroundColor: ColorPalette.lightRed},
-            ]}>
+          <MyButton style={{backgroundColor:ColorPalette.lightRed}}>
             <Text style={screenStyles.whiteText}>Lets Go!</Text>
-          </TouchableOpacity>
+          </MyButton>
         </View>
       </View>
     </FullScreenBGImageBlur>

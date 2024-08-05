@@ -29,10 +29,6 @@ const styles = (
       alignSelf: 'center',
     },
     button: {
-      borderRadius: 10,
-      padding: height * 0.025,
-      alignItems: 'center',
-      justifyContent: 'center',
       width: width * 0.9,
       margin: height * 0.01,
     },

@@ -3,7 +3,6 @@ import {TextInput, TextInputProps} from 'react-native-paper';
 import {StyleProp, TextStyle} from 'react-native';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import {TextInputLabelProp} from 'react-native-paper/lib/typescript/components/TextInput/types';
 import styles from './style';
 
 type MyTextInputPropsType = {
