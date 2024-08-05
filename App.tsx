@@ -3,22 +3,24 @@ import {SafeAreaView, StyleSheet} from 'react-native';
 import {ScreenContextProvider} from './src/Contexts/ScreenContext';
 import {NavigationContainer} from '@react-navigation/native';
 import UnauthorizedStack from './src/Services/Navigation/UnauthorizedStack';
+import {PaperProvider} from 'react-native-paper';
 
 function App(): React.JSX.Element {
   return (
     <SafeAreaView style={{flex: 1}}>
       <NavigationContainer>
-        <UnauthorizedStack/>
+        <UnauthorizedStack />
         {/* authorised Stack */}
-        {/* <HomeScreen/> */}
-        </NavigationContainer>
+      </NavigationContainer>
     </SafeAreaView>
   );
 }
 const Main = () => {
   return (
     <ScreenContextProvider>
-      <App />
+      <PaperProvider>
+        <App />
+      </PaperProvider>
     </ScreenContextProvider>
   );
 };
