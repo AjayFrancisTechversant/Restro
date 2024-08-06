@@ -1,4 +1,10 @@
-import {View, Text, BackHandler} from 'react-native';
+import {
+  View,
+  Text,
+  BackHandler,
+  ScrollView,
+  KeyboardAvoidingView,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {useScreenContext} from '../../Contexts/ScreenContext';
@@ -30,52 +36,56 @@ const ChangePasswordScreen = () => {
     } else navigation.navigate('SignInScreen' as never);
   };
   return (
-    <FullScreenBGImageBlur>
-      <View style={screenStyles.container}>
-        <HeaderComponent />
-        {!isPasswordChanged ? (
-          <>
-            <View style={screenStyles.mainTextContainer}>
-              <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
-                Change your Password
-              </Text>
+    <KeyboardAvoidingView behavior="position">
+      <ScrollView>
+        <FullScreenBGImageBlur>
+          <View style={screenStyles.container}>
+            <HeaderComponent />
+            {!isPasswordChanged ? (
+              <>
+                <View style={screenStyles.mainTextContainer}>
+                  <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
+                    Change your Password
+                  </Text>
+                </View>
+                <MyTextInput
+                  style={screenStyles.textInput}
+                  label={'PASSWORD'}
+                  secureTextEntry
+                  right={<TextInput.Icon icon="eye" />}
+                />
+                <MyTextInput
+                  style={screenStyles.textInput}
+                  label={'CONFIRM PASSWORD'}
+                  secureTextEntry
+                  right={<TextInput.Icon icon="eye" />}
+                />
+              </>
+            ) : (
+              <View style={screenStyles.box}>
+                <Fontisto name="locked" size={50} color={ColorPalette.red} />
+                <Text style={[commonStyles.boldText]}>
+                  Your password has been reset!
+                </Text>
+                <Text>Click below to sign in.</Text>
+              </View>
+            )}
+            <View style={screenStyles.bottomButton}>
+              <MyButton
+                onPress={handleSubmit}
+                // validate and change backgorund color
+                style={{
+                  backgroundColor: ColorPalette.lightRed,
+                }}>
+                <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+                  {!isPasswordChanged ? 'Change Password' : 'Sign In'}
+                </Text>
+              </MyButton>
             </View>
-            <MyTextInput
-              style={screenStyles.textInput}
-              label={'PASSWORD'}
-              secureTextEntry
-              right={<TextInput.Icon icon="eye" />}
-            />
-            <MyTextInput
-              style={screenStyles.textInput}
-              label={'CONFIRM PASSWORD'}
-              secureTextEntry
-              right={<TextInput.Icon icon="eye" />}
-            />
-          </>
-        ) : (
-          <View style={screenStyles.box}>
-            <Fontisto name="locked" size={50} color={ColorPalette.red} />
-            <Text style={[commonStyles.boldText]}>
-              Your password has been reset!
-            </Text>
-            <Text>Click below to sign in.</Text>
           </View>
-        )}
-        <View style={screenStyles.bottomButton}>
-          <MyButton
-            onPress={handleSubmit}
-            // validate and change backgorund color
-            style={{
-              backgroundColor: ColorPalette.lightRed,
-            }}>
-            <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-              {!isPasswordChanged ? 'Change Password' : 'Sign In'}
-            </Text>
-          </MyButton>
-        </View>
-      </View>
-    </FullScreenBGImageBlur>
+        </FullScreenBGImageBlur>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

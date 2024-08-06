@@ -1,4 +1,10 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  KeyboardAvoidingView,
+} from 'react-native';
 import React, {useState} from 'react';
 import {Checkbox, TextInput} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
@@ -26,74 +32,82 @@ const SignInScreen = () => {
     // validate and ssign in using firebase
   };
   return (
-    <FullScreenBGImageBlur>
-      <View style={screenStyles.container}>
-        <HeaderComponent />
-        <View style={screenStyles.mainTextContainer}>
-          <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
-            Sign In
-          </Text>
-        </View>
-        <Text style={[commonStyles.whiteText, screenStyles.subText]}>
-          verify yourself below
-        </Text>
-        <MyTextInput style={screenStyles.textInput} label="EMAIL ADDRESS" />
-        <MyTextInput
-          secureTextEntry
-          right={<TextInput.Icon icon="eye" />}
-          style={screenStyles.textInput}
-          label="PASSWORD"
-        />
-        <View style={screenStyles.rememberMeSuperContainer}>
-          <View style={screenStyles.rememberMeContainer}>
-            <Checkbox
-              uncheckedColor={ColorPalette.white}
-              color={ColorPalette.white}
-              status={isRememberMeChecked ? 'checked' : 'unchecked'}
-              onPress={() => setIsRememberMeChecked(!isRememberMeChecked)}
-            />
-            <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-              Remember me
-            </Text>
-          </View>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('ForgotPasswordScreen' as never)
-            }>
-            <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-              Forgot your password?
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={screenStyles.bottomContainer}>
-          <View style={screenStyles.dontHaveAccountContainer}>
-            <Text style={commonStyles.whiteText}>Don't have an account?</Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('RegisterScreen1' as never)}>
-              <Text
-                style={[
-                  commonStyles.whiteText,
-                  commonStyles.boldText,
-                  commonStyles.underlinedText,
-                ]}>
-                Create One
+    <KeyboardAvoidingView behavior="position">
+      <ScrollView>
+        <FullScreenBGImageBlur>
+          <View style={screenStyles.container}>
+            <HeaderComponent />
+            <View style={screenStyles.mainTextContainer}>
+              <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
+                Sign In
               </Text>
-            </TouchableOpacity>
-          </View>
-          <MyButton
-            onPress={handleSubmit}
-            // validate and change backgorund color
-            style={{
-              alignSelf: 'center',
-              backgroundColor: ColorPalette.lightRed,
-            }}>
-            <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-              Sign In
+            </View>
+            <Text style={[commonStyles.whiteText, screenStyles.subText]}>
+              verify yourself below
             </Text>
-          </MyButton>
-        </View>
-      </View>
-    </FullScreenBGImageBlur>
+            <MyTextInput style={screenStyles.textInput} label="EMAIL ADDRESS" />
+            <MyTextInput
+              secureTextEntry
+              right={<TextInput.Icon icon="eye" />}
+              style={screenStyles.textInput}
+              label="PASSWORD"
+            />
+            <View style={screenStyles.rememberMeSuperContainer}>
+              <View style={screenStyles.rememberMeContainer}>
+                <Checkbox
+                  uncheckedColor={ColorPalette.white}
+                  color={ColorPalette.white}
+                  status={isRememberMeChecked ? 'checked' : 'unchecked'}
+                  onPress={() => setIsRememberMeChecked(!isRememberMeChecked)}
+                />
+                <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+                  Remember me
+                </Text>
+              </View>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('ForgotPasswordScreen' as never)
+                }>
+                <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+                  Forgot your password?
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={screenStyles.bottomContainer}>
+              <View style={screenStyles.dontHaveAccountContainer}>
+                <Text style={commonStyles.whiteText}>
+                  Don't have an account?
+                </Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('RegisterScreen1' as never)
+                  }>
+                  <Text
+                    style={[
+                      commonStyles.whiteText,
+                      commonStyles.boldText,
+                      commonStyles.underlinedText,
+                    ]}>
+                    Create One
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <MyButton
+                onPress={handleSubmit}
+                // validate and change backgorund color
+                style={{
+                  alignSelf: 'center',
+                  backgroundColor: ColorPalette.lightRed,
+                }}>
+                <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+                  Sign In
+                </Text>
+              </MyButton>
+            </View>
+          </View>
+        </FullScreenBGImageBlur>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

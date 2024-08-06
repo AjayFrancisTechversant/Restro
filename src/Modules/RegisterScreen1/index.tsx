@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View, Text, KeyboardAvoidingView, ScrollView} from 'react-native';
 import React from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import FullScreenBGImageBlur from '../../Components/Onboarding/FullScreenBGImageBlur';
@@ -59,70 +59,74 @@ const RegisterScreen1 = () => {
   };
 
   return (
-    <FullScreenBGImageBlur>
-      <View style={screenStyles.container}>
-        <HeaderComponent />
-        <View style={screenStyles.mainTextContainer}>
-          <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
-            Let's get you
-          </Text>
-          <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
-            signed up!
-          </Text>
-        </View>
-        <Text style={[commonStyles.whiteText, screenStyles.subText]}>
-          it'll only take a few seconds...
-        </Text>
-        <MyTextInput
-          value={firstName}
-          onChangeText={text => HandleOnChangeText(text, 'firstName')}
-          style={screenStyles.textInput}
-          label="FIRST NAME"
-        />
-        <MyTextInput
-          value={lastName}
-          onChangeText={text => HandleOnChangeText(text, 'lastName')}
-          style={screenStyles.textInput}
-          label="LAST NAME"
-        />
-        <MyTextInput
-          value={email}
-          onChangeText={text => HandleOnChangeText(text, 'email')}
-          style={screenStyles.textInput}
-          label="EMAIL"
-        />
-        <MyTextInput
-          value={mobile}
-          onChangeText={text => HandleOnChangeText(text, 'mobile')}
-          keyboardType="numeric"
-          style={screenStyles.textInput}
-          label="Mobile"
-        />
-        <View style={screenStyles.alreadyHaveAccountContainer}>
-          <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-            already have an account?
-          </Text>
-          <MyButton
-            onPress={() => navigation.navigate('SignInScreen' as never)}
-            style={screenStyles.loginButton}>
-            <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-              Login
+    <KeyboardAvoidingView behavior="position">
+      <ScrollView>
+        <FullScreenBGImageBlur>
+          <View style={screenStyles.container}>
+            <HeaderComponent />
+            <View style={screenStyles.mainTextContainer}>
+              <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
+                Let's get you
+              </Text>
+              <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
+                signed up!
+              </Text>
+            </View>
+            <Text style={[commonStyles.whiteText, screenStyles.subText]}>
+              it'll only take a few seconds...
             </Text>
-          </MyButton>
-        </View>
-        <View style={screenStyles.bottomButton}>
-          <MyButton
-            onPress={handleSubmit}
-            style={{
-              backgroundColor: ColorPalette.red,
-            }}>
-            <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-              Next
-            </Text>
-          </MyButton>
-        </View>
-      </View>
-    </FullScreenBGImageBlur>
+            <MyTextInput
+              value={firstName}
+              onChangeText={text => HandleOnChangeText(text, 'firstName')}
+              style={screenStyles.textInput}
+              label="FIRST NAME"
+            />
+            <MyTextInput
+              value={lastName}
+              onChangeText={text => HandleOnChangeText(text, 'lastName')}
+              style={screenStyles.textInput}
+              label="LAST NAME"
+            />
+            <MyTextInput
+              value={email}
+              onChangeText={text => HandleOnChangeText(text, 'email')}
+              style={screenStyles.textInput}
+              label="EMAIL"
+            />
+            <MyTextInput
+              value={mobile}
+              onChangeText={text => HandleOnChangeText(text, 'mobile')}
+              keyboardType="numeric"
+              style={screenStyles.textInput}
+              label="Mobile"
+            />
+            <View style={screenStyles.alreadyHaveAccountContainer}>
+              <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+                already have an account?
+              </Text>
+              <MyButton
+                onPress={() => navigation.navigate('SignInScreen' as never)}
+                style={screenStyles.loginButton}>
+                <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+                  Login
+                </Text>
+              </MyButton>
+            </View>
+            <View style={screenStyles.bottomButton}>
+              <MyButton
+                onPress={handleSubmit}
+                style={{
+                  backgroundColor: ColorPalette.red,
+                }}>
+                <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+                  Next
+                </Text>
+              </MyButton>
+            </View>
+          </View>
+        </FullScreenBGImageBlur>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

@@ -1,4 +1,4 @@
-import {View, Text, Alert} from 'react-native';
+import {View, Text, Alert, ScrollView, KeyboardAvoidingView} from 'react-native';
 import React, {useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {isLength} from 'validator';
@@ -43,49 +43,53 @@ const WelcomeScreen = () => {
     screenContext,
   );
   return (
-    <FullScreenBGImageBlur>
-      <View style={screenStyles.container}>
-        <HeaderComponent />
-        <View style={screenStyles.mainTextContainer}>
-          <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
-            Hungry?
-          </Text>
-          <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
-            We gotcha
-          </Text>
-          <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
-            covered.
-          </Text>
-        </View>
-        <Text style={[commonStyles.whiteText, screenStyles.subText]}>
-          Let's find the locations near you.
-        </Text>
-        <MyTextInput
-          value={zipcodeFromRedux}
-          label={'ZIPCODE'}
-          style={screenStyles.textInput}
-          onChangeText={handleOnChangeText}
-          right={<TextInput.Icon icon="crosshairs-gps" />}
-          keyboardType="numeric"
-        />
-        <ThreeLogosComponent />
-        <View style={screenStyles.bottomButtonsContainer}>
-          <MyButton style={screenStyles.button1}>
-            <AntDesign name="qrcode" color={ColorPalette.white} size={20} />
-            <Text style={[commonStyles.whiteText,commonStyles.boldText]}>I'm At My Table</Text>
-          </MyButton>
-          <MyButton
-            onPress={handleSubmit}
-            style={{
-              backgroundColor: isZipcodeValid
-                ? ColorPalette.red
-                : ColorPalette.lightRed,
-            }}>
-            <Text style={[commonStyles.whiteText,commonStyles.boldText]}>Lets Go!</Text>
-          </MyButton>
-        </View>
-      </View>
-    </FullScreenBGImageBlur>
+   <KeyboardAvoidingView behavior="position">
+     <ScrollView>
+        <FullScreenBGImageBlur>
+          <View style={screenStyles.container}>
+            <HeaderComponent />
+            <View style={screenStyles.mainTextContainer}>
+              <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
+                Hungry?
+              </Text>
+              <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
+                We gotcha
+              </Text>
+              <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
+                covered.
+              </Text>
+            </View>
+            <Text style={[commonStyles.whiteText, screenStyles.subText]}>
+              Let's find the locations near you.
+            </Text>
+            <MyTextInput
+              value={zipcodeFromRedux}
+              label={'ZIPCODE'}
+              style={screenStyles.textInput}
+              onChangeText={handleOnChangeText}
+              right={<TextInput.Icon icon="crosshairs-gps" />}
+              keyboardType="numeric"
+            />
+            <ThreeLogosComponent />
+            <View style={screenStyles.bottomButtonsContainer}>
+              <MyButton style={screenStyles.button1}>
+                <AntDesign name="qrcode" color={ColorPalette.white} size={20} />
+                <Text style={[commonStyles.whiteText,commonStyles.boldText]}>I'm At My Table</Text>
+              </MyButton>
+              <MyButton
+                onPress={handleSubmit}
+                style={{
+                  backgroundColor: isZipcodeValid
+                    ? ColorPalette.red
+                    : ColorPalette.lightRed,
+                }}>
+                <Text style={[commonStyles.whiteText,commonStyles.boldText]}>Lets Go!</Text>
+              </MyButton>
+            </View>
+          </View>
+        </FullScreenBGImageBlur>
+     </ScrollView>
+   </KeyboardAvoidingView>
   );
 };
 
