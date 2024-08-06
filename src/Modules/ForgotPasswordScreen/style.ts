@@ -18,17 +18,13 @@ const styles = (
     },
     subText: {margin: height * 0.03},
     textInput: {marginVertical: height * 0.01},
-    resendTextLong: {
-      width: width * 0.7,
-      alignSelf: 'center',
-      margin: height * 0.03,
-    },
-    resendMailButton: {alignSelf: 'center', marginBottom: height * 0.01},
+    resendEmailContainer:{flexDirection:'row',gap:height*0.01,alignSelf:'center',marginTop:height*0.05},
+    resendMailButton: {alignSelf: 'center',},
     bottomButton: {
       position: 'absolute',
       bottom: height * 0.05,
       alignSelf: 'center',
-    },
+    },checkSpamText:{alignSelf: 'center',}
   });
 
 export default styles;

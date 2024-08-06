@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Pressable} from 'react-native';
 import React from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './style';
@@ -8,10 +8,10 @@ import {commonStyles} from '../../CommonStyles/CommonStyles';
 import MyTextInput from '../../Components/MyTextInput';
 import MyButton from '../../Components/MyButton';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const ForgotPasswordScreen = () => {
-  const navigation=useNavigation()
+  const navigation = useNavigation();
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -22,7 +22,7 @@ const ForgotPasswordScreen = () => {
   );
   const handleSubmit = () => {
     ///validate
-    navigation.navigate('ChangePasswordScreen' as never)
+    navigation.navigate('ChangePasswordScreen' as never);
   };
   return (
     <FullScreenBGImageBlur>
@@ -34,19 +34,27 @@ const ForgotPasswordScreen = () => {
           </Text>
         </View>
         <Text style={[commonStyles.whiteText, screenStyles.subText]}>
-          no worries, let's reset it...enter your email below, and you'll
+          No worries, let's reset it...enter your email below, and you'll
           receive a link to reset it
         </Text>
         <MyTextInput label="EMAIL" />
-        <Text style={[commonStyles.whiteText, screenStyles.resendTextLong]}>
-          Didn't receive email?
+        <View style={screenStyles.resendEmailContainer}>
+          <Text style={[commonStyles.whiteText]}>Didn't receive email?</Text>
           <TouchableOpacity style={screenStyles.resendMailButton}>
-            <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+            <Text
+              style={[
+                commonStyles.whiteText,
+                commonStyles.boldText,
+                commonStyles.underlinedText,
+              ]}>
               Click to resend
             </Text>
           </TouchableOpacity>
-          also be sure to check your spam folder
+        </View>
+        <Text style={[commonStyles.whiteText, screenStyles.checkSpamText]}>
+          Also be sure to check your spam folder.
         </Text>
+
         <View style={screenStyles.bottomButton}>
           <MyButton
             onPress={handleSubmit}

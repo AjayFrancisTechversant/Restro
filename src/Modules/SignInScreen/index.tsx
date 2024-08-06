@@ -70,7 +70,12 @@ const SignInScreen = () => {
             <Text style={commonStyles.whiteText}>Don't have an account?</Text>
             <TouchableOpacity
               onPress={() => navigation.navigate('RegisterScreen1' as never)}>
-              <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+              <Text
+                style={[
+                  commonStyles.whiteText,
+                  commonStyles.boldText,
+                  commonStyles.underlinedText,
+                ]}>
                 Create One
               </Text>
             </TouchableOpacity>

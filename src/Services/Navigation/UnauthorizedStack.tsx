@@ -13,7 +13,7 @@ const Stack = createNativeStackNavigator();
 const UnauthorizedStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="WelcomeScreen"
+      initialRouteName="ForgotPasswordScreen"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
       <Stack.Screen name="PreferenceScreen" component={PreferenceScreen} />
