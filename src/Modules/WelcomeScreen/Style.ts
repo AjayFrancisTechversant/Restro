@@ -11,7 +11,6 @@ const styles = (
 ) =>
   StyleSheet.create({
     container: {padding: height * 0.02, flex: 1},
-    whiteText: {color: ColorPalette.white},
     mainTextContainer: {marginTop: height * 0.1},
     bigText: {
       fontSize: 40,
@@ -28,16 +27,16 @@ const styles = (
       bottom: height * 0.05,
       alignSelf: 'center',
     },
-    button: {
-      width: width * 0.9,
-      margin: height * 0.01,
-    },
     button1: {
+      width: width * 0.9,
       borderWidth: 2,
       borderColor: ColorPalette.white,
       flexDirection: 'row',
-      gap: height * 0.01,
+      gap: height * 0.01,marginVertical:height*0.02
     },
+    button2:{
+      
+    }
   });
 
 export default styles;

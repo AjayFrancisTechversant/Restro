@@ -1,17 +1,39 @@
-import {View, Text, TouchableOpacity} from 'react-native';
-import React from 'react';
+import {View, Text, Alert} from 'react-native';
+import React, {useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {useScreenContext} from '../../Contexts/ScreenContext';
-import FullScreenBGImageBlur from '../../Components/FullScreenBGImageBlur';
-import HeaderComponent from '../../Components/HeaderComponent';
-import styles from './Style';
+import {isLength} from 'validator';
+import {useNavigation} from '@react-navigation/native';
 import {TextInput} from 'react-native-paper';
-import ThreeLogosComponent from '../../Components/ThreeLogosComponent';
+import {useScreenContext} from '../../Contexts/ScreenContext';
+import FullScreenBGImageBlur from '../../Components/Onboarding/FullScreenBGImageBlur';
+import HeaderComponent from '../../Components/HeaderComponent';
+import ThreeLogosComponent from '../../Components/Onboarding/ThreeLogosComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import MyTextInput from '../../Components/MyTextInput';
 import MyButton from '../../Components/MyButton';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
+import {updateZipcode} from '../../Redux/Slices/UserDetailsSlice';
+import { commonStyles } from '../../CommonStyles/CommonStyles';
+import styles from './Style';
 
 const WelcomeScreen = () => {
+  const navigation = useNavigation();
+  const dispatch = useAppDispatch();
+  const zipcodeFromRedux = useAppSelector(state => state.userDetails.zipcode);
+  const [isZipcodeValid, setIsZipcodeValid] = useState(
+    isLength(zipcodeFromRedux, {min: 6, max: 6}),
+  );
+  const handleOnChangeText = (text: string) => {
+    dispatch(updateZipcode(text));
+    setIsZipcodeValid(isLength(text, {min: 6, max: 6}));
+  };
+  const handleSubmit = () => {
+    if (isZipcodeValid) {
+      navigation.navigate('PreferenceScreen' as never);
+    } else {
+      Alert.alert('Invalid Zipcode!!!');
+    }
+  };
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -25,35 +47,41 @@ const WelcomeScreen = () => {
       <View style={screenStyles.container}>
         <HeaderComponent />
         <View style={screenStyles.mainTextContainer}>
-          <Text style={[screenStyles.whiteText, screenStyles.bigText]}>
+          <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
             Hungry?
           </Text>
-          <Text style={[screenStyles.whiteText, screenStyles.bigText]}>
+          <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
             We gotcha
           </Text>
-          <Text style={[screenStyles.whiteText, screenStyles.bigText]}>
+          <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
             covered.
           </Text>
         </View>
-        <Text style={[screenStyles.whiteText, screenStyles.subText]}>
+        <Text style={[commonStyles.whiteText, screenStyles.subText]}>
           Let's find the locations near you.
         </Text>
         <MyTextInput
+          value={zipcodeFromRedux}
           label={'ZIPCODE'}
           style={screenStyles.textInput}
-          onChangeText={text => {}}
+          onChangeText={handleOnChangeText}
           right={<TextInput.Icon icon="crosshairs-gps" />}
           keyboardType="numeric"
         />
         <ThreeLogosComponent />
         <View style={screenStyles.bottomButtonsContainer}>
-          <MyButton  style={screenStyles.button1}>
+          <MyButton style={screenStyles.button1}>
             <AntDesign name="qrcode" color={ColorPalette.white} size={20} />
-            <Text style={screenStyles.whiteText}>I'm At My Table</Text>
+            <Text style={[commonStyles.whiteText,commonStyles.boldText]}>I'm At My Table</Text>
           </MyButton>
-          {/* bakcground colorconditionally render */}
-          <MyButton style={{backgroundColor:ColorPalette.lightRed}}>
-            <Text style={screenStyles.whiteText}>Lets Go!</Text>
+          <MyButton
+            onPress={handleSubmit}
+            style={{
+              backgroundColor: isZipcodeValid
+                ? ColorPalette.red
+                : ColorPalette.lightRed,
+            }}>
+            <Text style={[commonStyles.whiteText,commonStyles.boldText]}>Lets Go!</Text>
           </MyButton>
         </View>
       </View>

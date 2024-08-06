@@ -1,10 +1,10 @@
 import {View, Text, Image} from 'react-native';
 import React from 'react';
-import {useScreenContext} from '../../Contexts/ScreenContext';
+import randomlogo1 from '../../../Assets/Logos/randomlogo1.png';
+import randomlogo2 from '../../../Assets/Logos/randomlogo2.png';
+import randomlogo3 from '../../../Assets/Logos/randomlogo3.png';
+import { useScreenContext } from '../../../Contexts/ScreenContext';
 import styles from './style';
-import randomlogo1 from '../../Assets/Logos/randomlogo1.png';
-import randomlogo2 from '../../Assets/Logos/randomlogo2.png';
-import randomlogo3 from '../../Assets/Logos/randomlogo3.png';
 
 const ThreeLogosComponent = () => {
   const screenContext = useScreenContext();

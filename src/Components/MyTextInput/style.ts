@@ -10,6 +10,10 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
-    textInput: {backgroundColor: ColorPalette.white, borderRadius: 5},
+    textInput: {
+      backgroundColor: ColorPalette.white,
+      borderRadius: 5,
+      fontWeight: 'bold',
+    },
   });
 export default styles;
