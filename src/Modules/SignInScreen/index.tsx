@@ -51,7 +51,10 @@ const SignInScreen = () => {
               Remember me
             </Text>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('ForgotPasswordScreen' as never)
+            }>
             <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
               Forgot your password?
             </Text>
