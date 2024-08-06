@@ -15,7 +15,7 @@ const FullScreenBGImageBlur = ({children}: any) => {
   );
   return (
     <ImageBackground
-      blurRadius={2}
+      blurRadius={7}
       source={food_bg1}
       resizeMode="cover"
       style={screenStyles.image}>
