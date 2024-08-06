@@ -1,22 +1,67 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import { useScreenContext } from '../../Contexts/ScreenContext';
+import {View, Text, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './style';
+import FullScreenBGImageBlur from '../../Components/Onboarding/FullScreenBGImageBlur';
+import HeaderComponent from '../../Components/HeaderComponent';
+import {commonStyles} from '../../CommonStyles/CommonStyles';
+import MyTextInput from '../../Components/MyTextInput';
+import MyButton from '../../Components/MyButton';
+import ColorPalette from '../../Assets/Themes/ColorPalette';
+import { useNavigation } from '@react-navigation/native';
 
 const ForgotPasswordScreen = () => {
-    const screenContext = useScreenContext();
-    const screenStyles = styles(
-      screenContext.isPortrait ? screenContext.height : screenContext.width,
-      screenContext.isPortrait ? screenContext.width : screenContext.height,
-      screenContext.isPortrait,
-      screenContext.isTypeTablet,
-      screenContext,
-    );
+  const navigation=useNavigation()
+  const screenContext = useScreenContext();
+  const screenStyles = styles(
+    screenContext.isPortrait ? screenContext.height : screenContext.width,
+    screenContext.isPortrait ? screenContext.width : screenContext.height,
+    screenContext.isPortrait,
+    screenContext.isTypeTablet,
+    screenContext,
+  );
+  const handleSubmit = () => {
+    ///validate
+    navigation.navigate('ChangePasswordScreen' as never)
+  };
   return (
-    <View>
-      <Text>ForgotPasswordScreen</Text>
-    </View>
-  )
-}
+    <FullScreenBGImageBlur>
+      <View style={screenStyles.container}>
+        <HeaderComponent />
+        <View style={screenStyles.mainTextContainer}>
+          <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
+            Forgot your Password?
+          </Text>
+        </View>
+        <Text style={[commonStyles.whiteText, screenStyles.subText]}>
+          no worries, let's reset it...enter your email below, and you'll
+          receive a link to reset it
+        </Text>
+        <MyTextInput label="EMAIL" />
+        <Text style={[commonStyles.whiteText, screenStyles.resendTextLong]}>
+          Didn't receive email?
+          <TouchableOpacity style={screenStyles.resendMailButton}>
+            <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+              Click to resend
+            </Text>
+          </TouchableOpacity>
+          also be sure to check your spam folder
+        </Text>
+        <View style={screenStyles.bottomButton}>
+          <MyButton
+            onPress={handleSubmit}
+            // validate and change backgorund color
+            style={{
+              backgroundColor: ColorPalette.lightRed,
+            }}>
+            <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+              Next
+            </Text>
+          </MyButton>
+        </View>
+      </View>
+    </FullScreenBGImageBlur>
+  );
+};
 
-export default ForgotPasswordScreen
+export default ForgotPasswordScreen;

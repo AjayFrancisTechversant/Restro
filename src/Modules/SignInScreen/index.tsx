@@ -1,6 +1,6 @@
 import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
-import {Checkbox} from 'react-native-paper';
+import {Checkbox, TextInput} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import FullScreenBGImageBlur from '../../Components/Onboarding/FullScreenBGImageBlur';
@@ -38,7 +38,12 @@ const SignInScreen = () => {
           verify yourself below
         </Text>
         <MyTextInput style={screenStyles.textInput} label="EMAIL ADDRESS" />
-        <MyTextInput style={screenStyles.textInput} label="PASSWORD" />
+        <MyTextInput
+          secureTextEntry
+          right={<TextInput.Icon icon="eye" />}
+          style={screenStyles.textInput}
+          label="PASSWORD"
+        />
         <View style={screenStyles.rememberMeSuperContainer}>
           <View style={screenStyles.rememberMeContainer}>
             <Checkbox

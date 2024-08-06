@@ -7,7 +7,6 @@ import RegisterScreen2 from '../../Modules/RegisterScreen2';
 import SignInScreen from '../../Modules/SignInScreen';
 import ForgotPasswordScreen from '../../Modules/ForgotPasswordScreen';
 import ChangePasswordScreen from '../../Modules/ChangePasswordScreen';
-import ChangePasswordSuccessScreen from '../../Modules/ChangePasswordSuccessScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,10 +27,6 @@ const UnauthorizedStack = () => {
       <Stack.Screen
         name="ChangePasswordScreen"
         component={ChangePasswordScreen}
-      />
-      <Stack.Screen
-        name="ChangePasswordSuccessScreen"
-        component={ChangePasswordSuccessScreen}
       />
     </Stack.Navigator>
   );

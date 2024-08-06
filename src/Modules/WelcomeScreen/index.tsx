@@ -17,7 +17,7 @@ import { commonStyles } from '../../CommonStyles/CommonStyles';
 import styles from './Style';
 
 const WelcomeScreen = () => {
-  const navigation = useNavigation();
+  const navigation:any = useNavigation();
   const dispatch = useAppDispatch();
   const zipcodeFromRedux = useAppSelector(state => state.userDetails.zipcode);
   const [isZipcodeValid, setIsZipcodeValid] = useState(
@@ -29,7 +29,7 @@ const WelcomeScreen = () => {
   };
   const handleSubmit = () => {
     if (isZipcodeValid) {
-      navigation.navigate('PreferenceScreen' as never);
+      navigation.navigate('PreferenceScreen');
     } else {
       Alert.alert('Invalid Zipcode!!!');
     }
