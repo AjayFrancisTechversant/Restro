@@ -13,6 +13,8 @@ import MyButton from '../../Components/MyButton';
 const RegisterScreen2 = () => {
   const [isUpdatesChecked, setIsUpdatesChecked] = useState(false);
   const [isTandCChecked, setIsTandCChecked] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -43,15 +45,28 @@ const RegisterScreen2 = () => {
               enter a password below
             </Text>
             <MyTextInput
-              secureTextEntry
-              right={<TextInput.Icon icon="eye" />}
+              secureTextEntry={!isPasswordVisible ? true : false}
+              right={
+                <TextInput.Icon
+                  icon={isPasswordVisible ? 'eye' : 'eye-off'}
+                  forceTextInputFocus={false}
+                  onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+                />
+              }
               style={screenStyles.textInput}
               label="PASSWORD"
             />
             <MyTextInput
-              secureTextEntry
+              secureTextEntry={!isConfirmPasswordVisible ? true : false}
               style={screenStyles.textInput}
               label="CONFIRM PASSWORD"
+              right={
+                <TextInput.Icon
+                  icon={isConfirmPasswordVisible ? 'eye' : 'eye-off'}
+                  forceTextInputFocus={false}
+                  onPress={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)}
+                />
+              }
             />
             <View style={screenStyles.checkBoxContainer}>
               <Checkbox
