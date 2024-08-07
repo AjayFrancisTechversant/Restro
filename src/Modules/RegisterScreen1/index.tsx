@@ -95,14 +95,14 @@ const RegisterScreen1 = () => {
               It'll only take a few seconds...
             </Text>
             <MyTextInput
-              errorText={error.firstNameError ? 'Required!' : undefined}
+              errorText={error.firstNameError ? '*Required!' : undefined}
               value={firstName}
               onChangeText={text => HandleOnChangeText(text, 'firstName')}
               style={screenStyles.textInput}
               label="FIRST NAME"
             />
             <MyTextInput
-              errorText={error.lastNameError ? 'Required!' : undefined}
+              errorText={error.lastNameError ? '*Required!' : undefined}
               value={lastName}
               onChangeText={text => HandleOnChangeText(text, 'lastName')}
               style={screenStyles.textInput}
@@ -113,6 +113,7 @@ const RegisterScreen1 = () => {
                 error.emailError && email ? '*Invalid email' : undefined
               }
               value={email}
+              keyboardType='email-address'
               onChangeText={text => HandleOnChangeText(text, 'email')}
               style={screenStyles.textInput}
               label="EMAIL"

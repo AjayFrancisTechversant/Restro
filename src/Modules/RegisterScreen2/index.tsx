@@ -58,10 +58,7 @@ const RegisterScreen2 = () => {
         break;
     }
   };
-  console.log(error);
-
   const handleSubmit = () => {
-    //password save to redux only after veryifying confirm password
     // register email auth firebase
   };
   return (
@@ -152,7 +149,6 @@ const RegisterScreen2 = () => {
                     : true
                 }
                 onPress={handleSubmit}
-                // validate and change backgorund color
                 style={{
                   backgroundColor:
                     !error.confirmPasswordError &&

@@ -6,7 +6,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './style';
 import FullScreenBGImageBlur from '../../Components/Onboarding/FullScreenBGImageBlur';
@@ -16,8 +16,10 @@ import MyTextInput from '../../Components/MyTextInput';
 import MyButton from '../../Components/MyButton';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {useNavigation} from '@react-navigation/native';
+import StaticVariables from '../../Preferences/StaticVariables';
 
 const ForgotPasswordScreen = () => {
+  const [email, setEmail] = useState(StaticVariables.EMPTY_STRING);
   const navigation = useNavigation();
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -46,7 +48,12 @@ const ForgotPasswordScreen = () => {
               No worries, let's reset it...enter your email below, and you'll
               receive a link to reset it
             </Text>
-            <MyTextInput label="EMAIL" />
+            <MyTextInput
+            value={email}
+              label="EMAIL"
+              keyboardType="email-address"
+              onChangeText={text => setEmail(text)}
+            />
             <View style={screenStyles.resendEmailContainer}>
               <Text style={[commonStyles.whiteText]}>
                 Didn't receive email?
@@ -69,9 +76,11 @@ const ForgotPasswordScreen = () => {
             <View style={screenStyles.bottomButton}>
               <MyButton
                 onPress={handleSubmit}
-                // validate and change backgorund color
+                disabled={email ? false : true}
                 style={{
-                  backgroundColor: ColorPalette.lightRed,
+                  backgroundColor: email
+                    ? ColorPalette.red
+                    : ColorPalette.lightRed,
                 }}>
                 <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
                   Next

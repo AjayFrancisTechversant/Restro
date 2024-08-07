@@ -15,10 +15,13 @@ import {commonStyles} from '../../CommonStyles/CommonStyles';
 import MyTextInput from '../../Components/MyTextInput';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import MyButton from '../../Components/MyButton';
+import StaticVariables from '../../Preferences/StaticVariables';
 import styles from './style';
 
 const SignInScreen = () => {
   const navigation = useNavigation();
+  const [email, setEmail] = useState(StaticVariables.EMPTY_STRING);
+  const [password, setPassword] = useState(StaticVariables.EMPTY_STRING);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isRememberMeChecked, setIsRememberMeChecked] = useState(false);
   const screenContext = useScreenContext();
@@ -29,8 +32,22 @@ const SignInScreen = () => {
     screenContext.isTypeTablet,
     screenContext,
   );
+  const HandleOnChangeText = (text: string, name: 'email' | 'password') => {
+    switch (name) {
+      case 'email':
+        setEmail(text);
+        break;
+      case 'password':
+        setPassword(text);
+        break;
+      default:
+        break;
+    }
+  };
+
   const handleSubmit = () => {
-    // validate and ssign in using firebase
+    //save to redux if remember me
+    // sign in using firebase
   };
   return (
     <KeyboardAvoidingView behavior="position">
@@ -46,14 +63,22 @@ const SignInScreen = () => {
             <Text style={[commonStyles.whiteText, screenStyles.subText]}>
               Verify yourself below
             </Text>
-            <MyTextInput style={screenStyles.textInput} label="EMAIL ADDRESS" />
             <MyTextInput
+              onChangeText={text => HandleOnChangeText(text, 'email')}
+              keyboardType="email-address"
+              style={screenStyles.textInput}
+              label="EMAIL ADDRESS"
+            />
+            <MyTextInput
+              onChangeText={text => HandleOnChangeText(text, 'password')}
               secureTextEntry={!isPasswordVisible ? true : false}
-              right={ <TextInput.Icon
-                icon={isPasswordVisible ? 'eye' : 'eye-off'}
-                forceTextInputFocus={false}
-                onPress={() => setIsPasswordVisible(!isPasswordVisible)}
-              />}
+              right={
+                <TextInput.Icon
+                  icon={isPasswordVisible ? 'eye' : 'eye-off'}
+                  forceTextInputFocus={false}
+                  onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+                />
+              }
               style={screenStyles.textInput}
               label="PASSWORD"
             />
@@ -99,10 +124,13 @@ const SignInScreen = () => {
               </View>
               <MyButton
                 onPress={handleSubmit}
-                // validate and change backgorund color
+                disabled={email && password ? false : true}
                 style={{
                   alignSelf: 'center',
-                  backgroundColor: ColorPalette.lightRed,
+                  backgroundColor:
+                    email && password
+                      ? ColorPalette.red
+                      : ColorPalette.lightRed,
                 }}>
                 <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
                   Sign In

@@ -5,7 +5,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
 } from 'react-native';
-import React, { useState} from 'react';
+import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {useScreenContext} from '../../Contexts/ScreenContext';
@@ -17,11 +17,25 @@ import {commonStyles} from '../../CommonStyles/CommonStyles';
 import {TextInput} from 'react-native-paper';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import styles from './style';
+import StaticVariables from '../../Preferences/StaticVariables';
+import validate from '../../Validation/Validation';
+
+type ErrorType = {
+  passwordError: boolean;
+  confirmPasswordError: boolean;
+};
 
 const ChangePasswordScreen = () => {
   const [isPasswordChanged, setIsPasswordChanged] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
+  const [error, setError] = useState<ErrorType>({
+    passwordError: true,
+    confirmPasswordError: true,
+  });
+  const [password, setPassword] = useState(StaticVariables.EMPTY_STRING);
+  const [confirmPassword, setConfirmPassword] = useState(
+    StaticVariables.EMPTY_STRING,
+  );
   const navigation = useNavigation();
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -31,6 +45,26 @@ const ChangePasswordScreen = () => {
     screenContext.isTypeTablet,
     screenContext,
   );
+  const HandleOnChangeText = (
+    text: string,
+    name: 'password' | 'confirmPassword',
+  ) => {
+    switch (name) {
+      case 'password':
+        setPassword(text);
+        setError({
+          passwordError: !validate(text, 'password'),
+          confirmPasswordError: !(text === confirmPassword),
+        });
+        break;
+      case 'confirmPassword':
+        setConfirmPassword(text);
+        setError({...error, confirmPasswordError: !(text === password)});
+        break;
+      default:
+        break;
+    }
+  };
   const handleSubmit = () => {
     if (!isPasswordChanged) {
       //change logic
@@ -51,6 +85,13 @@ const ChangePasswordScreen = () => {
                   </Text>
                 </View>
                 <MyTextInput
+                  errorText={
+                    error.passwordError && password
+                      ? '*Invalid Format'
+                      : undefined
+                  }
+                  value={password}
+                  onChangeText={text => HandleOnChangeText(text, 'password')}
                   style={screenStyles.textInput}
                   label={'PASSWORD'}
                   secureTextEntry={!isPasswordVisible ? true : false}
@@ -63,16 +104,18 @@ const ChangePasswordScreen = () => {
                   }
                 />
                 <MyTextInput
+                  errorText={
+                    error.confirmPasswordError && confirmPassword
+                      ? `*Doesn't Match`
+                      : undefined
+                  }
+                  value={confirmPassword}
+                  onChangeText={text =>
+                    HandleOnChangeText(text, 'confirmPassword')
+                  }
                   style={screenStyles.textInput}
                   label={'CONFIRM PASSWORD'}
-                  secureTextEntry={!isConfirmPasswordVisible ? true : false}
-                  right={
-                    <TextInput.Icon
-                      icon={isConfirmPasswordVisible ? 'eye' : 'eye-off'}
-                      forceTextInputFocus={false}
-                      onPress={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)}
-                    />
-                  }
+                  secureTextEntry
                 />
               </>
             ) : (
@@ -86,10 +129,17 @@ const ChangePasswordScreen = () => {
             )}
             <View style={screenStyles.bottomButton}>
               <MyButton
+                disabled={
+                  !error.confirmPasswordError && !error.passwordError
+                    ? false
+                    : true
+                }
                 onPress={handleSubmit}
-                // validate and change backgorund color
                 style={{
-                  backgroundColor: ColorPalette.lightRed,
+                  backgroundColor:
+                    !error.confirmPasswordError && !error.passwordError
+                      ? ColorPalette.red
+                      : ColorPalette.lightRed,
                 }}>
                 <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
                   {!isPasswordChanged ? 'Change Password' : 'Sign In'}
