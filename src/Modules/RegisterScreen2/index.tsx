@@ -27,7 +27,7 @@ const RegisterScreen2 = () => {
   );
   const [error, setError] = useState<ErrorType>({
     passwordError: true,
-    confirmPasswordError: false,
+    confirmPasswordError: true,
   });
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
@@ -89,7 +89,9 @@ const RegisterScreen2 = () => {
               Enter a password below
             </Text>
             <MyTextInput
-              errorText={error.passwordError ? '*Invalid Format' : undefined}
+              errorText={
+                error.passwordError && password ? '*Invalid Format' : undefined
+              }
               value={password}
               onChangeText={text => HandleOnChangeText(text, 'password')}
               secureTextEntry={!isPasswordVisible ? true : false}
@@ -105,7 +107,9 @@ const RegisterScreen2 = () => {
             />
             <MyTextInput
               errorText={
-                error.confirmPasswordError ? '*Doesnt Match' : undefined
+                error.confirmPasswordError && confirmPassword
+                  ? `*Doesn't Match`
+                  : undefined
               }
               value={confirmPassword}
               onChangeText={text => HandleOnChangeText(text, 'confirmPassword')}
