@@ -73,7 +73,7 @@ const RegisterScreen1 = () => {
               </Text>
             </View>
             <Text style={[commonStyles.whiteText, screenStyles.subText]}>
-              it'll only take a few seconds...
+              It'll only take a few seconds...
             </Text>
             <MyTextInput
               value={firstName}

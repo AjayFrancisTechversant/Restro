@@ -44,7 +44,7 @@ const SignInScreen = () => {
               </Text>
             </View>
             <Text style={[commonStyles.whiteText, screenStyles.subText]}>
-              verify yourself below
+              Verify yourself below
             </Text>
             <MyTextInput style={screenStyles.textInput} label="EMAIL ADDRESS" />
             <MyTextInput

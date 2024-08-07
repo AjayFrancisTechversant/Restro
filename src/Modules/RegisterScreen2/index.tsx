@@ -42,7 +42,7 @@ const RegisterScreen2 = () => {
               </Text>
             </View>
             <Text style={[commonStyles.whiteText, screenStyles.subText]}>
-              enter a password below
+              Enter a password below
             </Text>
             <MyTextInput
               secureTextEntry={!isPasswordVisible ? true : false}
