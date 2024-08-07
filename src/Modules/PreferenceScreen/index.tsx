@@ -74,6 +74,7 @@ const handleSubmit=()=>{
             <ThreeLogosComponent />
             <View style={screenStyles.bottomButton}>
               <MyButton onPress={handleSubmit}
+              disabled={preferenceFromRedux?false:true}
                 style={{
                   backgroundColor: preferenceFromRedux
                     ? ColorPalette.red
