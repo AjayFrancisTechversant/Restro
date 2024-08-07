@@ -17,7 +17,7 @@ const validate = (
       return validPassword.test(value) ? true : false;
 
     case 'phone':
-      return value.length >= 10 ? true : false;
+      return value.length == 10 ? true : false;
 
     case 'required':
       return value.trim() !== '' ? true : false;

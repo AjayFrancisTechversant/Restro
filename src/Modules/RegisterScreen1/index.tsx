@@ -1,5 +1,5 @@
 import {View, Text, KeyboardAvoidingView, ScrollView} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import FullScreenBGImageBlur from '../../Components/Onboarding/FullScreenBGImageBlur';
 import HeaderComponent from '../../Components/HeaderComponent';
@@ -17,6 +17,14 @@ import {
   UserDetailsReduxStateType,
 } from '../../Redux/Slices/UserDetailsSlice';
 import styles from './style';
+import validate from '../../Validation/Validation';
+
+type ErrorType = {
+  firstNameError: boolean;
+  lastNameError: boolean;
+  emailError: boolean;
+  mobileError: boolean;
+};
 
 const RegisterScreen1 = () => {
   const navigation = useNavigation();
@@ -24,6 +32,12 @@ const RegisterScreen1 = () => {
   const {firstName, lastName, email, mobile} = useAppSelector(
     state => state.userDetails,
   );
+  const [error, setError] = useState<ErrorType>({
+    firstNameError: !validate(firstName, 'required'),
+    lastNameError: !validate(lastName),
+    emailError: !validate(email, 'email'),
+    mobileError: !validate(mobile, 'phone'),
+  });
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -32,6 +46,8 @@ const RegisterScreen1 = () => {
     screenContext.isTypeTablet,
     screenContext,
   );
+  console.log(error);
+
   const HandleOnChangeText = (
     text: string,
     name: keyof UserDetailsReduxStateType,
@@ -39,15 +55,19 @@ const RegisterScreen1 = () => {
     switch (name) {
       case 'firstName':
         dispatch(updateFirstName(text));
+        setError({...error, firstNameError: !validate(text)});
         break;
       case 'lastName':
         dispatch(updateLastName(text));
+        setError({...error, lastNameError: !validate(text)});
         break;
       case 'email':
         dispatch(updateEmail(text));
+        setError({...error, emailError: !validate(text, 'email')});
         break;
       case 'mobile':
         dispatch(updateMobile(text));
+        setError({...error, mobileError: !validate(text, 'phone')});
         break;
       default:
         break;
@@ -76,24 +96,32 @@ const RegisterScreen1 = () => {
               It'll only take a few seconds...
             </Text>
             <MyTextInput
+              errorText={error.firstNameError ? 'Required!' : undefined}
               value={firstName}
               onChangeText={text => HandleOnChangeText(text, 'firstName')}
               style={screenStyles.textInput}
               label="FIRST NAME"
             />
             <MyTextInput
+              errorText={error.lastNameError ? 'Required!' : undefined}
               value={lastName}
               onChangeText={text => HandleOnChangeText(text, 'lastName')}
               style={screenStyles.textInput}
               label="LAST NAME"
             />
             <MyTextInput
+              errorText={
+                error.emailError && email ? '*Invalid email' : undefined
+              }
               value={email}
               onChangeText={text => HandleOnChangeText(text, 'email')}
               style={screenStyles.textInput}
               label="EMAIL"
             />
             <MyTextInput
+              errorText={
+                error.mobileError && mobile ? '*Invalid number' : undefined
+              }
               value={mobile}
               onChangeText={text => HandleOnChangeText(text, 'mobile')}
               keyboardType="numeric"
@@ -114,9 +142,23 @@ const RegisterScreen1 = () => {
             </View>
             <View style={screenStyles.bottomButton}>
               <MyButton
+                disabled={
+                  !error.emailError &&
+                  !error.firstNameError &&
+                  !error.lastNameError &&
+                  !error.mobileError
+                    ? false
+                    : true
+                }
                 onPress={handleSubmit}
                 style={{
-                  backgroundColor: ColorPalette.red,
+                  backgroundColor:
+                    !error.emailError &&
+                    !error.firstNameError &&
+                    !error.lastNameError &&
+                    !error.mobileError
+                      ? ColorPalette.red
+                      : ColorPalette.lightRed,
                 }}>
                 <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
                   Next
