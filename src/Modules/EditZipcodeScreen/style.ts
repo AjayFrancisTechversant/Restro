@@ -15,7 +15,12 @@ const styles = (
       flex: 1,
       backgroundColor: ColorPalette.white,
     },
-    
+    mainTextContainer: {marginTop: height * 0.1},
+    bigText: {
+      fontSize: 40,
+      fontWeight: 'bold',
+      marginHorizontal: height * 0.02,
+    },
   });
 
 export default styles;

@@ -4,6 +4,7 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './style';
 import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import {commonStyles} from '../../CommonStyles/CommonStyles';
 
 const EditZipcodeScreen = () => {
   const screenContext = useScreenContext();
@@ -16,8 +17,11 @@ const EditZipcodeScreen = () => {
   );
   return (
     <View style={screenStyles.container}>
-        <HeaderComponent color={ColorPalette.gray}/>
-      <Text>EditZipcodeScreen</Text>
+      <HeaderComponent color={ColorPalette.gray} />
+      <View style={screenStyles.mainTextContainer}>
+        <Text style={[screenStyles.bigText]}>Ok, what's the</Text>
+        <Text style={[screenStyles.bigText]}>correct zip?</Text>
+      </View>
     </View>
   );
 };
