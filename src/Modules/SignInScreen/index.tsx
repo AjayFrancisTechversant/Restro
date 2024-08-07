@@ -4,9 +4,12 @@ import {
   TouchableOpacity,
   ScrollView,
   KeyboardAvoidingView,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useState} from 'react';
 import {Checkbox, TextInput} from 'react-native-paper';
+import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import FullScreenBGImageBlur from '../../Components/Onboarding/FullScreenBGImageBlur';
@@ -17,13 +20,25 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import MyButton from '../../Components/MyButton';
 import StaticVariables from '../../Preferences/StaticVariables';
 import styles from './style';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
+import {
+  updateEmail,
+  updateRememberedEmail,
+  updateRememberedPassword,
+  updateRememberMe,
+} from '../../Redux/Slices/UserDetailsSlice';
 
 const SignInScreen = () => {
   const navigation = useNavigation();
+  const dispatch = useAppDispatch();
   const [email, setEmail] = useState(StaticVariables.EMPTY_STRING);
   const [password, setPassword] = useState(StaticVariables.EMPTY_STRING);
+  const [isLoginLoading, setIsLoginLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isRememberMeChecked, setIsRememberMeChecked] = useState(false);
+  const {rememberMe, rememberedEmail, rememberedPassword} = useAppSelector(
+    state => state.userDetails,
+  );
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -44,11 +59,30 @@ const SignInScreen = () => {
         break;
     }
   };
-
   const handleSubmit = () => {
-    //save to redux if remember me
-    // sign in using firebase
+    signInusingFirebase();
   };
+  const signInusingFirebase = () => {
+    setIsLoginLoading(true);
+    auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        if (isRememberMeChecked) {
+          dispatch(updateRememberMe(true));
+          dispatch(updateRememberedEmail(email));
+          dispatch(updateRememberedPassword(password));
+        }
+      })
+      .catch(error => {
+        if (error.code === 'auth/invalid-credential') {
+          Alert.alert('Invalid Credentials');
+        } else if (error.code === 'auth/invalid-email') {
+          Alert.alert('That email address is invalid!');
+        } else Alert.alert(error.code);
+      })
+      .finally(() => setIsLoginLoading(false));
+  };
+
   return (
     <KeyboardAvoidingView behavior="position">
       <ScrollView>
@@ -83,7 +117,7 @@ const SignInScreen = () => {
               label="PASSWORD"
             />
             <View style={screenStyles.rememberMeSuperContainer}>
-              <View style={screenStyles.rememberMeContainer}>
+             {!rememberMe? <View style={screenStyles.rememberMeContainer}>
                 <Checkbox
                   uncheckedColor={ColorPalette.white}
                   color={ColorPalette.white}
@@ -94,6 +128,11 @@ const SignInScreen = () => {
                   Remember me
                 </Text>
               </View>
+              :
+              <TouchableOpacity style={screenStyles.ContinueAsRememberedButton}>
+                <Text >Continue as <Text style={commonStyles.boldText}>{rememberedEmail}</Text></Text>
+              </TouchableOpacity>
+              }
               <TouchableOpacity
                 onPress={() =>
                   navigation.navigate('ForgotPasswordScreen' as never)
@@ -103,6 +142,7 @@ const SignInScreen = () => {
                 </Text>
               </TouchableOpacity>
             </View>
+
             <View style={screenStyles.bottomContainer}>
               <View style={screenStyles.dontHaveAccountContainer}>
                 <Text style={commonStyles.whiteText}>
@@ -132,9 +172,13 @@ const SignInScreen = () => {
                       ? ColorPalette.red
                       : ColorPalette.lightRed,
                 }}>
-                <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-                  Sign In
-                </Text>
+                {!isLoginLoading ? (
+                  <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+                    Sign In
+                  </Text>
+                ) : (
+                  <ActivityIndicator color={ColorPalette.white} />
+                )}
               </MyButton>
             </View>
           </View>

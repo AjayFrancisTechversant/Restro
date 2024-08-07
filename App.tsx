@@ -1,20 +1,38 @@
-import React from 'react';
-import {SafeAreaView} from 'react-native';
-import {ScreenContextProvider} from './src/Contexts/ScreenContext';
+import React, {useEffect, useState} from 'react';
+import {ActivityIndicator, SafeAreaView} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import UnauthorizedStack from './src/Services/Navigation/UnauthorizedStack';
-import {PaperProvider} from 'react-native-paper';
-import {PersistGate} from 'redux-persist/integration/react';
-import {persistor, store} from './src/Redux/Store/Store';
 import {Provider} from 'react-redux';
+import {PaperProvider} from 'react-native-paper';
+import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {PersistGate} from 'redux-persist/integration/react';
+import {ScreenContextProvider} from './src/Contexts/ScreenContext';
+import UnauthorizedStack from './src/Services/Navigation/UnauthorizedStack';
+import AuthorizedStack from './src/Services/Navigation/AuthorizedStack';
+import {persistor, store} from './src/Redux/Store/Store';
 
 function App(): React.JSX.Element {
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState<FirebaseAuthTypes.User | null>();
+
+  function onAuthStateChanged(user: FirebaseAuthTypes.User | null) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber;
+  }, []);
+
   return (
     <SafeAreaView style={{flex: 1}}>
-      <NavigationContainer>
-        <UnauthorizedStack />
-        {/* authorised Stack */}
-      </NavigationContainer>
+      {!initializing ? (
+        <NavigationContainer>
+          {!user ? <UnauthorizedStack /> : <AuthorizedStack />}
+        </NavigationContainer>
+      ) : (
+        <ActivityIndicator />
+      )}
     </SafeAreaView>
   );
 }

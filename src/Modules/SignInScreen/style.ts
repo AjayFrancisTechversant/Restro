@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {ScreenContextType} from '../../Contexts/ScreenContext';
+import ColorPalette from '../../Assets/Themes/ColorPalette';
 
 const styles = (
   height: number,
@@ -29,6 +30,13 @@ const styles = (
       gap: height * 0.01,
       alignItems: 'center',
     },
+    ContinueAsRememberedButton: {
+      backgroundColor: ColorPalette.white,
+      borderRadius: 10,
+      padding: height * 0.02,
+      justifyContent: 'center',
+      alignItems: 'center',width:width*0.5
+    },
     bottomContainer: {
       position: 'absolute',
       bottom: height * 0.05,
@@ -36,8 +44,9 @@ const styles = (
     },
     dontHaveAccountContainer: {
       flexDirection: 'row',
-      justifyContent:'center',
-      marginVertical: height * 0.03,gap:height*0.01
+      justifyContent: 'center',
+      marginVertical: height * 0.03,
+      gap: height * 0.01,
     },
   });
 

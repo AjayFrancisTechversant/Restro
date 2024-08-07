@@ -8,8 +8,10 @@ export type UserDetailsReduxStateType = {
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
   mobile: string;
+  rememberedEmail: string;
+  rememberedPassword: string;
+  rememberMe: boolean;
 };
 
 const initialState: UserDetailsReduxStateType = {
@@ -18,8 +20,9 @@ const initialState: UserDetailsReduxStateType = {
   firstName: '',
   lastName: '',
   email: '',
-  password: '',
   mobile: '',
+  rememberedPassword: '',
+  rememberedEmail: '',
 };
 
 const UserDetailsSlice = createSlice({
@@ -41,11 +44,14 @@ const UserDetailsSlice = createSlice({
     updateEmail(state, action: PayloadAction<string>) {
       state.email = action.payload;
     },
-    updatePassword(state, action: PayloadAction<string>) {
-      state.password = action.payload;
-    },
     updateMobile(state, action: PayloadAction<string>) {
       state.mobile = action.payload;
+    },
+    updateRememberedEmail(state, action: PayloadAction<string>) {
+      state.rememberedEmail = action.payload;
+    },
+    updateRememberedPassword(state, action: PayloadAction<string>) {
+      state.rememberedPassword = action.payload;
     },
   },
 });
@@ -56,8 +62,9 @@ export const {
   updateFirstName,
   updateLastName,
   updateEmail,
-  updatePassword,
   updateMobile,
+  updateRememberedEmail,
+  updateRememberedPassword,
 } = UserDetailsSlice.actions;
 
 export default UserDetailsSlice.reducer;

@@ -46,8 +46,6 @@ const RegisterScreen1 = () => {
     screenContext.isTypeTablet,
     screenContext,
   );
-  console.log(error);
-
   const HandleOnChangeText = (
     text: string,
     name: keyof UserDetailsReduxStateType,
@@ -95,14 +93,12 @@ const RegisterScreen1 = () => {
               It'll only take a few seconds...
             </Text>
             <MyTextInput
-              errorText={error.firstNameError ? '*Required!' : undefined}
               value={firstName}
               onChangeText={text => HandleOnChangeText(text, 'firstName')}
               style={screenStyles.textInput}
               label="FIRST NAME"
             />
             <MyTextInput
-              errorText={error.lastNameError ? '*Required!' : undefined}
               value={lastName}
               onChangeText={text => HandleOnChangeText(text, 'lastName')}
               style={screenStyles.textInput}

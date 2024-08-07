@@ -1,5 +1,13 @@
-import {View, Text, ScrollView, KeyboardAvoidingView} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  KeyboardAvoidingView,
+  Alert,
+  ActivityIndicator,
+} from 'react-native';
 import React, {useState} from 'react';
+import auth from '@react-native-firebase/auth';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import FullScreenBGImageBlur from '../../Components/Onboarding/FullScreenBGImageBlur';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
@@ -8,9 +16,10 @@ import HeaderComponent from '../../Components/HeaderComponent';
 import {Checkbox, TextInput} from 'react-native-paper';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import MyButton from '../../Components/MyButton';
-import styles from './style';
 import StaticVariables from '../../Preferences/StaticVariables';
 import validate from '../../Validation/Validation';
+import styles from './style';
+import {useAppSelector} from '../../hooks/hooks';
 
 type ErrorType = {
   passwordError: boolean;
@@ -28,8 +37,9 @@ const RegisterScreen2 = () => {
     passwordError: true,
     confirmPasswordError: true,
   });
+  const [isRegisterLoading, setIsRegisterLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-
+  const emailFromRedux = useAppSelector(state => state.userDetails.email);
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -58,8 +68,22 @@ const RegisterScreen2 = () => {
         break;
     }
   };
+  const signUpUsingFirebase = () => {
+    setIsRegisterLoading(true);
+    auth()
+      .createUserWithEmailAndPassword(emailFromRedux, password)
+      .then(() => {})
+      .catch(error => {
+        if (error.code === 'auth/email-already-in-use') {
+          Alert.alert('That email address is already in use!');
+        } else if (error.code === 'auth/invalid-email') {
+          Alert.alert('That email address is invalid!');
+        } else Alert.alert(error.code);
+      })
+      .finally(() => setIsRegisterLoading(false));
+  };
   const handleSubmit = () => {
-    // register email auth firebase
+    signUpUsingFirebase();
   };
   return (
     <KeyboardAvoidingView behavior="position">
@@ -157,9 +181,13 @@ const RegisterScreen2 = () => {
                       ? ColorPalette.red
                       : ColorPalette.lightRed,
                 }}>
-                <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-                  Register
-                </Text>
+                {!isRegisterLoading ? (
+                  <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+                    Register
+                  </Text>
+                ) : (
+                  <ActivityIndicator color={ColorPalette.white} />
+                )}
               </MyButton>
             </View>
           </View>
