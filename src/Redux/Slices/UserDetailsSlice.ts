@@ -4,6 +4,8 @@ type PrefenceType = 'dine-in' | 'carry-out' | 'delivery' | undefined;
 
 export type UserDetailsReduxStateType = {
   zipcode: string;
+  region: string;
+  country: string;
   preference: PrefenceType;
   firstName: string;
   lastName: string;
@@ -11,11 +13,12 @@ export type UserDetailsReduxStateType = {
   mobile: string;
   rememberedEmail: string;
   rememberedPassword: string;
-  rememberMe: boolean;
 };
 
 const initialState: UserDetailsReduxStateType = {
   zipcode: '',
+  region: '',
+  country: '',
   preference: undefined,
   firstName: '',
   lastName: '',
@@ -31,6 +34,12 @@ const UserDetailsSlice = createSlice({
   reducers: {
     updateZipcode(state, action: PayloadAction<string>) {
       state.zipcode = action.payload;
+    },
+    updateRegion(state, action: PayloadAction<string>) {
+      state.region = action.payload;
+    },
+    updateCountry(state, action: PayloadAction<string>) {
+      state.country = action.payload;
     },
     updatePreference(state, action: PayloadAction<PrefenceType>) {
       state.preference = action.payload;
@@ -58,6 +67,8 @@ const UserDetailsSlice = createSlice({
 
 export const {
   updateZipcode,
+  updateRegion,
+  updateCountry,
   updatePreference,
   updateFirstName,
   updateLastName,

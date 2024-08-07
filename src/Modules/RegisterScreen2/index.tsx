@@ -90,7 +90,7 @@ const RegisterScreen2 = () => {
       <ScrollView>
         <FullScreenBGImageBlur>
           <View style={screenStyles.container}>
-            <HeaderComponent />
+            <HeaderComponent color={ColorPalette.white}/>
             <View style={screenStyles.mainTextContainer}>
               <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
                 Security is

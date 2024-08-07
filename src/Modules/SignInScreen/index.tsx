@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {Checkbox, TextInput} from 'react-native-paper';
-import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import FullScreenBGImageBlur from '../../Components/Onboarding/FullScreenBGImageBlur';
@@ -19,24 +19,20 @@ import MyTextInput from '../../Components/MyTextInput';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import MyButton from '../../Components/MyButton';
 import StaticVariables from '../../Preferences/StaticVariables';
-import styles from './style';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {
-  updateEmail,
   updateRememberedEmail,
   updateRememberedPassword,
-  updateRememberMe,
 } from '../../Redux/Slices/UserDetailsSlice';
+import styles from './style';
 
 const SignInScreen = () => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
-  const [email, setEmail] = useState(StaticVariables.EMPTY_STRING);
-  const [password, setPassword] = useState(StaticVariables.EMPTY_STRING);
   const [isLoginLoading, setIsLoginLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isRememberMeChecked, setIsRememberMeChecked] = useState(false);
-  const {rememberMe, rememberedEmail, rememberedPassword} = useAppSelector(
+  const {rememberedEmail, rememberedPassword} = useAppSelector(
     state => state.userDetails,
   );
   const screenContext = useScreenContext();
@@ -50,10 +46,10 @@ const SignInScreen = () => {
   const HandleOnChangeText = (text: string, name: 'email' | 'password') => {
     switch (name) {
       case 'email':
-        setEmail(text);
+        dispatch(updateRememberedEmail(text));
         break;
       case 'password':
-        setPassword(text);
+        dispatch(updateRememberedPassword(text));
         break;
       default:
         break;
@@ -65,12 +61,11 @@ const SignInScreen = () => {
   const signInusingFirebase = () => {
     setIsLoginLoading(true);
     auth()
-      .signInWithEmailAndPassword(email, password)
+      .signInWithEmailAndPassword(rememberedEmail, rememberedPassword)
       .then(() => {
-        if (isRememberMeChecked) {
-          dispatch(updateRememberMe(true));
-          dispatch(updateRememberedEmail(email));
-          dispatch(updateRememberedPassword(password));
+        if (!isRememberMeChecked) {
+          dispatch(updateRememberedEmail(StaticVariables.EMPTY_STRING));
+          dispatch(updateRememberedPassword(StaticVariables.EMPTY_STRING));
         }
       })
       .catch(error => {
@@ -88,7 +83,7 @@ const SignInScreen = () => {
       <ScrollView>
         <FullScreenBGImageBlur>
           <View style={screenStyles.container}>
-            <HeaderComponent />
+            <HeaderComponent color={ColorPalette.white}/>
             <View style={screenStyles.mainTextContainer}>
               <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
                 Sign In
@@ -98,12 +93,14 @@ const SignInScreen = () => {
               Verify yourself below
             </Text>
             <MyTextInput
+              value={rememberedEmail}
               onChangeText={text => HandleOnChangeText(text, 'email')}
               keyboardType="email-address"
               style={screenStyles.textInput}
               label="EMAIL ADDRESS"
             />
             <MyTextInput
+              value={rememberedPassword}
               onChangeText={text => HandleOnChangeText(text, 'password')}
               secureTextEntry={!isPasswordVisible ? true : false}
               right={
@@ -117,7 +114,7 @@ const SignInScreen = () => {
               label="PASSWORD"
             />
             <View style={screenStyles.rememberMeSuperContainer}>
-             {!rememberMe? <View style={screenStyles.rememberMeContainer}>
+              <View style={screenStyles.rememberMeContainer}>
                 <Checkbox
                   uncheckedColor={ColorPalette.white}
                   color={ColorPalette.white}
@@ -128,11 +125,6 @@ const SignInScreen = () => {
                   Remember me
                 </Text>
               </View>
-              :
-              <TouchableOpacity style={screenStyles.ContinueAsRememberedButton}>
-                <Text >Continue as <Text style={commonStyles.boldText}>{rememberedEmail}</Text></Text>
-              </TouchableOpacity>
-              }
               <TouchableOpacity
                 onPress={() =>
                   navigation.navigate('ForgotPasswordScreen' as never)
@@ -164,11 +156,11 @@ const SignInScreen = () => {
               </View>
               <MyButton
                 onPress={handleSubmit}
-                disabled={email && password ? false : true}
+                disabled={rememberedEmail && rememberedPassword ? false : true}
                 style={{
                   alignSelf: 'center',
                   backgroundColor:
-                    email && password
+                    rememberedEmail && rememberedPassword
                       ? ColorPalette.red
                       : ColorPalette.lightRed,
                 }}>

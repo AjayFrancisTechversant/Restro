@@ -16,9 +16,9 @@ import HeaderComponent from '../../Components/HeaderComponent';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import {TextInput} from 'react-native-paper';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import styles from './style';
 import StaticVariables from '../../Preferences/StaticVariables';
 import validate from '../../Validation/Validation';
+import styles from './style';
 
 type ErrorType = {
   passwordError: boolean;
@@ -76,7 +76,7 @@ const ChangePasswordScreen = () => {
       <ScrollView>
         <FullScreenBGImageBlur>
           <View style={screenStyles.container}>
-            <HeaderComponent />
+            <HeaderComponent color={ColorPalette.white}/>
             {!isPasswordChanged ? (
               <>
                 <View style={screenStyles.mainTextContainer}>
