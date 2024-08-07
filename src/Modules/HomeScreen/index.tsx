@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View, Text, ScrollView} from 'react-native';
 import React from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import LogoutComponent from '../../Components/LogoutComponent';
@@ -6,6 +6,7 @@ import styles from './style';
 import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import MySegmentedButtons from '../../Components/MySegmentedButtons';
+import ZipcodeDisplayComponent from '../../Components/ZipcodeDisplayComponent';
 
 const HomeScreen = () => {
   const screenContext = useScreenContext();
@@ -16,13 +17,14 @@ const HomeScreen = () => {
     screenContext.isTypeTablet,
     screenContext,
   );
+  //use SwitchCase for conditionally rendering
   return (
-    <View style={screenStyles.container}>
+    <ScrollView style={screenStyles.container}>
       <HeaderComponent color={ColorPalette.black} />
       <MySegmentedButtons />
-      
+      <ZipcodeDisplayComponent />
       {/* <LogoutComponent /> */}
-    </View>
+    </ScrollView>
   );
 };
 

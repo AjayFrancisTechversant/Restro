@@ -11,12 +11,11 @@ const styles = (
 ) =>
   StyleSheet.create({
     container: {
-      alignSelf: 'center',
-      flexDirection: 'row',
-      width: width * 0.8,
-      gap: height * 0.02,
-      alignItems: 'center',
+      padding: height * 0.02,
+      flex: 1,
+      backgroundColor: ColorPalette.white,
     },
+    
   });
 
 export default styles;

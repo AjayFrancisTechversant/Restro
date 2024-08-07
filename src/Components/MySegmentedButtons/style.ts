@@ -10,7 +10,7 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
-    MySegmentedButtonsContainer:{margin:height*0.05},
+    MySegmentedButtonsContainer:{margin:height*0.04},
     container: {
       alignSelf: 'center',
       borderRadius: 12,
