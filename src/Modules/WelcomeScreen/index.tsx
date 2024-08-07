@@ -4,6 +4,7 @@ import {
   Alert,
   ScrollView,
   KeyboardAvoidingView,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -38,8 +39,9 @@ const WelcomeScreen = () => {
   const handleFetchZipcode = async () => {
     setIsZipCodeFetching(true);
     const fetchedZipcode = await getZipCode();
-    dispatch(updateZipcode(fetchedZipcode))
-    setIsZipCodeFetching(false)
+    dispatch(updateZipcode(fetchedZipcode));
+    setIsZipcodeValid(true);
+    setIsZipCodeFetching(false);
   };
   const handleSubmit = () => {
     if (isZipcodeValid) {
@@ -78,15 +80,18 @@ const WelcomeScreen = () => {
             </Text>
             <MyTextInput
               value={zipcodeFromRedux}
-              label={'ZIPCODE'}
+              label={!isZipCodeFetching ? 'ZIPCODE' : 'Fetching Zipcode...'}
               style={screenStyles.textInput}
               onChangeText={handleOnChangeText}
+              editable={!isZipCodeFetching ? true : false}
               right={
-                <TextInput.Icon
-                  onPress={handleFetchZipcode}
-                  icon="crosshairs-gps"
-                  forceTextInputFocus={false}
-                />
+                !isZipCodeFetching ? (
+                  <TextInput.Icon
+                    onPress={handleFetchZipcode}
+                    icon="crosshairs-gps"
+                    forceTextInputFocus={false}
+                  />
+                ) : null
               }
               keyboardType="numeric"
             />
