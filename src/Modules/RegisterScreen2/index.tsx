@@ -27,7 +27,7 @@ const RegisterScreen2 = () => {
   );
   const [error, setError] = useState<ErrorType>({
     passwordError: true,
-    confirmPasswordError: true,
+    confirmPasswordError: false,
   });
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
@@ -44,18 +44,21 @@ const RegisterScreen2 = () => {
     text: string,
     name: 'password' | 'confirmPassword',
   ) => {
-    if (password === text) {
-      setError({...error, confirmPasswordError: false});
-    } else setError({...error, confirmPasswordError: true});
     switch (name) {
       case 'password':
         setPassword(text);
-        if (validate(text, 'password')) {
+        if (!validate(text, 'password')) {
           setError({...error, passwordError: false});
         } else setError({...error, passwordError: true});
+        if (confirmPassword === text) {
+          setError({...error, confirmPasswordError: false});
+        } else setError({...error, confirmPasswordError: true});
         break;
       case 'confirmPassword':
         setConfirmPassword(text);
+        if (password === text) {
+          setError({...error, confirmPasswordError: false});
+        } else setError({...error, confirmPasswordError: true});
         break;
       default:
         break;
@@ -86,6 +89,7 @@ const RegisterScreen2 = () => {
               Enter a password below
             </Text>
             <MyTextInput
+              errorText={error.passwordError ? '*Invalid Format' : undefined}
               value={password}
               onChangeText={text => HandleOnChangeText(text, 'password')}
               secureTextEntry={!isPasswordVisible ? true : false}
@@ -100,6 +104,9 @@ const RegisterScreen2 = () => {
               label="PASSWORD"
             />
             <MyTextInput
+              errorText={
+                error.confirmPasswordError ? '*Doesnt Match' : undefined
+              }
               value={confirmPassword}
               onChangeText={text => HandleOnChangeText(text, 'confirmPassword')}
               secureTextEntry={!isConfirmPasswordVisible ? true : false}

@@ -15,5 +15,6 @@ const styles = (
       borderRadius: 5,
       fontWeight: 'bold',
     },
+    errorText:{position:'absolute',right:60,top:10,color:ColorPalette.red,fontWeight:'bold'}
   });
 export default styles;

@@ -1,17 +1,19 @@
 import React from 'react';
 import {TextInput, TextInputProps} from 'react-native-paper';
-import {StyleProp, TextStyle} from 'react-native';
+import {StyleProp, Text, TextStyle, View} from 'react-native';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './style';
 
 type MyTextInputPropsType = {
   color?: string;
+  errorText?: string;
 } & TextInputProps;
 
 const MyTextInput: React.FC<MyTextInputPropsType> = ({
   onChangeText,
   color,
+  errorText,
   style,
   ...props
 }) => {
@@ -24,18 +26,21 @@ const MyTextInput: React.FC<MyTextInputPropsType> = ({
     screenContext,
   );
   return (
-    <TextInput
-      onChangeText={onChangeText}
-      selectionColor={color ? color : ColorPalette.gray}
-      underlineColor={color ? color : ColorPalette.white}
-      activeUnderlineColor={color ? color : ColorPalette.gray}
-      outlineColor={color ? color : ColorPalette.gray}
-      activeOutlineColor={color ? color : ColorPalette.white}
-      cursorColor={color ? color : ColorPalette.gray}
-      underlineStyle={{height: 0}}
-      style={[screenStyles.textInput, style]}
-      {...props}
-    />
+    <View>
+      <TextInput
+        onChangeText={onChangeText}
+        selectionColor={color ? color : ColorPalette.gray}
+        underlineColor={color ? color : ColorPalette.white}
+        activeUnderlineColor={color ? color : ColorPalette.gray}
+        outlineColor={color ? color : ColorPalette.gray}
+        activeOutlineColor={color ? color : ColorPalette.white}
+        cursorColor={color ? color : ColorPalette.gray}
+        underlineStyle={{height: 0}}
+        style={[screenStyles.textInput, style]}
+        {...props}
+      />
+      {errorText&&<Text style={screenStyles.errorText}>{errorText}</Text>}
+    </View>
   );
 };
 
