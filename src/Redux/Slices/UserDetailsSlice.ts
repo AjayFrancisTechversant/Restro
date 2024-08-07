@@ -8,6 +8,7 @@ export type UserDetailsReduxStateType = {
   firstName: string;
   lastName: string;
   email: string;
+  password: string;
   mobile: string;
 };
 
@@ -17,6 +18,7 @@ const initialState: UserDetailsReduxStateType = {
   firstName: '',
   lastName: '',
   email: '',
+  password: '',
   mobile: '',
 };
 
@@ -39,6 +41,9 @@ const UserDetailsSlice = createSlice({
     updateEmail(state, action: PayloadAction<string>) {
       state.email = action.payload;
     },
+    updatePassword(state, action: PayloadAction<string>) {
+      state.password = action.payload;
+    },
     updateMobile(state, action: PayloadAction<string>) {
       state.mobile = action.payload;
     },
@@ -51,6 +56,7 @@ export const {
   updateFirstName,
   updateLastName,
   updateEmail,
+  updatePassword,
   updateMobile,
 } = UserDetailsSlice.actions;
 

@@ -1,7 +1,6 @@
 import {View, Text, ScrollView, KeyboardAvoidingView} from 'react-native';
 import React, {useState} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './style';
 import FullScreenBGImageBlur from '../../Components/Onboarding/FullScreenBGImageBlur';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import MyTextInput from '../../Components/MyTextInput';
@@ -9,12 +8,30 @@ import HeaderComponent from '../../Components/HeaderComponent';
 import {Checkbox, TextInput} from 'react-native-paper';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import MyButton from '../../Components/MyButton';
+import styles from './style';
+import StaticVariables from '../../Preferences/StaticVariables';
+import {UserDetailsReduxStateType} from '../../Redux/Slices/UserDetailsSlice';
+import validate from '../../Validation/Validation';
+
+type ErrorType = {
+  passwordError: boolean;
+  confirmPasswordError: boolean;
+};
 
 const RegisterScreen2 = () => {
   const [isUpdatesChecked, setIsUpdatesChecked] = useState(false);
   const [isTandCChecked, setIsTandCChecked] = useState(false);
+  const [password, setPassword] = useState(StaticVariables.EMPTY_STRING);
+  const [confirmPassword, setConfirmPassword] = useState(
+    StaticVariables.EMPTY_STRING,
+  );
+  const [error, setError] = useState<ErrorType>({
+    passwordError: true,
+    confirmPasswordError: true,
+  });
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+    useState(false);
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -23,8 +40,32 @@ const RegisterScreen2 = () => {
     screenContext.isTypeTablet,
     screenContext,
   );
+  const HandleOnChangeText = (
+    text: string,
+    name: 'password' | 'confirmPassword',
+  ) => {
+    if (password === text) {
+      setError({...error, confirmPasswordError: false});
+    } else setError({...error, confirmPasswordError: true});
+    switch (name) {
+      case 'password':
+        setPassword(text);
+        if (validate(text, 'password')) {
+          setError({...error, passwordError: false});
+        } else setError({...error, passwordError: true});
+        break;
+      case 'confirmPassword':
+        setConfirmPassword(text);
+        break;
+      default:
+        break;
+    }
+  };
+  console.log(error);
+
   const handleSubmit = () => {
     // validate
+    //password save to redux only after veryifying confirm password
     // register email auth firebase
   };
   return (
@@ -45,6 +86,8 @@ const RegisterScreen2 = () => {
               Enter a password below
             </Text>
             <MyTextInput
+              value={password}
+              onChangeText={text => HandleOnChangeText(text, 'password')}
               secureTextEntry={!isPasswordVisible ? true : false}
               right={
                 <TextInput.Icon
@@ -57,6 +100,8 @@ const RegisterScreen2 = () => {
               label="PASSWORD"
             />
             <MyTextInput
+              value={confirmPassword}
+              onChangeText={text => HandleOnChangeText(text, 'confirmPassword')}
               secureTextEntry={!isConfirmPasswordVisible ? true : false}
               style={screenStyles.textInput}
               label="CONFIRM PASSWORD"
@@ -64,7 +109,9 @@ const RegisterScreen2 = () => {
                 <TextInput.Icon
                   icon={isConfirmPasswordVisible ? 'eye' : 'eye-off'}
                   forceTextInputFocus={false}
-                  onPress={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)}
+                  onPress={() =>
+                    setIsConfirmPasswordVisible(!isConfirmPasswordVisible)
+                  }
                 />
               }
             />

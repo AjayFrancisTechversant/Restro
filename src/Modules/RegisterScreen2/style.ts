@@ -22,7 +22,7 @@ const styles = (
       flexDirection: 'row',
       gap: height * 0.01,
       alignItems: 'center',
-      marginVertical: height * 0.01,
+      marginTop: height * 0.01,
     },
     bottomButton: {
       position: 'absolute',

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "480182827742",
+    "project_id": "restro-8208a",
+    "storage_bucket": "restro-8208a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:480182827742:android:27601f8164252bd0ff204f",
+        "android_client_info": {
+          "package_name": "com.restro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8FV_zQ8QZM85oytfsnT5RpTQuPNJ4r4c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
