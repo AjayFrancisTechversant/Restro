@@ -25,7 +25,7 @@ import styles from './Style';
 import {getZipCode} from '../../Services/API/getZipCode';
 
 const WelcomeScreen = () => {
-  const navigation: any = useNavigation();
+  const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const [isZipCodeFetching, setIsZipCodeFetching] = useState(false);
   const zipcodeFromRedux = useAppSelector(state => state.userDetails.zipcode);
@@ -44,11 +44,7 @@ const WelcomeScreen = () => {
     setIsZipCodeFetching(false);
   };
   const handleSubmit = () => {
-    if (isZipcodeValid) {
-      navigation.navigate('PreferenceScreen');
-    } else {
-      Alert.alert('Invalid Zipcode!!!');
-    }
+      navigation.navigate('PreferenceScreen' as never);
   };
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -79,6 +75,7 @@ const WelcomeScreen = () => {
               Let's find the locations near you.
             </Text>
             <MyTextInput
+              errorText={(!isZipcodeValid&&zipcodeFromRedux&&!isZipCodeFetching)? 'invalid!' : undefined}
               value={zipcodeFromRedux}
               label={!isZipCodeFetching ? 'ZIPCODE' : 'Fetching Zipcode...'}
               style={screenStyles.textInput}
@@ -104,6 +101,7 @@ const WelcomeScreen = () => {
                 </Text>
               </MyButton>
               <MyButton
+              disabled={!isZipcodeValid?true:false}
                 onPress={handleSubmit}
                 style={{
                   backgroundColor: isZipcodeValid
