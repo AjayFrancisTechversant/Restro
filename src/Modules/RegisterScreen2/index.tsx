@@ -47,7 +47,7 @@ const RegisterScreen2 = () => {
     switch (name) {
       case 'password':
         setPassword(text);
-        if (!validate(text, 'password')) {
+        if (validate(text, 'password')) {
           setError({...error, passwordError: false});
         } else setError({...error, passwordError: true});
         if (confirmPassword === text) {
