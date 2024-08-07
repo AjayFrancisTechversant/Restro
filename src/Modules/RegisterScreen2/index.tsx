@@ -10,7 +10,6 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import MyButton from '../../Components/MyButton';
 import styles from './style';
 import StaticVariables from '../../Preferences/StaticVariables';
-import {UserDetailsReduxStateType} from '../../Redux/Slices/UserDetailsSlice';
 import validate from '../../Validation/Validation';
 
 type ErrorType = {
@@ -30,8 +29,7 @@ const RegisterScreen2 = () => {
     confirmPasswordError: true,
   });
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
-    useState(false);
+
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -47,18 +45,14 @@ const RegisterScreen2 = () => {
     switch (name) {
       case 'password':
         setPassword(text);
-        if (validate(text, 'password')) {
-          setError({...error, passwordError: false});
-        } else setError({...error, passwordError: true});
-        if (confirmPassword === text) {
-          setError({...error, confirmPasswordError: false});
-        } else setError({...error, confirmPasswordError: true});
+        setError({
+          passwordError: !validate(text, 'password'),
+          confirmPasswordError: !(text === confirmPassword),
+        });
         break;
       case 'confirmPassword':
         setConfirmPassword(text);
-        if (password === text) {
-          setError({...error, confirmPasswordError: false});
-        } else setError({...error, confirmPasswordError: true});
+        setError({...error, confirmPasswordError: !(text === password)});
         break;
       default:
         break;
@@ -67,7 +61,6 @@ const RegisterScreen2 = () => {
   console.log(error);
 
   const handleSubmit = () => {
-    // validate
     //password save to redux only after veryifying confirm password
     // register email auth firebase
   };
@@ -113,18 +106,9 @@ const RegisterScreen2 = () => {
               }
               value={confirmPassword}
               onChangeText={text => HandleOnChangeText(text, 'confirmPassword')}
-              secureTextEntry={!isConfirmPasswordVisible ? true : false}
+              secureTextEntry={true}
               style={screenStyles.textInput}
               label="CONFIRM PASSWORD"
-              right={
-                <TextInput.Icon
-                  icon={isConfirmPasswordVisible ? 'eye' : 'eye-off'}
-                  forceTextInputFocus={false}
-                  onPress={() =>
-                    setIsConfirmPasswordVisible(!isConfirmPasswordVisible)
-                  }
-                />
-              }
             />
             <View style={screenStyles.checkBoxContainer}>
               <Checkbox
@@ -160,10 +144,22 @@ const RegisterScreen2 = () => {
             </View>
             <View style={screenStyles.bottomButton}>
               <MyButton
+                disabled={
+                  !error.confirmPasswordError &&
+                  !error.passwordError &&
+                  isTandCChecked
+                    ? false
+                    : true
+                }
                 onPress={handleSubmit}
                 // validate and change backgorund color
                 style={{
-                  backgroundColor: ColorPalette.lightRed,
+                  backgroundColor:
+                    !error.confirmPasswordError &&
+                    !error.passwordError &&
+                    isTandCChecked
+                      ? ColorPalette.red
+                      : ColorPalette.lightRed,
                 }}>
                 <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
                   Register

@@ -74,7 +74,6 @@ const RegisterScreen1 = () => {
     }
   };
   const handleSubmit = () => {
-    //validate and go to next screen
     navigation.navigate('RegisterScreen2' as never);
   };
 
