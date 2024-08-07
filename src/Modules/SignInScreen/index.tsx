@@ -19,6 +19,7 @@ import styles from './style';
 
 const SignInScreen = () => {
   const navigation = useNavigation();
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isRememberMeChecked, setIsRememberMeChecked] = useState(false);
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -47,8 +48,12 @@ const SignInScreen = () => {
             </Text>
             <MyTextInput style={screenStyles.textInput} label="EMAIL ADDRESS" />
             <MyTextInput
-              secureTextEntry
-              right={<TextInput.Icon icon="eye" />}
+              secureTextEntry={!isPasswordVisible ? true : false}
+              right={ <TextInput.Icon
+                icon={isPasswordVisible ? 'eye' : 'eye-off'}
+                forceTextInputFocus={false}
+                onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+              />}
               style={screenStyles.textInput}
               label="PASSWORD"
             />

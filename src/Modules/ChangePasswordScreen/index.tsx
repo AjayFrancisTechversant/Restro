@@ -5,21 +5,23 @@ import {
   ScrollView,
   KeyboardAvoidingView,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, { useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import MyTextInput from '../../Components/MyTextInput';
 import MyButton from '../../Components/MyButton';
 import FullScreenBGImageBlur from '../../Components/Onboarding/FullScreenBGImageBlur';
 import HeaderComponent from '../../Components/HeaderComponent';
-import styles from './style';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import {TextInput} from 'react-native-paper';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import {useNavigation} from '@react-navigation/native';
+import styles from './style';
 
 const ChangePasswordScreen = () => {
   const [isPasswordChanged, setIsPasswordChanged] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
   const navigation = useNavigation();
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -51,14 +53,26 @@ const ChangePasswordScreen = () => {
                 <MyTextInput
                   style={screenStyles.textInput}
                   label={'PASSWORD'}
-                  secureTextEntry
-                  right={<TextInput.Icon icon="eye" />}
+                  secureTextEntry={!isPasswordVisible ? true : false}
+                  right={
+                    <TextInput.Icon
+                      icon={isPasswordVisible ? 'eye' : 'eye-off'}
+                      forceTextInputFocus={false}
+                      onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+                    />
+                  }
                 />
                 <MyTextInput
                   style={screenStyles.textInput}
                   label={'CONFIRM PASSWORD'}
-                  secureTextEntry
-                  right={<TextInput.Icon icon="eye" />}
+                  secureTextEntry={!isConfirmPasswordVisible ? true : false}
+                  right={
+                    <TextInput.Icon
+                      icon={isConfirmPasswordVisible ? 'eye' : 'eye-off'}
+                      forceTextInputFocus={false}
+                      onPress={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)}
+                    />
+                  }
                 />
               </>
             ) : (
