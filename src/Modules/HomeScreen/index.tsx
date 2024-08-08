@@ -23,7 +23,7 @@ const HomeScreen = () => {
       <HeaderComponent color={ColorPalette.black} />
       <MySegmentedButtons />
       <ZipcodeDisplayComponent />
-      {/* <LogoutComponent /> */}
+      <LogoutComponent />
     </ScrollView>
   );
 };

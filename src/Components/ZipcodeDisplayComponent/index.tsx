@@ -8,7 +8,7 @@ import {commonStyles} from '../../CommonStyles/CommonStyles';
 import styles from './style';
 
 const ZipcodeDisplayComponent = () => {
-  const navigation: any = useNavigation();
+  const navigation = useNavigation();
   const {zipcode, region, country} = useAppSelector(state => state.userDetails);
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -25,7 +25,8 @@ const ZipcodeDisplayComponent = () => {
         {region && `, ${region}`}
         {country && `, ${country}`}
       </Text>
-      <TouchableOpacity onPress={() => navigation.replace('EditZipcodeScreen')}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('EditZipcodeScreen' as never)}>
         <Feather size={20} name="edit" />
       </TouchableOpacity>
     </View>

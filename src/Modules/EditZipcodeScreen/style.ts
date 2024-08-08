@@ -21,6 +21,18 @@ const styles = (
       fontWeight: 'bold',
       marginHorizontal: height * 0.02,
     },
+    textInput: {
+      width: width * 0.9,
+      alignSelf: 'center',
+      borderWidth: 1,
+      marginVertical: height * 0.01,
+    },
+    coolTipContainer: {margin: height * 0.02},
+    bottomButton: {
+      position: 'absolute',
+      bottom: height * 0.05,
+      alignSelf: 'center',
+    },
   });
 
 export default styles;
