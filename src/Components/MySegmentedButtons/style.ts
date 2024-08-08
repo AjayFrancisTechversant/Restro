@@ -10,13 +10,15 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
-    MySegmentedButtonsContainer:{margin:height*0.04},
+    MySegmentedButtonsContainer: {
+      margin: height * 0.04,
+      justifyContent: 'center',
+    },
     container: {
-      alignSelf: 'center',
       borderRadius: 12,
-      borderWidth: 1,
+      borderWidth: 1.5,
       borderColor: ColorPalette.gray,
-      height: height * 0.08,
+      height: height * 0.07,
       flexDirection: 'row',
       width: width * 0.8,
     },

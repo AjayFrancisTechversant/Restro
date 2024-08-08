@@ -7,6 +7,7 @@ import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import MySegmentedButtons from '../../Components/MySegmentedButtons';
 import ZipcodeDisplayComponent from '../../Components/ZipcodeDisplayComponent';
+import HotelsContainer from '../../Components/HotelsContainer';
 
 const HomeScreen = () => {
   const screenContext = useScreenContext();
@@ -19,12 +20,14 @@ const HomeScreen = () => {
   );
   //use SwitchCase for conditionally rendering
   return (
-    <ScrollView style={screenStyles.container}>
+    <View
+      style={screenStyles.container}>
       <HeaderComponent color={ColorPalette.black} />
       <MySegmentedButtons />
       <ZipcodeDisplayComponent />
-      <LogoutComponent />
-    </ScrollView>
+      <HotelsContainer />
+      {/* <LogoutComponent /> */}
+    </View>
   );
 };
 
