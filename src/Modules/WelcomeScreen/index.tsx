@@ -1,10 +1,8 @@
 import {
   View,
   Text,
-  Alert,
   ScrollView,
   KeyboardAvoidingView,
-  ActivityIndicator,
 } from 'react-native';
 import React, {useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -13,7 +11,6 @@ import {useNavigation} from '@react-navigation/native';
 import {TextInput} from 'react-native-paper';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import FullScreenBGImageBlur from '../../Components/Onboarding/FullScreenBGImageBlur';
-import HeaderComponent from '../../Components/HeaderComponent';
 import ThreeLogosComponent from '../../Components/Onboarding/ThreeLogosComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import MyTextInput from '../../Components/MyTextInput';
@@ -25,8 +22,9 @@ import {
   updateZipcode,
 } from '../../Redux/Slices/UserDetailsSlice';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
-import styles from './Style';
 import {getLocationDetails} from '../../Services/API/getZipCode';
+import StaticVariables from '../../Preferences/StaticVariables';
+import styles from './Style';
 
 const WelcomeScreen = () => {
   const navigation = useNavigation();
@@ -50,7 +48,7 @@ const WelcomeScreen = () => {
     setIsZipCodeFetching(false);
   };
   const handleSubmit = () => {
-    navigation.navigate('PreferenceScreen' as never);
+    navigation.navigate(StaticVariables.PreferenceScreen as never);
   };
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -65,7 +63,6 @@ const WelcomeScreen = () => {
       <ScrollView>
         <FullScreenBGImageBlur>
           <View style={screenStyles.container}>
-            <HeaderComponent color={ColorPalette.white} />
             <View style={screenStyles.mainTextContainer}>
               <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
                 Hungry?

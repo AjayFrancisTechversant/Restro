@@ -1,6 +1,7 @@
 import {Alert, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import auth from '@react-native-firebase/auth';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
@@ -14,6 +15,7 @@ import {
 } from '../../Redux/Slices/UserDetailsSlice';
 import StaticVariables from '../../Preferences/StaticVariables';
 import styles from './style';
+import ColorPalette from '../../Assets/Themes/ColorPalette';
 
 const LogoutComponent = () => {
   const dispatch = useAppDispatch();
@@ -40,9 +42,7 @@ const LogoutComponent = () => {
   };
   return (
     <TouchableOpacity style={screenStyles.logoutButton} onPress={handleLogout}>
-      <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-        Logout
-      </Text>
+    <MaterialIcons name='logout' size={30} color={ColorPalette.white}/>
     </TouchableOpacity>
   );
 };

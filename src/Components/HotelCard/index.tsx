@@ -8,6 +8,7 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import {HotelType} from '../HotelsContainer';
+import StaticVariables from '../../Preferences/StaticVariables';
 import styles from './style';
 
 type HotelCardPropsType = {
@@ -28,7 +29,8 @@ const HotelCard: React.FC<HotelCardPropsType> = ({hotel}) => {
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('HotelScreen' as never)}
+      onPress={() => navigation.navigate(StaticVariables.HotelScreen as never)}
+      // send hotel as params
       style={screenStyles.card}>
       <Image
         style={screenStyles.imageStyle}

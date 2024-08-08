@@ -1,0 +1,114 @@
+import {Text, View} from 'react-native';
+import React, {useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
+import {useScreenContext} from '../../Contexts/ScreenContext';
+import MyTextInput from '../MyTextInput';
+import validate from '../../Validation/Validation';
+import StaticVariables from '../../Preferences/StaticVariables';
+import MyButton from '../MyButton';
+import {commonStyles} from '../../CommonStyles/CommonStyles';
+import styles from './style';
+import {SetStateType} from '../../Types/Types';
+
+type ErrorType = {
+  nameError: boolean;
+  commentError: boolean;
+  ratingError: boolean;
+};
+export type NewReviewType = {
+  name: string;
+  comment: string;
+  rating: string;
+};
+type AddReviewComponentPropsType = {
+  handleSubmitReview: (newReview: NewReviewType) => void;
+  setIsAddingReview: SetStateType<boolean>;
+};
+const AddReviewComponent: React.FC<AddReviewComponentPropsType> = ({
+  handleSubmitReview,
+  setIsAddingReview,
+}) => {
+  const navigation = useNavigation();
+  const [newReview, setNewReview] = useState<NewReviewType>({
+    name: StaticVariables.EMPTY_STRING,
+    comment: StaticVariables.EMPTY_STRING,
+    rating: StaticVariables.EMPTY_STRING,
+  });
+  const [error, setError] = useState<ErrorType>({
+    commentError: true,
+    nameError: true,
+    ratingError: true,
+  });
+
+  const screenContext = useScreenContext();
+  const screenStyles = styles(
+    screenContext.isPortrait ? screenContext.height : screenContext.width,
+    screenContext.isPortrait ? screenContext.width : screenContext.height,
+    screenContext.isPortrait,
+    screenContext.isTypeTablet,
+    screenContext,
+  );
+  const HandleOnChangeText = (
+    text: string,
+    name: 'rating' | 'name' | 'comment',
+  ) => {
+    switch (name) {
+      case 'name':
+        setNewReview({...newReview, name: text});
+        setError({...error, nameError: !validate(text)});
+        break;
+      case 'rating':
+        setNewReview({...newReview, rating: text});
+        setError({...error, ratingError: !validate(text, 'rating')});
+        break;
+      case 'comment':
+        setNewReview({...newReview, comment: text});
+        setError({...error, commentError: !validate(text)});
+        break;
+      default:
+        break;
+    }
+  };
+
+  return (
+    <View style={screenStyles.container}>
+      <MyTextInput
+        label="Name"
+        style={screenStyles.textInput}
+        value={newReview.name}
+        onChangeText={text => HandleOnChangeText(text, 'name')}
+      />
+      <MyTextInput
+        errorText={
+          error.ratingError && newReview.rating
+            ? '*Must be between 1 to 5'
+            : undefined
+        }
+        label="Rating"
+        style={screenStyles.textInput}
+        value={newReview.rating}
+        onChangeText={text => HandleOnChangeText(text, 'rating')}
+      />
+      <MyTextInput
+        label="Comments"
+        value={newReview.comment}
+        onChangeText={text => HandleOnChangeText(text, 'comment')}
+        multiline
+        numberOfLines={3}
+        style={screenStyles.textInput}
+      />
+      <MyButton
+        style={screenStyles.bottomButton}
+        onPress={() => {
+          handleSubmitReview(newReview);
+          setIsAddingReview(false)
+        }}>
+        <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+          Submit Review
+        </Text>
+      </MyButton>
+    </View>
+  );
+};
+
+export default AddReviewComponent;

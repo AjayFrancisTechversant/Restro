@@ -2,7 +2,6 @@ import {View, Text, KeyboardAvoidingView, ScrollView} from 'react-native';
 import React, {useState} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import FullScreenBGImageBlur from '../../Components/Onboarding/FullScreenBGImageBlur';
-import HeaderComponent from '../../Components/HeaderComponent';
 import MyTextInput from '../../Components/MyTextInput';
 import MyButton from '../../Components/MyButton';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
@@ -16,8 +15,9 @@ import {
   updateMobile,
   UserDetailsReduxStateType,
 } from '../../Redux/Slices/UserDetailsSlice';
-import styles from './style';
 import validate from '../../Validation/Validation';
+import StaticVariables from '../../Preferences/StaticVariables';
+import styles from './style';
 
 type ErrorType = {
   firstNameError: boolean;
@@ -72,7 +72,7 @@ const RegisterScreen1 = () => {
     }
   };
   const handleSubmit = () => {
-    navigation.navigate('RegisterScreen2' as never);
+    navigation.navigate(StaticVariables.RegisterScreen2 as never);
   };
 
   return (
@@ -80,7 +80,6 @@ const RegisterScreen1 = () => {
       <ScrollView>
         <FullScreenBGImageBlur>
           <View style={screenStyles.container}>
-            <HeaderComponent color={ColorPalette.white}/>
             <View style={screenStyles.mainTextContainer}>
               <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
                 Let's get you
@@ -129,7 +128,7 @@ const RegisterScreen1 = () => {
                 already have an account?
               </Text>
               <MyButton
-                onPress={() => navigation.navigate('SignInScreen' as never)}
+                onPress={() => navigation.navigate(StaticVariables.SignInScreen as never)}
                 style={screenStyles.loginButton}>
                 <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
                   Login

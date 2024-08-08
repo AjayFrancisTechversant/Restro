@@ -1,7 +1,12 @@
-import { validEmail, validPassword } from "../RegExp/RegExp";
+import {validEmail, validPassword} from '../RegExp/RegExp';
 
 // Define possible validation types
-export type ValidationType = 'email' | 'phone' | 'password' | 'required';
+export type ValidationType =
+  | 'email'
+  | 'phone'
+  | 'password'
+  | 'rating'
+  | 'required';
 
 const validate = (
   value: string | undefined | null,
@@ -18,6 +23,9 @@ const validate = (
 
     case 'phone':
       return value.length == 10 ? true : false;
+
+    case 'rating':
+      return (Number(value) <= 5 )&&(Number(value) > 0 )? true : false;
 
     case 'required':
       return value.trim() !== '' ? true : false;

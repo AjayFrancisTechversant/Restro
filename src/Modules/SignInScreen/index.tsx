@@ -13,7 +13,6 @@ import auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import FullScreenBGImageBlur from '../../Components/Onboarding/FullScreenBGImageBlur';
-import HeaderComponent from '../../Components/HeaderComponent';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import MyTextInput from '../../Components/MyTextInput';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
@@ -83,7 +82,6 @@ const SignInScreen = () => {
       <ScrollView>
         <FullScreenBGImageBlur>
           <View style={screenStyles.container}>
-            <HeaderComponent color={ColorPalette.white}/>
             <View style={screenStyles.mainTextContainer}>
               <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
                 Sign In
@@ -127,7 +125,9 @@ const SignInScreen = () => {
               </View>
               <TouchableOpacity
                 onPress={() =>
-                  navigation.navigate('ForgotPasswordScreen' as never)
+                  navigation.navigate(
+                    StaticVariables.ForgotPasswordScreen as never,
+                  )
                 }>
                 <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
                   Forgot your password?
@@ -142,7 +142,9 @@ const SignInScreen = () => {
                 </Text>
                 <TouchableOpacity
                   onPress={() =>
-                    navigation.navigate('RegisterScreen1' as never)
+                    navigation.navigate(
+                      StaticVariables.RegisterScreen1 as never,
+                    )
                   }>
                   <Text
                     style={[

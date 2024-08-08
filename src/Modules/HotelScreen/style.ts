@@ -10,10 +10,12 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
+    parentContainer: {flex: 1},
     container: {
       padding: height * 0.02,
       position: 'absolute',
       flex: 1,
+      height,
     },
     headerComponentContainer: {width: width * 0.9},
     bgImage: {
@@ -27,7 +29,8 @@ const styles = (
       borderRadius: 20,
       padding: height * 0.02,
       marginTop: height * 0.15,
-      gap: height * 0.02,elevation:10
+      gap: height * 0.02,
+      elevation: 10,
     },
     chipsContainer: {
       flexDirection: 'row',
@@ -45,6 +48,12 @@ const styles = (
       width: width * 0.2,
       height: height * 0.05,
       padding: 0,
+    },
+    bottomButton: {
+      position: 'absolute',
+      alignSelf: 'center',
+      backgroundColor: ColorPalette.red,
+      bottom: height * 0.05,
     },
   });
 

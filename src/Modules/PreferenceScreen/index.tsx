@@ -1,20 +1,27 @@
 import React from 'react';
-import {Alert, KeyboardAvoidingView, Pressable, ScrollView, Text, View} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {
+  Alert,
+  KeyboardAvoidingView,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import FullScreenBGImageBlur from '../../Components/Onboarding/FullScreenBGImageBlur';
-import HeaderComponent from '../../Components/HeaderComponent';
 import PreferenceRadioCard from '../../Components/Onboarding/PreferenceRadioCard';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {updatePreference} from '../../Redux/Slices/UserDetailsSlice';
 import ThreeLogosComponent from '../../Components/Onboarding/ThreeLogosComponent';
 import MyButton from '../../Components/MyButton';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import { commonStyles } from '../../CommonStyles/CommonStyles';
+import {commonStyles} from '../../CommonStyles/CommonStyles';
+import StaticVariables from '../../Preferences/StaticVariables';
 import styles from './style';
 
 const PreferenceScreen = () => {
-  const navigation=useNavigation()
+  const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const preferenceFromRedux = useAppSelector(
     state => state.userDetails.preference,
@@ -27,19 +34,18 @@ const PreferenceScreen = () => {
     screenContext.isTypeTablet,
     screenContext,
   );
-const handleSubmit=()=>{
-  if (preferenceFromRedux) {
-    navigation.navigate('RegisterScreen1' as never);
-  } else {
-    Alert.alert('Please Select your preference');
-  }
-}
+  const handleSubmit = () => {
+    if (preferenceFromRedux) {
+      navigation.navigate(StaticVariables.RegisterScreen1 as never);
+    } else {
+      Alert.alert('Please Select your preference');
+    }
+  };
   return (
-   <KeyboardAvoidingView behavior="position">
-     <ScrollView>
+    <KeyboardAvoidingView behavior="position">
+      <ScrollView>
         <FullScreenBGImageBlur>
           <View style={screenStyles.container}>
-            <HeaderComponent color={ColorPalette.white}/>
             <View style={screenStyles.mainTextContainer}>
               <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
                 What do
@@ -57,15 +63,13 @@ const handleSubmit=()=>{
                 text={`I'm Dining in`}
               />
             </Pressable>
-            <Pressable
-              onPress={() => dispatch(updatePreference('carry-out'))}>
+            <Pressable onPress={() => dispatch(updatePreference('carry-out'))}>
               <PreferenceRadioCard
                 isSelected={preferenceFromRedux == 'carry-out' ? true : false}
                 text={`Crry-out`}
               />
             </Pressable>
-            <Pressable
-              onPress={() => dispatch(updatePreference('delivery'))}>
+            <Pressable onPress={() => dispatch(updatePreference('delivery'))}>
               <PreferenceRadioCard
                 isSelected={preferenceFromRedux == 'delivery' ? true : false}
                 text={`Delivery`}
@@ -73,20 +77,23 @@ const handleSubmit=()=>{
             </Pressable>
             <ThreeLogosComponent />
             <View style={screenStyles.bottomButton}>
-              <MyButton onPress={handleSubmit}
-              disabled={preferenceFromRedux?false:true}
+              <MyButton
+                onPress={handleSubmit}
+                disabled={preferenceFromRedux ? false : true}
                 style={{
                   backgroundColor: preferenceFromRedux
                     ? ColorPalette.red
                     : ColorPalette.lightRed,
                 }}>
-                <Text style={[commonStyles.whiteText,commonStyles.boldText]}>Find Great Food!</Text>
+                <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+                  Find Great Food!
+                </Text>
               </MyButton>
             </View>
           </View>
         </FullScreenBGImageBlur>
-     </ScrollView>
-   </KeyboardAvoidingView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

@@ -10,6 +10,7 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
+    
     container: {
       padding: height * 0.02,
       flex: 1,

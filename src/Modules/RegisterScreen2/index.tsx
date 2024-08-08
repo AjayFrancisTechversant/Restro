@@ -12,14 +12,13 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import FullScreenBGImageBlur from '../../Components/Onboarding/FullScreenBGImageBlur';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import MyTextInput from '../../Components/MyTextInput';
-import HeaderComponent from '../../Components/HeaderComponent';
 import {Checkbox, TextInput} from 'react-native-paper';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import MyButton from '../../Components/MyButton';
 import StaticVariables from '../../Preferences/StaticVariables';
 import validate from '../../Validation/Validation';
-import styles from './style';
 import {useAppSelector} from '../../hooks/hooks';
+import styles from './style';
 
 type ErrorType = {
   passwordError: boolean;
@@ -90,7 +89,6 @@ const RegisterScreen2 = () => {
       <ScrollView>
         <FullScreenBGImageBlur>
           <View style={screenStyles.container}>
-            <HeaderComponent color={ColorPalette.white} />
             <View style={screenStyles.mainTextContainer}>
               <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
                 Security is

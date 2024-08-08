@@ -1,22 +1,19 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  FlatList,
-  ActivityIndicator,
-} from 'react-native';
+import {View, FlatList, ActivityIndicator} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import firestore from '@react-native-firebase/firestore';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './style';
 import HotelCard from '../HotelCard';
 import StaticVariables from '../../Preferences/StaticVariables';
+import styles from './style';
+
 export type HotelType = {
   name: string;
   location: string;
   rating: string;
   image: string;
+  id: string;
 };
+
 const HotelsContainer = () => {
   const [hotels, setHotels] = useState<HotelType[]>(
     StaticVariables.EMPTY_ARRAY,

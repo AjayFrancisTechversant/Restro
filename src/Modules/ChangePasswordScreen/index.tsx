@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  BackHandler,
   ScrollView,
   KeyboardAvoidingView,
 } from 'react-native';
@@ -12,7 +11,6 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import MyTextInput from '../../Components/MyTextInput';
 import MyButton from '../../Components/MyButton';
 import FullScreenBGImageBlur from '../../Components/Onboarding/FullScreenBGImageBlur';
-import HeaderComponent from '../../Components/HeaderComponent';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import {TextInput} from 'react-native-paper';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
@@ -69,14 +67,13 @@ const ChangePasswordScreen = () => {
     if (!isPasswordChanged) {
       //change logic
       setIsPasswordChanged(true);
-    } else navigation.navigate('SignInScreen' as never);
+    } else navigation.navigate(StaticVariables.SignInScreen as never);
   };
   return (
     <KeyboardAvoidingView behavior="position">
       <ScrollView>
         <FullScreenBGImageBlur>
           <View style={screenStyles.container}>
-            <HeaderComponent color={ColorPalette.white}/>
             {!isPasswordChanged ? (
               <>
                 <View style={screenStyles.mainTextContainer}>

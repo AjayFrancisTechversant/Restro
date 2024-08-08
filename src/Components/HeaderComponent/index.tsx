@@ -5,12 +5,15 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './style';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import { useNavigation } from '@react-navigation/native';
+import StaticVariables from '../../Preferences/StaticVariables';
 
 type HeaderComponentPropsType = {
   color: ColorValue;
 };
 
 const HeaderComponent:React.FC<HeaderComponentPropsType> = ({color}) => {
+  const navigation=useNavigation()
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -24,7 +27,7 @@ const HeaderComponent:React.FC<HeaderComponentPropsType> = ({color}) => {
       <TouchableOpacity>
         <Ionicons name="menu" color={color} size={40} />
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={()=>navigation.navigate(StaticVariables.ProfileScreen as never)}>
         <EvilIcons name="user" color={color} size={50} />
       </TouchableOpacity>
     </View>

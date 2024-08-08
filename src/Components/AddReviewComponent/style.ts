@@ -10,13 +10,18 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
-    logoutButton: {
-      backgroundColor: ColorPalette.red,
+    container: {
+      backgroundColor: ColorPalette.lightGray,
+      borderRadius: 20,
       padding: height * 0.01,
-      borderRadius: 10,
-      justifyContent: 'center',
-      alignItems: 'center',
+      flex: 1,
+    },
+    textInput: {margin: height * 0.01},
+    bottomButton: {
+      position: 'absolute',
       alignSelf: 'center',
+      backgroundColor: ColorPalette.red,
+      bottom:0,
     },
   });
 

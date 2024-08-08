@@ -1,4 +1,10 @@
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ImageBackground,
+} from 'react-native';
 import React, {useState} from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {Chip} from 'react-native-paper';
@@ -8,8 +14,8 @@ import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import MyButton from '../../Components/MyButton';
-import styles from './style';
 import ReviewsComponent from '../../Components/ReviewsComponent';
+import styles from './style';
 
 const HotelScreen = () => {
   const screenContext = useScreenContext();
@@ -22,8 +28,8 @@ const HotelScreen = () => {
     screenContext,
   );
   return (
-    <>
-      <Image
+    <View style={screenStyles.parentContainer}>
+      <ImageBackground
         style={screenStyles.bgImage}
         blurRadius={5}
         source={{
@@ -75,9 +81,20 @@ const HotelScreen = () => {
             </MyButton>
           </View>
         </View>
-        {goToReviewComponent && <ReviewsComponent setGoToReviewComponent={setGoToReviewComponent} />}
+        {goToReviewComponent ? (
+          <ReviewsComponent setGoToReviewComponent={setGoToReviewComponent} />
+        ) : (
+          <>
+            <Text>Items Component</Text>
+            <MyButton style={screenStyles.bottomButton}>
+              <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+                View Menu
+              </Text>
+            </MyButton>
+          </>
+        )}
       </View>
-    </>
+    </View>
   );
 };
 

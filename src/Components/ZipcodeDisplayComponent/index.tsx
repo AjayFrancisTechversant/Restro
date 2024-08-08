@@ -6,6 +6,7 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import {useAppSelector} from '../../hooks/hooks';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import styles from './style';
+import StaticVariables from '../../Preferences/StaticVariables';
 
 const ZipcodeDisplayComponent = () => {
   const navigation = useNavigation();
@@ -26,7 +27,9 @@ const ZipcodeDisplayComponent = () => {
         {country && `, ${country}`}
       </Text>
       <TouchableOpacity
-        onPress={() => navigation.navigate('EditZipcodeScreen' as never)}>
+        onPress={() =>
+          navigation.navigate(StaticVariables.EditZipcodeScreen as never)
+        }>
         <Feather size={20} name="edit" />
       </TouchableOpacity>
     </View>

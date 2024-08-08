@@ -2,21 +2,19 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Pressable,
   ScrollView,
   KeyboardAvoidingView,
 } from 'react-native';
 import React, {useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './style';
 import FullScreenBGImageBlur from '../../Components/Onboarding/FullScreenBGImageBlur';
-import HeaderComponent from '../../Components/HeaderComponent';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import MyTextInput from '../../Components/MyTextInput';
 import MyButton from '../../Components/MyButton';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import {useNavigation} from '@react-navigation/native';
 import StaticVariables from '../../Preferences/StaticVariables';
+import styles from './style';
 
 const ForgotPasswordScreen = () => {
   const [email, setEmail] = useState(StaticVariables.EMPTY_STRING);
@@ -30,15 +28,13 @@ const ForgotPasswordScreen = () => {
     screenContext,
   );
   const handleSubmit = () => {
-    ///validate
-    navigation.navigate('ChangePasswordScreen' as never);
+    navigation.navigate(StaticVariables.ChangePasswordScreen as never);
   };
   return (
     <KeyboardAvoidingView behavior="position">
       <ScrollView>
         <FullScreenBGImageBlur>
           <View style={screenStyles.container}>
-            <HeaderComponent color={ColorPalette.white}/>
             <View style={screenStyles.mainTextContainer}>
               <Text style={[commonStyles.whiteText, screenStyles.bigText]}>
                 Forgot your Password?

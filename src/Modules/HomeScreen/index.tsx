@@ -1,13 +1,12 @@
 import {View, Text, ScrollView} from 'react-native';
 import React from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import LogoutComponent from '../../Components/LogoutComponent';
-import styles from './style';
 import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import MySegmentedButtons from '../../Components/MySegmentedButtons';
 import ZipcodeDisplayComponent from '../../Components/ZipcodeDisplayComponent';
 import HotelsContainer from '../../Components/HotelsContainer';
+import styles from './style';
 
 const HomeScreen = () => {
   const screenContext = useScreenContext();

@@ -11,17 +11,18 @@ const styles = (
 ) =>
   StyleSheet.create({
     container: {
-      padding: height * 0.02,
       flex: 1,
+      padding: height * 0.02,
     },
-    header: {flexDirection: 'row', justifyContent: 'space-between'},
-    addReviewButton: {},
-    bottomButton: {
+    backButton: {position: 'absolute', left: height * 0.04, top: height * 0.04},
+    heading: {alignSelf: 'center',margin:height*0.02},
+    logoutButton: {
       position: 'absolute',
-      alignSelf: 'center',
-      backgroundColor: ColorPalette.red,
-      bottom: height * 0.03,
-    },
+      top: height * 0.02,
+      right: height * 0.02,
+    },detailsContainer:{
+        backgroundColor:ColorPalette.lightGray,padding:height*0.02,borderRadius:20
+    }
   });
 
 export default styles;
