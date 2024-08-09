@@ -13,7 +13,6 @@ const styles = (
     container: {
       backgroundColor: ColorPalette.lightGray,
       borderRadius: 20,
-      padding: height * 0.01,
       flex: 1,
     },
     textInput: {margin: height * 0.01},
@@ -21,7 +20,7 @@ const styles = (
       position: 'absolute',
       alignSelf: 'center',
       backgroundColor: ColorPalette.red,
-      bottom:0,
+      bottom:height * 0.03,
     },
   });
 

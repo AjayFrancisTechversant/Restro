@@ -85,6 +85,7 @@ const HotelScreen = () => {
           <ReviewsComponent setGoToReviewComponent={setGoToReviewComponent} />
         ) : (
           <>
+          {/* //items Component (wrap it into new)*/}
             <Text>Items Component</Text>
             <MyButton style={screenStyles.bottomButton}>
               <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
