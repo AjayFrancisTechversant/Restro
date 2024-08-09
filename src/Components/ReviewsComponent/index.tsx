@@ -5,8 +5,8 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import {SetStateType} from '../../Types/Types';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import AddReviewComponent, { NewReviewType } from '../AddReviewComponent';
-import styles from './style';
 import MyButton from '../MyButton';
+import styles from './style';
 
 type ReviewsComponentPropsType = {
   setGoToReviewComponent: SetStateType<boolean>;
@@ -61,7 +61,6 @@ const ReviewsComponent: React.FC<ReviewsComponentPropsType> = ({
             </Text>
           </TouchableOpacity>
           <AddReviewComponent handleSubmitReview={handleSubmitReview} setIsAddingReview={setIsAddingReview}/>
-
         </>
       )}
     </View>

@@ -10,15 +10,14 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
-    parentContainer: {flex: 1},
     container: {
       padding: height * 0.02,
-      position: 'absolute',
       flex: 1,
       height,
     },
     headerComponentContainer: {width: width * 0.9},
     bgImage: {
+      position: 'absolute',
       height: height * 0.4,
       width,
       borderBottomLeftRadius: 20,

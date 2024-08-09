@@ -11,7 +11,7 @@ const styles = (
 ) =>
   StyleSheet.create({
     container: {
-      flex: 1,borderWidth:1,marginTop:height*0.01
+      flex: 1,marginTop:height*0.01
     },
     header: {flexDirection: 'row', justifyContent: 'space-between'},
     addReviewButton: {},

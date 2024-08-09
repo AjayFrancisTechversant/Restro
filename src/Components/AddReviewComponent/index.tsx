@@ -9,6 +9,7 @@ import MyButton from '../MyButton';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import styles from './style';
 import {SetStateType} from '../../Types/Types';
+import ColorPalette from '../../Assets/Themes/ColorPalette';
 
 type ErrorType = {
   nameError: boolean;
@@ -84,6 +85,7 @@ const AddReviewComponent: React.FC<AddReviewComponentPropsType> = ({
             ? '*Must be between 1 to 5'
             : undefined
         }
+        keyboardType="numeric"
         label="Rating"
         style={screenStyles.textInput}
         value={newReview.rating}
@@ -98,10 +100,23 @@ const AddReviewComponent: React.FC<AddReviewComponentPropsType> = ({
         style={screenStyles.textInput}
       />
       <MyButton
-        style={screenStyles.bottomButton}
+        disabled={
+          !error.nameError && !error.commentError && !error.ratingError
+            ? false
+            : true
+        }
+        style={[
+          screenStyles.bottomButton,
+          {
+            backgroundColor:
+              !error.commentError && !error.nameError && !error.ratingError
+                ? ColorPalette.red
+                : ColorPalette.lightRed,
+          },
+        ]}
         onPress={() => {
           handleSubmitReview(newReview);
-          setIsAddingReview(false)
+          setIsAddingReview(false);
         }}>
         <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
           Submit Review
