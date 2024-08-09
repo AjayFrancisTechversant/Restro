@@ -12,7 +12,7 @@ const styles = (
   StyleSheet.create({
     container: {
       padding: height * 0.02,
-      flex: 1,borderWidth:1
+      flex: 1
     },
     headerComponentContainer: {width: width * 0.9},
     bgImage: {

@@ -2,7 +2,7 @@ import {View, Text, Image, TouchableOpacity, FlatList} from 'react-native';
 import React, {useState} from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {Chip} from 'react-native-paper';
-import {useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import HeaderComponent from '../../Components/HeaderComponent';
@@ -13,8 +13,10 @@ import ReviewsComponent from '../../Components/ReviewsComponent';
 import FeaturedItemsComponent from '../../Components/FeaturedItemsComponent';
 import {HotelType} from '../../Components/HotelsContainer';
 import styles from './style';
+import StaticVariables from '../../Preferences/StaticVariables';
 
 const HotelScreen = ({route}: any) => {
+  const navigation: any = useNavigation();
   const hotel: HotelType = route.params.hotel;
   const [goToReviewComponent, setGoToReviewComponent] = useState(false);
   const screenContext = useScreenContext();
@@ -25,12 +27,7 @@ const HotelScreen = ({route}: any) => {
     screenContext.isTypeTablet,
     screenContext,
   );
-  // console.log(hotel);
 
-  const handleReviews = () => {
-    //fetch reviews from firebase
-    setGoToReviewComponent(true);
-  };
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
@@ -69,7 +66,7 @@ const HotelScreen = ({route}: any) => {
                 </Chip>
               </View>
               <TouchableOpacity
-                onPress={handleReviews}
+                onPress={() => setGoToReviewComponent(true)}
                 style={screenStyles.ratingsContainerButton}>
                 <FontAwesome name="star" color={ColorPalette.red} size={20} />
                 <FontAwesome name="star" color={ColorPalette.red} size={20} />
@@ -95,17 +92,23 @@ const HotelScreen = ({route}: any) => {
         </>
       }
       data={['']}
-      renderItem={({item, index}) =>
+      renderItem={() =>
         !goToReviewComponent ? (
-          <FeaturedItemsComponent />
+          <FeaturedItemsComponent hotel={hotel} />
         ) : (
-          <ReviewsComponent passedHotelId={hotel.id} setGoToReviewComponent={setGoToReviewComponent} />
+          <ReviewsComponent
+            passedHotelId={hotel.id}
+            setGoToReviewComponent={setGoToReviewComponent}
+          />
         )
       }
       centerContent={true}
       ListFooterComponent={
         !goToReviewComponent ? (
           <MyButton
+            onPress={() =>
+              navigation.navigate(StaticVariables.MenuScreen, {hotel})
+            }
             style={[
               screenStyles.bottomButton,
               {backgroundColor: ColorPalette.red},

@@ -10,11 +10,11 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
-    container: {
-      flex: 1,
-      margin: height * 0.02
+    card: {
+      backgroundColor: ColorPalette.white,
+      borderRadius: 10,
+      padding: height * 0.02,margin:height*0.01,elevation:5
     },
-    header: {flexDirection: 'row', justifyContent: 'space-between'},
   });
 
 export default styles;

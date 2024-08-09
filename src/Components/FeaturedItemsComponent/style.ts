@@ -10,6 +10,7 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
+    container:{margin:height*0.02}
   });
 
 export default styles;

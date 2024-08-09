@@ -7,29 +7,25 @@ import validate from '../../Validation/Validation';
 import StaticVariables from '../../Preferences/StaticVariables';
 import MyButton from '../MyButton';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
-import styles from './style';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import { ReviewType } from '../ReviewsComponent';
+import styles from './style';
 
 type ErrorType = {
   nameError: boolean;
   commentError: boolean;
   ratingError: boolean;
 };
-export type NewReviewType = {
-  name: string;
-  comment: string;
-  rating: string;
-  hotelId: string;
-};
+
 type AddReviewComponentPropsType = {
-  handleSubmitReview: (newReview: NewReviewType) => void;
+  handleSubmitReview: (newReview: ReviewType) => void;
   passedHotelId: string;
 };
 const AddReviewComponent: React.FC<AddReviewComponentPropsType> = ({
   handleSubmitReview,
   passedHotelId,
 }) => {
-  const [newReview, setNewReview] = useState<NewReviewType>({
+  const [newReview, setNewReview] = useState<ReviewType>({
     name: StaticVariables.EMPTY_STRING,
     comment: StaticVariables.EMPTY_STRING,
     rating: StaticVariables.EMPTY_STRING,

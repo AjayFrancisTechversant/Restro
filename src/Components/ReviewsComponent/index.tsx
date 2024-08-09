@@ -1,17 +1,23 @@
 import firestore from '@react-native-firebase/firestore';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import {SetStateType} from '../../Types/Types';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
-import AddReviewComponent, {NewReviewType} from '../AddReviewComponent';
-import MyButton from '../MyButton';
+import AddReviewComponent from '../AddReviewComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import styles from './style';
 import StaticVariables from '../../Preferences/StaticVariables';
+import ReviewCard from '../ReviewCard';
+import styles from './style';
 
-type ReviewType = {
+export type ReviewType = {
   name: string;
   comment: string;
   hotelId: string;
@@ -38,7 +44,7 @@ const ReviewsComponent: React.FC<ReviewsComponentPropsType> = ({
     screenContext.isTypeTablet,
     screenContext,
   );
-  const handleSubmitReview = (newReview: NewReviewType) => {
+  const handleSubmitReview = (newReview: ReviewType) => {
     firestore()
       .collection('reviews')
       .add(newReview)
@@ -46,7 +52,7 @@ const ReviewsComponent: React.FC<ReviewsComponentPropsType> = ({
   };
   useEffect(() => {
     fetchReviews();
-  }, []);
+  }, [isAddingReview]);
   const fetchReviews = () => {
     firestore()
       .collection('reviews')
@@ -57,36 +63,32 @@ const ReviewsComponent: React.FC<ReviewsComponentPropsType> = ({
         setReviews(querySnapshot.docs.map((i: any) => i.data()));
       });
   };
-  console.log(reviews);
-  
+
   return (
     <View style={screenStyles.container}>
       {!isAddingReview ? (
-        <>
-          <View style={screenStyles.header}>
-            <TouchableOpacity onPress={() => setGoToReviewComponent(false)}>
-              <Text style={commonStyles.boldText}>
-                <AntDesign name="arrowleft" size={20} /> Reviews
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => setIsAddingReview(true)}
-              style={screenStyles.addReviewButton}>
-              <Text style={[commonStyles.redText, commonStyles.boldText]}>
-                <AntDesign name="plus" size={20} /> Add your review
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <MyButton
-            style={[
-              screenStyles.bottomButton,
-              {backgroundColor: ColorPalette.red},
-            ]}>
-            <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-              View Menu
-            </Text>
-          </MyButton>
-        </>
+        <FlatList
+          ListHeaderComponent={
+            <View style={screenStyles.header}>
+              <TouchableOpacity onPress={() => setGoToReviewComponent(false)}>
+                <Text style={commonStyles.boldText}>
+                  <AntDesign name="arrowleft" size={20} /> Reviews
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => setIsAddingReview(true)}>
+                <Text style={[commonStyles.redText, commonStyles.boldText]}>
+                  <AntDesign name="plus" size={20} /> Add your review
+                </Text>
+              </TouchableOpacity>
+            </View>
+          }
+          data={reviews}
+          renderItem={({item}) => <ReviewCard review={item} />}
+          ListEmptyComponent={
+            <ActivityIndicator size={50} color={ColorPalette.gray} />
+          }
+        />
       ) : (
         <>
           <TouchableOpacity onPress={() => setIsAddingReview(false)}>

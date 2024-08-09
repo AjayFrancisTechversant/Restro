@@ -30,7 +30,6 @@ const HotelCard: React.FC<HotelCardPropsType> = ({hotel}) => {
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate(StaticVariables.HotelScreen,{hotel})}
-      // send hotel as params
       style={screenStyles.card}>
       <Image
         style={screenStyles.imageStyle}

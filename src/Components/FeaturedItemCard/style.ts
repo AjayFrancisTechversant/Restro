@@ -10,11 +10,17 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
-    container: {
+    card: {
+      padding: height * 0.02,
       flex: 1,
-      margin: height * 0.02
+      backgroundColor: ColorPalette.white,
+      marginTop: height * 0.01,
+      borderRadius: 20,
+      flexDirection: 'row',
+      gap: width * 0.05,
     },
-    header: {flexDirection: 'row', justifyContent: 'space-between'},
+    imageStyle: {height: width * 0.3, width: width * 0.3, borderRadius: 10},
+    hotelDetailsContainer: {padding: height * 0.01, gap: height * 0.01,flexShrink:1},
   });
 
 export default styles;

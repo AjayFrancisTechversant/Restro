@@ -11,10 +11,11 @@ const styles = (
 ) =>
   StyleSheet.create({
     container: {
-      flex: 1,
-      margin: height * 0.02
+      padding: height * 0.02,
+      flex: 1
     },
-    header: {flexDirection: 'row', justifyContent: 'space-between'},
+    headerComponentContainer: {width: width * 0.9},
+
   });
 
 export default styles;
