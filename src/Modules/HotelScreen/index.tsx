@@ -30,7 +30,7 @@ const HotelScreen = () => {
     screenContext,
   );
   return (
-    <KeyboardAvoidingView behavior='position'>
+    <KeyboardAvoidingView behavior="position">
       <ScrollView>
         <Image
           style={screenStyles.bgImage}
