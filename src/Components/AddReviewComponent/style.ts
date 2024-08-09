@@ -14,13 +14,13 @@ const styles = (
       backgroundColor: ColorPalette.lightGray,
       borderRadius: 20,
       flex: 1,
+      margin: height * 0.01,
+      padding: height * 0.01,
     },
     textInput: {margin: height * 0.01},
     bottomButton: {
-      position: 'absolute',
       alignSelf: 'center',
-      backgroundColor: ColorPalette.red,
-      bottom:height * 0.03,
+      backgroundColor: ColorPalette.red,marginBottom:height*0.02
     },
   });
 

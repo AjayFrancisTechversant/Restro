@@ -29,7 +29,7 @@ const AuthorizedStack = () => {
       <Drawer.Screen
         options={{title:"Contact Us",
           drawerIcon: () => (
-            <AntDesign name="form" color={ColorPalette.red} size={20} />
+            <Entypo name="chat" color={ColorPalette.red} size={20} />
           ),
         }}
         name="ContactUsScreen"

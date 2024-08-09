@@ -7,6 +7,7 @@ import {commonStyles} from '../../CommonStyles/CommonStyles';
 import AddReviewComponent, { NewReviewType } from '../AddReviewComponent';
 import MyButton from '../MyButton';
 import styles from './style';
+import ColorPalette from '../../Assets/Themes/ColorPalette';
 
 type ReviewsComponentPropsType = {
   setGoToReviewComponent: SetStateType<boolean>;
@@ -47,7 +48,11 @@ const ReviewsComponent: React.FC<ReviewsComponentPropsType> = ({
               </Text>
             </TouchableOpacity>
           </View>
-          <MyButton style={screenStyles.bottomButton}>
+          <MyButton
+            style={[
+              screenStyles.bottomButton,
+              {backgroundColor: ColorPalette.red},
+            ]}>
             <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
               View Menu
             </Text>

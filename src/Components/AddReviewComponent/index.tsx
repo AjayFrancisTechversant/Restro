@@ -72,33 +72,35 @@ const AddReviewComponent: React.FC<AddReviewComponentPropsType> = ({
   };
 
   return (
-    <View style={screenStyles.container}>
-      <MyTextInput
-        label="Name"
-        style={screenStyles.textInput}
-        value={newReview.name}
-        onChangeText={text => HandleOnChangeText(text, 'name')}
-      />
-      <MyTextInput
-        errorText={
-          error.ratingError && newReview.rating
-            ? '*Must be between 1 to 5'
-            : undefined
-        }
-        keyboardType="numeric"
-        label="Rating"
-        style={screenStyles.textInput}
-        value={newReview.rating}
-        onChangeText={text => HandleOnChangeText(text, 'rating')}
-      />
-      <MyTextInput
-        label="Comments"
-        value={newReview.comment}
-        onChangeText={text => HandleOnChangeText(text, 'comment')}
-        multiline
-        numberOfLines={3}
-        style={screenStyles.textInput}
-      />
+    <>
+      <View style={screenStyles.container}>
+        <MyTextInput
+          label="Name"
+          style={screenStyles.textInput}
+          value={newReview.name}
+          onChangeText={text => HandleOnChangeText(text, 'name')}
+        />
+        <MyTextInput
+          errorText={
+            error.ratingError && newReview.rating
+              ? '*Must be between 1 to 5'
+              : undefined
+          }
+          keyboardType="numeric"
+          label="Rating"
+          style={screenStyles.textInput}
+          value={newReview.rating}
+          onChangeText={text => HandleOnChangeText(text, 'rating')}
+        />
+        <MyTextInput
+          label="Comments"
+          value={newReview.comment}
+          onChangeText={text => HandleOnChangeText(text, 'comment')}
+          multiline
+          numberOfLines={3}
+          style={screenStyles.textInput}
+        />
+      </View>
       <MyButton
         disabled={
           !error.nameError && !error.commentError && !error.ratingError
@@ -122,7 +124,7 @@ const AddReviewComponent: React.FC<AddReviewComponentPropsType> = ({
           Submit Review
         </Text>
       </MyButton>
-    </View>
+    </>
   );
 };
 

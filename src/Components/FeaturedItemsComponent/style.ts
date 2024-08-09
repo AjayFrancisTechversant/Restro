@@ -10,16 +10,6 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
-    container: {
-      flex: 1,
-      marginTop: height * 0.01,
-    },
-    header: {flexDirection: 'row', justifyContent: 'space-between'},
-    addReviewButton: {},
-    bottomButton: {
-      alignSelf: 'center',
-      backgroundColor: ColorPalette.red,
-    },
   });
 
 export default styles;

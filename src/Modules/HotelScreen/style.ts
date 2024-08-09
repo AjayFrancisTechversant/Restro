@@ -12,8 +12,7 @@ const styles = (
   StyleSheet.create({
     container: {
       padding: height * 0.02,
-      flex: 1,
-      height,
+      flex: 1,borderWidth:1
     },
     headerComponentContainer: {width: width * 0.9},
     bgImage: {
@@ -49,10 +48,7 @@ const styles = (
       padding: 0,
     },
     bottomButton: {
-      position: 'absolute',
-      alignSelf: 'center',
-      backgroundColor: ColorPalette.red,
-      bottom: height * 0.05,
+      alignSelf: 'center',marginBottom:height*0.02
     },
   });
 

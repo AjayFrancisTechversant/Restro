@@ -5,7 +5,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import React, {ReactNode} from 'react';
-import { useScreenContext } from '../../Contexts/ScreenContext';
+import {useScreenContext} from '../../Contexts/ScreenContext';
 
 type MyButtonPropsType = {
   children: ReactNode;
@@ -20,7 +20,8 @@ const MyButton: React.FC<MyButtonPropsType> = ({children, style, ...props}) => {
           borderRadius: 10,
           padding: 15,
           alignItems: 'center',
-          justifyContent: 'center',width:screenContext.width*0.9
+          justifyContent: 'center',
+          width: screenContext.width * 0.9,
         },
         style,
       ]}
