@@ -1,22 +1,35 @@
+import firestore from '@react-native-firebase/firestore';
 import {View, Text, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import {SetStateType} from '../../Types/Types';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
-import AddReviewComponent, { NewReviewType } from '../AddReviewComponent';
+import AddReviewComponent, {NewReviewType} from '../AddReviewComponent';
 import MyButton from '../MyButton';
-import styles from './style';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import styles from './style';
+import StaticVariables from '../../Preferences/StaticVariables';
 
+type ReviewType = {
+  name: string;
+  comment: string;
+  hotelId: string;
+  rating: string;
+};
 type ReviewsComponentPropsType = {
   setGoToReviewComponent: SetStateType<boolean>;
+  passedHotelId: string;
 };
 
 const ReviewsComponent: React.FC<ReviewsComponentPropsType> = ({
   setGoToReviewComponent,
+  passedHotelId,
 }) => {
   const [isAddingReview, setIsAddingReview] = useState(false);
+  const [reviews, setReviews] = useState<ReviewType[]>(
+    StaticVariables.EMPTY_ARRAY,
+  );
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -25,11 +38,27 @@ const ReviewsComponent: React.FC<ReviewsComponentPropsType> = ({
     screenContext.isTypeTablet,
     screenContext,
   );
-  const handleSubmitReview = (newReview:NewReviewType) => {
-    console.log(newReview);
-    
+  const handleSubmitReview = (newReview: NewReviewType) => {
+    firestore()
+      .collection('reviews')
+      .add(newReview)
+      .then(() => setIsAddingReview(false));
   };
-
+  useEffect(() => {
+    fetchReviews();
+  }, []);
+  const fetchReviews = () => {
+    firestore()
+      .collection('reviews')
+      // Filter results
+      .where('hotelId', '==', passedHotelId)
+      .get()
+      .then(querySnapshot => {
+        setReviews(querySnapshot.docs.map((i: any) => i.data()));
+      });
+  };
+  console.log(reviews);
+  
   return (
     <View style={screenStyles.container}>
       {!isAddingReview ? (
@@ -65,7 +94,10 @@ const ReviewsComponent: React.FC<ReviewsComponentPropsType> = ({
               <AntDesign name="arrowleft" size={20} /> Add your Review
             </Text>
           </TouchableOpacity>
-          <AddReviewComponent handleSubmitReview={handleSubmitReview} setIsAddingReview={setIsAddingReview}/>
+          <AddReviewComponent
+            passedHotelId={passedHotelId}
+            handleSubmitReview={handleSubmitReview}
+          />
         </>
       )}
     </View>

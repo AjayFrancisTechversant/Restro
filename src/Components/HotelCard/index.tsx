@@ -16,7 +16,7 @@ type HotelCardPropsType = {
 };
 
 const HotelCard: React.FC<HotelCardPropsType> = ({hotel}) => {
-  const navigation = useNavigation();
+  const navigation:any = useNavigation();
   const [isBookmarked, setIsBookmarked] = useState(false);
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -29,7 +29,7 @@ const HotelCard: React.FC<HotelCardPropsType> = ({hotel}) => {
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate(StaticVariables.HotelScreen as never)}
+      onPress={() => navigation.navigate(StaticVariables.HotelScreen,{hotel})}
       // send hotel as params
       style={screenStyles.card}>
       <Image

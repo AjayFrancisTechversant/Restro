@@ -1,6 +1,6 @@
 import {Text, View} from 'react-native';
 import React, {useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import MyTextInput from '../MyTextInput';
 import validate from '../../Validation/Validation';
@@ -8,7 +8,6 @@ import StaticVariables from '../../Preferences/StaticVariables';
 import MyButton from '../MyButton';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import styles from './style';
-import {SetStateType} from '../../Types/Types';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 
 type ErrorType = {
@@ -20,20 +19,21 @@ export type NewReviewType = {
   name: string;
   comment: string;
   rating: string;
+  hotelId: string;
 };
 type AddReviewComponentPropsType = {
   handleSubmitReview: (newReview: NewReviewType) => void;
-  setIsAddingReview: SetStateType<boolean>;
+  passedHotelId: string;
 };
 const AddReviewComponent: React.FC<AddReviewComponentPropsType> = ({
   handleSubmitReview,
-  setIsAddingReview,
+  passedHotelId,
 }) => {
-  const navigation = useNavigation();
   const [newReview, setNewReview] = useState<NewReviewType>({
     name: StaticVariables.EMPTY_STRING,
     comment: StaticVariables.EMPTY_STRING,
     rating: StaticVariables.EMPTY_STRING,
+    hotelId: passedHotelId,
   });
   const [error, setError] = useState<ErrorType>({
     commentError: true,
@@ -118,7 +118,6 @@ const AddReviewComponent: React.FC<AddReviewComponentPropsType> = ({
         ]}
         onPress={() => {
           handleSubmitReview(newReview);
-          setIsAddingReview(false);
         }}>
         <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
           Submit Review

@@ -2,17 +2,20 @@ import {View, Text, Image, TouchableOpacity, FlatList} from 'react-native';
 import React, {useState} from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {Chip} from 'react-native-paper';
+import {useRoute} from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import MyButton from '../../Components/MyButton';
-import styles from './style';
 import ReviewsComponent from '../../Components/ReviewsComponent';
 import FeaturedItemsComponent from '../../Components/FeaturedItemsComponent';
+import {HotelType} from '../../Components/HotelsContainer';
+import styles from './style';
 
-const HotelScreen = () => {
+const HotelScreen = ({route}: any) => {
+  const hotel: HotelType = route.params.hotel;
   const [goToReviewComponent, setGoToReviewComponent] = useState(false);
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -22,7 +25,7 @@ const HotelScreen = () => {
     screenContext.isTypeTablet,
     screenContext,
   );
-  console.log(goToReviewComponent);
+  // console.log(hotel);
 
   const handleReviews = () => {
     //fetch reviews from firebase
@@ -37,22 +40,22 @@ const HotelScreen = () => {
             style={screenStyles.bgImage}
             blurRadius={5}
             source={{
-              uri: 'https://firebasestorage.googleapis.com/v0/b/restro-8208a.appspot.com/o/HeroHotelImage.jpg?alt=media&token=4717bbdb-8a21-4038-a2a2-94942ad5de6f',
+              uri: hotel.image,
             }}
           />
           <View style={screenStyles.container}>
             <View style={screenStyles.headerComponentContainer}>
-              <HeaderComponent color={ColorPalette.white} />
+              <HeaderComponent color={ColorPalette.gray} />
             </View>
             <View style={screenStyles.hotelDetailscontainer}>
-              <Text style={commonStyles.bigBoldText}>Hotel Name</Text>
+              <Text style={commonStyles.bigBoldText}>{hotel.name}</Text>
               <Text>
                 <Entypo
                   name="location-pin"
                   color={ColorPalette.gray}
                   size={20}
                 />
-                Hotel location
+                {hotel.location}
               </Text>
               <View style={screenStyles.chipsContainer}>
                 <Chip icon="check" disabled>
@@ -77,7 +80,7 @@ const HotelScreen = () => {
                   color={ColorPalette.red}
                   size={20}
                 />
-                <Text> Rating</Text>
+                <Text> {hotel.rating}</Text>
               </TouchableOpacity>
               <View style={screenStyles.reservationContainer}>
                 <Text style={commonStyles.redText}>
@@ -96,7 +99,7 @@ const HotelScreen = () => {
         !goToReviewComponent ? (
           <FeaturedItemsComponent />
         ) : (
-          <ReviewsComponent setGoToReviewComponent={setGoToReviewComponent} />
+          <ReviewsComponent passedHotelId={hotel.id} setGoToReviewComponent={setGoToReviewComponent} />
         )
       }
       centerContent={true}

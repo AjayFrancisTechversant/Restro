@@ -21,9 +21,13 @@ const HotelsContainer = () => {
   useEffect(() => {
     fecthHotels();
   }, []);
-  const fecthHotels = async () => {
-    const fetchedHotels: any = await firestore().collection('hotels').get();
-    setHotels(fetchedHotels.docs.map((i: any) => i.data()));
+  const fecthHotels = () => {
+    firestore()
+      .collection('hotels')
+      .get()
+      .then(querySnapshot =>
+        setHotels(querySnapshot.docs.map((i: any) => i.data())),
+      );
   };
   const screenContext = useScreenContext();
   const screenStyles = styles(
