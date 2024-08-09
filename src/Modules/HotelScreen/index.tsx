@@ -20,8 +20,8 @@ import ReviewsComponent from '../../Components/ReviewsComponent';
 import styles from './style';
 
 const HotelScreen = () => {
-  const screenContext = useScreenContext();
   const [goToReviewComponent, setGoToReviewComponent] = useState(false);
+  const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
     screenContext.isPortrait ? screenContext.width : screenContext.height,

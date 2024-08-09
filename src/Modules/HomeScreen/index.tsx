@@ -1,4 +1,4 @@
-import {View, Text, ScrollView} from 'react-native';
+import {View} from 'react-native';
 import React from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import HeaderComponent from '../../Components/HeaderComponent';
@@ -21,11 +21,10 @@ const HomeScreen = () => {
   return (
     <View
       style={screenStyles.container}>
-      <HeaderComponent color={ColorPalette.black} />
+      <HeaderComponent color={ColorPalette.gray} />
       <MySegmentedButtons />
       <ZipcodeDisplayComponent />
       <HotelsContainer />
-      {/* <LogoutComponent /> */}
     </View>
   );
 };

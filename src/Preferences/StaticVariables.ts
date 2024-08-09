@@ -9,9 +9,11 @@ const StaticVariables = {
   SignInScreen: 'SignInScreen',
   ForgotPasswordScreen: 'ForgotPasswordScreen',
   ChangePasswordScreen: 'ChangePasswordScreen',
+  HomeStack: 'HomeStack',
   HomeScreen: 'HomeScreen',
   ProfileScreen: 'ProfileScreen',
   EditZipcodeScreen: 'EditZipcodeScreen',
   HotelScreen: 'HotelScreen',
+  ContactUsScreen: 'ContactUsScreen',
 };
 export default StaticVariables;
