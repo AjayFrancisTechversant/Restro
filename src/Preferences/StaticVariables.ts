@@ -1,5 +1,6 @@
 const StaticVariables = {
   ADMIN_UID: 'we6tn0gQieW6MnYxywoohjNhsP63',
+  ADMIN_Email: 'admin@gmail.com',
   EMPTY_STRING: '',
   EMPTY_ARRAY: [] as any[],
   EMPTY_OBJECT: {},

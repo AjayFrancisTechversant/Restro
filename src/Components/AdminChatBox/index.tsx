@@ -1,26 +1,78 @@
-import {View, Text, FlatList} from 'react-native';
+import {View, TouchableOpacity, FlatList, Alert} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import firestore from '@react-native-firebase/firestore';
+import firestore, {Filter} from '@react-native-firebase/firestore';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import auth from '@react-native-firebase/auth';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './style';
+import {SetStateType} from '../../Types/Types';
 import StaticVariables from '../../Preferences/StaticVariables';
 import {MessageType} from '../../Modules/ContactUsScreen';
-import AdminChatboxCard from '../AdminChatboxCard';
+import EachMessageComponent from '../EachMessageComponent';
+import MyTextInput from '../MyTextInput';
+import {TextInput} from 'react-native-paper';
+import ColorPalette from '../../Assets/Themes/ColorPalette';
 
-const AdminChatBox = () => {
-  const [messageSets, setMessageSets] = useState<MessageType[]>(
+type AdminChatBoxPropsType = {
+  setSelectedEmail: SetStateType<string>;
+  selectedEmail: string;
+};
+const AdminChatBox: React.FC<AdminChatBoxPropsType> = ({
+  setSelectedEmail,
+  selectedEmail,
+}) => {
+  const currentUserId = auth().currentUser?.uid;
+  const currentUserEmail = auth().currentUser?.email;
+  const [messages, setMessages] = useState<MessageType[]>(
     StaticVariables.EMPTY_ARRAY,
   );
+  const [newMessage, setNewMessage] = useState<MessageType>({
+    createdAt: firestore.FieldValue.serverTimestamp(),
+    text: StaticVariables.EMPTY_STRING,
+    fromUid: currentUserId,
+    toUid: StaticVariables.EMPTY_STRING,
+    fromEmail: currentUserEmail,
+  });
+
   useEffect(() => {
     const subscriber = firestore()
       .collection('messages')
-      .where('toUid', '==', StaticVariables.ADMIN_UID)
+      .where(
+        Filter.or(
+          Filter('fromEmail', '==', selectedEmail),
+          Filter('toUid', '==', StaticVariables.ADMIN_UID),
+        ),
+      )
+      // .orderBy('createdAt', 'asc')
       .onSnapshot(querrySnapshot => {
-        console.log(querrySnapshot.docs.map((i: any) => i.data()));
+        // console.log(documentSnapshot);
+        const sortedMessages: any = querrySnapshot?.docs
+          .map(i => i.data())
+          .sort((a, b) => a.createdAt - b.createdAt);
+        setMessages(sortedMessages);
+        setNewMessage({...newMessage, toUid: sortedMessages[0].fromUid});
       });
     return () => subscriber();
-  }, []);
-  console.log(messageSets);
+  }, [currentUserId]);
+
+  const handleSendMessage = () => {
+    setNewMessage({
+      ...newMessage,
+      createdAt: firestore.FieldValue.serverTimestamp(),
+      toUid: messages[0].fromUid,
+    });
+    firestore()
+      .collection('messages')
+      .add(newMessage)
+      .then(() => {
+        setNewMessage({
+          ...newMessage,
+          text: StaticVariables.EMPTY_STRING,
+          createdAt: firestore.FieldValue.serverTimestamp(),
+        });
+      })
+      .catch(error => Alert.alert(error));
+  };
 
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -31,12 +83,29 @@ const AdminChatBox = () => {
     screenContext,
   );
   return (
-    <View style={screenStyles.container}>
-      <Text>Hey Admin, you have messages from:</Text>
-      {/* <FlatList
-        data={messagesForAdmin}
-        renderItem={({item}) => <AdminChatboxCard messageSets={item} />}
-      /> */}
+    <View>
+      <TouchableOpacity
+        style={screenStyles.backButton}
+        onPress={() => setSelectedEmail(StaticVariables.EMPTY_STRING)}>
+        <AntDesign name="arrowleft" size={30} />
+      </TouchableOpacity>
+      <FlatList
+        data={messages}
+        renderItem={({item}) => <EachMessageComponent message={item} />}
+      />
+      <MyTextInput
+        value={newMessage.text}
+        style={screenStyles.textInput}
+        onChangeText={txt => setNewMessage({...newMessage, text: txt})}
+        right={
+          <TextInput.Icon
+            disabled={!newMessage.text}
+            icon="send"
+            color={ColorPalette.blue}
+            onPress={handleSendMessage}
+          />
+        }
+      />
     </View>
   );
 };

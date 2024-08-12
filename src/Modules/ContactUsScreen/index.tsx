@@ -7,15 +7,16 @@ import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import NotAdminChatBox from '../../Components/NotAdminChatBox';
-import styles from './style';
 import StaticVariables from '../../Preferences/StaticVariables';
-import AdminChatBox from '../../Components/AdminChatBox';
+import AdminChat from '../../Components/AdminChat';
+import styles from './style';
 
 export type MessageType = {
   text: string;
   createdAt: FieldValue;
   fromUid: string | undefined;
-  toUid: string;
+  toUid: string|undefined |null;
+  fromEmail: string | undefined | null;
 };
 const ContactUsScreen = () => {
   const currentUserId = auth().currentUser?.uid;
@@ -34,7 +35,7 @@ const ContactUsScreen = () => {
       <Text style={[screenStyles.heading, commonStyles.bigBoldText]}>
         Chat with Us
       </Text>
-      {isAdmin ? <AdminChatBox /> : <NotAdminChatBox />}
+      {isAdmin ? <AdminChat /> : <NotAdminChatBox />}
     </View>
   );
 };

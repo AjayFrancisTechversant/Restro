@@ -1,6 +1,6 @@
 import {View, Text, FlatList, Alert} from 'react-native';
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
+import firestore, { Filter } from '@react-native-firebase/firestore';
 import React, {useEffect, useState} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import MyTextInput from '../MyTextInput';
@@ -13,11 +13,13 @@ import styles from './style';
 
 const NotAdminChatBox = () => {
   const currentUserId = auth().currentUser?.uid;
+  const currentUserEmail = auth().currentUser?.email;
   const [newMessage, setNewMessage] = useState<MessageType>({
     createdAt: firestore.FieldValue.serverTimestamp(),
     text: StaticVariables.EMPTY_STRING,
     fromUid: currentUserId,
     toUid: StaticVariables.ADMIN_UID,
+    fromEmail: currentUserEmail,
   });
   const [messages, setMessages] = useState<MessageType[]>(
     StaticVariables.EMPTY_ARRAY,
@@ -34,11 +36,11 @@ const NotAdminChatBox = () => {
   useEffect(() => {
     const subscriber = firestore()
       .collection('messages')
-      .where('fromUid', '==', currentUserId)
+      .where(Filter.or(Filter('fromUid', '==', currentUserId),Filter('toUid','==',currentUserId)))
       // .orderBy('createdAt', 'asc')
-      .onSnapshot(documentSnapshot => {
+      .onSnapshot(querrySnapshot => {
         // console.log(documentSnapshot);
-        const sortedMessages: any = documentSnapshot?.docs
+        const sortedMessages: any = querrySnapshot?.docs
           .map(i => i.data())
           .sort((a, b) => a.createdAt - b.createdAt);
         setMessages(sortedMessages);

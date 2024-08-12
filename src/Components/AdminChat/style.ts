@@ -10,9 +10,12 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
-    bubble: {
-      padding: height * 0.01,
-      borderRadius: 20,
+    container: {
+      borderRadius: 10,
+      borderWidth: 0.5,
+      borderColor: ColorPalette.gray,
+      flex: 1,
+      padding: height * 0.02,
     },
   });
 

@@ -3,8 +3,9 @@ import React from 'react';
 import auth from '@react-native-firebase/auth';
 import {MessageType} from '../../Modules/ContactUsScreen';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import { commonStyles } from '../../CommonStyles/CommonStyles';
+import {commonStyles} from '../../CommonStyles/CommonStyles';
 import styles from './style';
+import ColorPalette from '../../Assets/Themes/ColorPalette';
 
 type EachMessageComponentPropsType = {
   message: MessageType;
@@ -22,15 +23,22 @@ const EachMessageComponent: React.FC<EachMessageComponentPropsType> = ({
     screenContext.isTypeTablet,
     screenContext,
   );
-  console.log(isMyMessage);
 
   return (
     <View
       style={[
         screenStyles.bubble,
+        {
+          backgroundColor: isMyMessage
+            ? ColorPalette.blue
+            : ColorPalette.lightGray,
+        },
         {alignSelf: isMyMessage ? 'flex-end' : 'flex-start'},
       ]}>
-      <Text style={commonStyles.whiteText}>{message.text}</Text>
+      <Text
+        style={{color: isMyMessage ? ColorPalette.white : ColorPalette.black}}>
+        {message.text}
+      </Text>
     </View>
   );
 };
