@@ -3,15 +3,15 @@ import React, {useEffect, useState} from 'react';
 import firestore, {Filter} from '@react-native-firebase/firestore';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import auth from '@react-native-firebase/auth';
+import {TextInput} from 'react-native-paper';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './style';
 import {SetStateType} from '../../Types/Types';
 import StaticVariables from '../../Preferences/StaticVariables';
 import {MessageType} from '../../Modules/ContactUsScreen';
 import EachMessageComponent from '../EachMessageComponent';
 import MyTextInput from '../MyTextInput';
-import {TextInput} from 'react-native-paper';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import styles from './style';
 
 type AdminChatBoxPropsType = {
   setSelectedEmail: SetStateType<string>;
@@ -26,12 +26,12 @@ const AdminChatBox: React.FC<AdminChatBoxPropsType> = ({
   const [messages, setMessages] = useState<MessageType[]>(
     StaticVariables.EMPTY_ARRAY,
   );
+  
   const [newMessage, setNewMessage] = useState<MessageType>({
     createdAt: firestore.FieldValue.serverTimestamp(),
     text: StaticVariables.EMPTY_STRING,
-    fromUid: currentUserId,
-    toUid: StaticVariables.EMPTY_STRING,
     fromEmail: currentUserEmail,
+    toEmail: selectedEmail,
   });
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const AdminChatBox: React.FC<AdminChatBoxPropsType> = ({
       .where(
         Filter.or(
           Filter('fromEmail', '==', selectedEmail),
-          Filter('toUid', '==', StaticVariables.ADMIN_UID),
+          Filter('fromEmail', '==', StaticVariables.ADMIN_Email),
         ),
       )
       // .orderBy('createdAt', 'asc')
@@ -50,7 +50,6 @@ const AdminChatBox: React.FC<AdminChatBoxPropsType> = ({
           .map(i => i.data())
           .sort((a, b) => a.createdAt - b.createdAt);
         setMessages(sortedMessages);
-        setNewMessage({...newMessage, toUid: sortedMessages[0].fromUid});
       });
     return () => subscriber();
   }, [currentUserId]);
@@ -59,7 +58,6 @@ const AdminChatBox: React.FC<AdminChatBoxPropsType> = ({
     setNewMessage({
       ...newMessage,
       createdAt: firestore.FieldValue.serverTimestamp(),
-      toUid: messages[0].fromUid,
     });
     firestore()
       .collection('messages')

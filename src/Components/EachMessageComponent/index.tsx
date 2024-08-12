@@ -13,8 +13,8 @@ type EachMessageComponentPropsType = {
 const EachMessageComponent: React.FC<EachMessageComponentPropsType> = ({
   message,
 }) => {
-  const currentUserId = auth().currentUser?.uid;
-  const isMyMessage = message.fromUid == currentUserId;
+  const currentUserEmail = auth().currentUser?.email;
+  const isMyMessage = message.fromEmail == currentUserEmail;
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,

@@ -1,11 +1,11 @@
 import {View, Text, FlatList, Alert} from 'react-native';
 import auth from '@react-native-firebase/auth';
-import firestore, { Filter } from '@react-native-firebase/firestore';
+import firestore, {Filter} from '@react-native-firebase/firestore';
+import {TextInput} from 'react-native-paper';
 import React, {useEffect, useState} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import MyTextInput from '../MyTextInput';
 import StaticVariables from '../../Preferences/StaticVariables';
-import {TextInput} from 'react-native-paper';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {MessageType} from '../../Modules/ContactUsScreen';
 import EachMessageComponent from '../EachMessageComponent';
@@ -17,9 +17,8 @@ const NotAdminChatBox = () => {
   const [newMessage, setNewMessage] = useState<MessageType>({
     createdAt: firestore.FieldValue.serverTimestamp(),
     text: StaticVariables.EMPTY_STRING,
-    fromUid: currentUserId,
-    toUid: StaticVariables.ADMIN_UID,
     fromEmail: currentUserEmail,
+    toEmail: StaticVariables.ADMIN_Email,
   });
   const [messages, setMessages] = useState<MessageType[]>(
     StaticVariables.EMPTY_ARRAY,
@@ -36,7 +35,12 @@ const NotAdminChatBox = () => {
   useEffect(() => {
     const subscriber = firestore()
       .collection('messages')
-      .where(Filter.or(Filter('fromUid', '==', currentUserId),Filter('toUid','==',currentUserId)))
+      .where(
+        Filter.or(
+          Filter('fromEmail', '==', currentUserEmail),
+          Filter('toEmail', '==', currentUserEmail),
+        ),
+      )
       // .orderBy('createdAt', 'asc')
       .onSnapshot(querrySnapshot => {
         // console.log(documentSnapshot);

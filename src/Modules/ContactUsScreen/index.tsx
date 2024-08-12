@@ -14,8 +14,7 @@ import styles from './style';
 export type MessageType = {
   text: string;
   createdAt: FieldValue;
-  fromUid: string | undefined;
-  toUid: string|undefined |null;
+  toEmail: string | undefined | null;
   fromEmail: string | undefined | null;
 };
 const ContactUsScreen = () => {

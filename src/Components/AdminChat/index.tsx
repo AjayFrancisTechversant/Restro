@@ -19,7 +19,7 @@ const AdminChat = () => {
   useEffect(() => {
     const subscriber = firestore()
       .collection('messages')
-      .where('toUid', '==', StaticVariables.ADMIN_UID)
+      .where('toEmail', '==', StaticVariables.ADMIN_Email)
       .onSnapshot(querrySnapshot => {
         var tempArrOfFromEmailIds = StaticVariables.EMPTY_ARRAY;
         querrySnapshot.docs
@@ -58,7 +58,10 @@ const AdminChat = () => {
           />
         </>
       ) : (
-        <AdminChatBox selectedEmail={selectedEmail} setSelectedEmail={setSelectedEmail} />
+        <AdminChatBox
+          selectedEmail={selectedEmail}
+          setSelectedEmail={setSelectedEmail}
+        />
       )}
     </View>
   );
