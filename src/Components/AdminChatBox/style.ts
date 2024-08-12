@@ -10,6 +10,10 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
+    container: {
+      flex: 1,
+      borderRadius: 10,
+    },
     backButton: {},
     textInput: {borderWidth: 0.5},
   });

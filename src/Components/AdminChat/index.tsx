@@ -48,7 +48,10 @@ const AdminChat = () => {
       {!selectedEmail ? (
         <>
           <Text>Hey Admin, you have messages from:</Text>
-          <FlatList ListEmptyComponent={<Text>No one</Text>}
+          <FlatList
+            ListEmptyComponent={
+              <Text style={screenStyles.emptyTextStyle}>No one :)</Text>
+            }
             data={fromEmailIds}
             renderItem={({item}) => (
               <AdminChatCard

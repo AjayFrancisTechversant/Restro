@@ -81,13 +81,14 @@ const AdminChatBox: React.FC<AdminChatBoxPropsType> = ({
     screenContext,
   );
   return (
-    <View>
+    <View style={screenStyles.container}>
       <TouchableOpacity
         style={screenStyles.backButton}
         onPress={() => setSelectedEmail(StaticVariables.EMPTY_STRING)}>
         <AntDesign name="arrowleft" size={30} />
       </TouchableOpacity>
       <FlatList
+        showsVerticalScrollIndicator={false}
         data={messages}
         renderItem={({item}) => <EachMessageComponent message={item} />}
       />

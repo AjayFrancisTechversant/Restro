@@ -32,7 +32,7 @@ const ContactUsScreen = () => {
     <View style={screenStyles.container}>
       <HeaderComponent color={ColorPalette.gray} />
       <Text style={[screenStyles.heading, commonStyles.bigBoldText]}>
-        Chat with Us
+        {!isAdmin ? `Chat with Us` : `Chat as Admin`}
       </Text>
       {isAdmin ? <AdminChat /> : <NotAdminChatBox />}
     </View>
