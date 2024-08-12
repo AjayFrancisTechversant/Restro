@@ -10,6 +10,7 @@ const ColorPalette = {
   lightGray: '#dee6dc',
   red: '#e11f26',
   lightRed: '#ea747a',
+  blue: '#318dde',
 };
 
 export default ColorPalette;

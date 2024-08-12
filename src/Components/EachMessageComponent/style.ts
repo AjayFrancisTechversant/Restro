@@ -10,11 +10,11 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
-    container: {
-      padding: height * 0.02,
-      flex: 1,
+    bubble: {
+      padding: height * 0.01,
+      borderRadius: 20,
+      backgroundColor: ColorPalette.blue,
     },
-    heading: {alignSelf:'center'},
   });
 
 export default styles;

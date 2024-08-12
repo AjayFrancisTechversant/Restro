@@ -56,7 +56,6 @@ const ReviewsComponent: React.FC<ReviewsComponentPropsType> = ({
   const fetchReviews = () => {
     firestore()
       .collection('reviews')
-      // Filter results
       .where('hotelId', '==', passedHotelId)
       .get()
       .then(querySnapshot => {

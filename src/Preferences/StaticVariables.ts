@@ -1,4 +1,5 @@
 const StaticVariables = {
+  ADMIN_UID: 'we6tn0gQieW6MnYxywoohjNhsP63',
   EMPTY_STRING: '',
   EMPTY_ARRAY: [] as any[],
   EMPTY_OBJECT: {},

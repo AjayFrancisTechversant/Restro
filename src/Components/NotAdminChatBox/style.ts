@@ -11,10 +11,13 @@ const styles = (
 ) =>
   StyleSheet.create({
     container: {
-      padding: height * 0.02,
+      borderWidth: 0.5,
       flex: 1,
+      padding: height * 0.01,
+      borderRadius: 10,
+      borderColor: ColorPalette.gray,
     },
-    heading: {alignSelf:'center'},
+    textInput: {borderWidth: 0.5},
   });
 
 export default styles;
