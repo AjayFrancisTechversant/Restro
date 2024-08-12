@@ -40,7 +40,7 @@ const AdminChatBox: React.FC<AdminChatBoxPropsType> = ({
       .where(
         Filter.or(
           Filter('fromEmail', '==', selectedEmail),
-          Filter('fromEmail', '==', StaticVariables.ADMIN_Email),
+          Filter('toEmail', '==', selectedEmail),
         ),
       )
       // .orderBy('createdAt', 'asc')

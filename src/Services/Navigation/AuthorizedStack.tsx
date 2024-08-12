@@ -11,7 +11,7 @@ const Drawer = createDrawerNavigator();
 const AuthorizedStack = () => {
   return (
     <Drawer.Navigator
-      initialRouteName="ContactUsScreen"
+      initialRouteName="HomeStack"
       screenOptions={{
         drawerPosition: 'left',
         headerShown: false,
