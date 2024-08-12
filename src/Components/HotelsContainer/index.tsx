@@ -5,6 +5,7 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import HotelCard from '../HotelCard';
 import StaticVariables from '../../Preferences/StaticVariables';
 import styles from './style';
+import ColorPalette from '../../Assets/Themes/ColorPalette';
 
 export type HotelType = {
   name: string;
@@ -40,7 +41,7 @@ const HotelsContainer = () => {
   return (
     <View style={screenStyles.container}>
       <FlatList
-        ListEmptyComponent={<ActivityIndicator />}
+        ListEmptyComponent={<ActivityIndicator size={50} color={ColorPalette.gray}/>}
         data={hotels}
         renderItem={({item}) => <HotelCard hotel={item} />}
       />

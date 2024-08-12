@@ -17,10 +17,10 @@ const HomeScreen = () => {
     screenContext.isTypeTablet,
     screenContext,
   );
+
   //use SwitchCase for conditionally rendering
   return (
-    <View
-      style={screenStyles.container}>
+    <View style={screenStyles.container}>
       <HeaderComponent color={ColorPalette.gray} />
       <MySegmentedButtons />
       <ZipcodeDisplayComponent />

@@ -15,7 +15,6 @@ const MenuScreen = ({route}: any) => {
     screenContext.isTypeTablet,
     screenContext,
   );
-  console.log(hotel);
 
   return (
     <View style={screenStyles.container}>
