@@ -26,7 +26,7 @@ const AdminChatBox: React.FC<AdminChatBoxPropsType> = ({
   const [messages, setMessages] = useState<MessageType[]>(
     StaticVariables.EMPTY_ARRAY,
   );
-  
+
   const [newMessage, setNewMessage] = useState<MessageType>({
     createdAt: firestore.FieldValue.serverTimestamp(),
     text: StaticVariables.EMPTY_STRING,

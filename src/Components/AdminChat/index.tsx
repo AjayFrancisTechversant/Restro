@@ -10,6 +10,7 @@ import AdminChatBox from '../AdminChatBox';
 import styles from './style';
 
 const AdminChat = () => {
+  const currentUserId = auth().currentUser?.uid;
   const [fromEmailIds, setFromEmailIds] = useState<string[]>(
     StaticVariables.EMPTY_ARRAY,
   );
@@ -32,7 +33,7 @@ const AdminChat = () => {
         setFromEmailIds(tempArrOfFromEmailIds);
       });
     return () => subscriber();
-  }, []);
+  }, [currentUserId]);
 
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -47,7 +48,7 @@ const AdminChat = () => {
       {!selectedEmail ? (
         <>
           <Text>Hey Admin, you have messages from:</Text>
-          <FlatList
+          <FlatList ListEmptyComponent={<Text>No one</Text>}
             data={fromEmailIds}
             renderItem={({item}) => (
               <AdminChatCard

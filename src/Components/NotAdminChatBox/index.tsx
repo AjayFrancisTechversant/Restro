@@ -71,7 +71,6 @@ const NotAdminChatBox = () => {
   };
   return (
     <View style={screenStyles.container}>
-      <Text>NotAdminChatBox</Text>
       <FlatList
         showsVerticalScrollIndicator={false}
         data={messages}
