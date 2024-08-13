@@ -7,4 +7,5 @@ export const commonStyles = StyleSheet.create({
   underlinedText: {textDecorationLine: 'underline'},
   bigBoldText: {fontWeight: 'bold', fontSize: 20},
   redText: {color: ColorPalette.red},
+  flexOne: {flex: 1},
 });

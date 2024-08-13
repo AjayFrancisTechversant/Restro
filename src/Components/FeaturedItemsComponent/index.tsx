@@ -15,7 +15,7 @@ export type FoodType = {
   name: string;
   hotelId: string;
   image: string;
-  price: string;
+  price: number;
 };
 
 type FeaturedItemsComponentPropsType = {

@@ -39,7 +39,7 @@ const FoodItemCard: React.FC<FoodItemCardPropsType> = ({food, hotel}) => {
         <Text style={commonStyles.bigBoldText}>{food.name}</Text>
         <Text>{food.desc}</Text>
         <Text style={[commonStyles.redText, commonStyles.boldText]}>
-          {food.price}
+          $ {food.price}
         </Text>
       </View>
     </TouchableOpacity>
