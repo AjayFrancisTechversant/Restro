@@ -52,7 +52,6 @@ const FoodItemScreen = ({route}: any) => {
         name: hotel.name,
         rating: hotel.rating,
       },
-      totalOrderPrice: 20,
       foods: [
         {
           category: food.category,
