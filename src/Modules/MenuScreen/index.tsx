@@ -12,6 +12,9 @@ import StaticVariables from '../../Preferences/StaticVariables';
 import {FoodType} from '../../Components/FeaturedItemsComponent';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import FoodItemCard from '../../Components/FoodItemCard';
+import SearchFoodComponent from '../../Components/SearchFoodComponent';
+import ViewOrderButton from '../../Components/ViewOrderButton';
+import MyButton from '../../Components/MyButton';
 
 export type CategoryType =
   | 'All'
@@ -59,6 +62,10 @@ const MenuScreen = ({route}: any) => {
         );
     }
   };
+
+  const handleViewOrder = () => [
+    //navigate to orderScreen
+  ];
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -69,10 +76,10 @@ const MenuScreen = ({route}: any) => {
   );
 
   return (
-    <>
+    <View style={{flex: 1}}>
       {!selectedCategory ? (
         <FlatList
-          contentContainerStyle={{alignItems: 'center'}}
+          contentContainerStyle={[screenStyles.flatlist1contentContainerStyle]}
           style={screenStyles.container}
           ListHeaderComponent={
             <>
@@ -80,7 +87,7 @@ const MenuScreen = ({route}: any) => {
                 <HeaderComponent color={ColorPalette.gray} />
               </View>
               <Text style={screenStyles.heading}>{hotel.name}</Text>
-              <Text>SearchBar Component</Text>
+              <SearchFoodComponent hotel={hotel} />
               <Text style={commonStyles.boldText}>Select a Category</Text>
             </>
           }
@@ -104,6 +111,7 @@ const MenuScreen = ({route}: any) => {
         />
       ) : (
         <FlatList
+          contentContainerStyle={screenStyles.flatlist2contentContainerStyle}
           style={screenStyles.container}
           ListHeaderComponent={
             <>
@@ -141,7 +149,12 @@ const MenuScreen = ({route}: any) => {
           renderItem={({item}) => <FoodItemCard food={item} />}
         />
       )}
-    </>
+      <MyButton onPress={handleViewOrder} style={screenStyles.ViewOrderButton}>
+        <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+          View my Orders $ 0.00
+        </Text>
+      </MyButton>
+    </View>
   );
 };
 
