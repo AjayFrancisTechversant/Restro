@@ -47,14 +47,7 @@ const FoodItemScreen = ({route}: any) => {
   };
 
   const addOrder = () => {
-    firestore()
-      .collection('orders')
-      .doc(currentUserId)
-      .get()
-      .then(documentSnapshot => {
-        setExistingFoods(documentSnapshot.data().foods);
-      });
-      
+    getExistingFoods();
     const orderStructure = {
       hotelDetails: {
         hotelId: hotel.id,
@@ -84,7 +77,17 @@ const FoodItemScreen = ({route}: any) => {
         console.log('Order added!');
       });
   };
-  
+
+  const getExistingFoods = () => {
+    firestore()
+      .collection('orders')
+      .doc(currentUserId)
+      .get()
+      .then(documentSnapshot => {
+        setExistingFoods(documentSnapshot.data().foods);
+      });
+  };
+
   const handleViewOrder = () => {
     navigation.navigate(StaticVariables.OrderScreen);
   };
