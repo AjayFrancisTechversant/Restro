@@ -22,7 +22,7 @@ const OrderScreen = () => {
   const fetchOrders = () => {
     firestore()
       .collection('orders')
-      .doc('z2RCba0ZMoLjd3eKM1Ls')
+      .doc(currentUserId)
       .get()
       .then(docSnapshot => {
         console.log(docSnapshot.data());

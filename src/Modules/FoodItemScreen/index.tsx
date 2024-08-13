@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, {useState} from 'react';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
@@ -21,10 +23,12 @@ import MyButton from '../../Components/MyButton';
 import styles from './style';
 
 const FoodItemScreen = ({route}: any) => {
+    const currentUserId = auth().currentUser?.uid;
   const hotel: HotelType = route.params.hotel;
   const food: FoodType = route.params.food;
   const navigation: any = useNavigation();
   const [comment, setComment] = useState(StaticVariables.EMPTY_STRING);
+  //find the quantity from db(form orders)
   const [quantity, setQuantity] = useState(0);
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -35,12 +39,40 @@ const FoodItemScreen = ({route}: any) => {
     screenContext,
   );
   const handleAddToOrder = () => {
-    addOrder()
+    addOrder();
     navigation.pop();
   };
-  const addOrder=()=>{
-    const orderStructure=
-  }
+  const addOrder = () => {
+    //calculate totalORderPrice
+    const orderStructure = {
+      hotelDetails: {
+        hotelId: hotel.id,
+        hotelImage: hotel.image,
+        location: hotel.location,
+        name: hotel.name,
+        rating: hotel.rating,
+      },
+      totalOrderPrice: 20,
+      foods: [
+        {
+          category: food.category,
+          comment,
+          desc: food.desc,
+          foodImage: food.image,
+          name: food.name,
+          pricePerQuantity: food.price,
+          quantity,
+        },
+      ],
+    };
+    firestore()
+  .collection('orders')
+  .doc(currentUserId)
+  .set(orderStructure)
+  .then(() => {
+    console.log('Order added!');
+  });
+  };
   const handleViewOrder = () => {
     navigation.navigate(StaticVariables.OrderScreen);
   };
