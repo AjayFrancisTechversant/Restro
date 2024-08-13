@@ -32,7 +32,9 @@ const MenuScreen = ({route}: any) => {
   const [foodItems, setFoodItems] = useState<FoodType[]>(
     StaticVariables.EMPTY_ARRAY,
   );
-
+  const [searchResults, setSearchResults] = useState<FoodType[]>(
+    StaticVariables.EMPTY_ARRAY,
+  );
   useEffect(() => {
     fetchFoodItems();
   }, [selectedCategory]);
@@ -82,6 +84,7 @@ const MenuScreen = ({route}: any) => {
     screenContext.isTypeTablet,
     screenContext,
   );
+console.log(searchResults);
 
   return (
     <View style={{flex: 1}}>
@@ -116,7 +119,10 @@ const MenuScreen = ({route}: any) => {
             <>
               <HeaderComponent color={ColorPalette.gray} />
               <Text style={screenStyles.heading}>{hotel.name}</Text>
-              <Text>SearchBar Component</Text>
+              <SearchFoodComponent
+                setSearchResults={setSearchResults}
+                hotel={hotel}
+              />
               <FlatList
                 showsHorizontalScrollIndicator={false}
                 horizontal
