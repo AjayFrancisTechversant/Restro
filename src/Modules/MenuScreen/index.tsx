@@ -76,7 +76,6 @@ const MenuScreen = ({route}: any) => {
   };
 
   const handleViewOrder = () => {
-    //navigate to orderScreen
     navigation.navigate(StaticVariables.OrderScreen);
   };
   const screenContext = useScreenContext();

@@ -35,12 +35,14 @@ const FoodItemScreen = ({route}: any) => {
     screenContext,
   );
   const handleAddToOrder = () => {
-    // add order
+    addOrder()
     navigation.pop();
   };
+  const addOrder=()=>{
+    const orderStructure=
+  }
   const handleViewOrder = () => {
-    //navigate to orderScreen
-    navigation.navigate(StaticVariables.OrderScreen, {hotel, food});
+    navigation.navigate(StaticVariables.OrderScreen);
   };
 
   return (
