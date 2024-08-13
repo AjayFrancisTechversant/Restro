@@ -37,6 +37,15 @@ const MenuScreen = ({route}: any) => {
     fetchFoodItems();
   }, [selectedCategory]);
 
+  const allCategories: CategoryType[] = [
+    'All',
+    'Apetizers',
+    'Deserts',
+    'Salads',
+    'Sandwiches',
+    'Soups',
+    'Tacos',
+  ];
   const fetchFoodItems = () => {
     if (selectedCategory == 'All') {
       firestore()
@@ -89,15 +98,7 @@ const MenuScreen = ({route}: any) => {
               <Text style={commonStyles.boldText}>Select a Category</Text>
             </>
           }
-          data={[
-            'All',
-            'Apetizers',
-            'Deserts',
-            'Salads',
-            'Sandwiches',
-            'Soups',
-            'Tacos',
-          ]}
+          data={allCategories}
           numColumns={2}
           key={screenContext.isPortrait ? 'portrait' : 'landscape'}
           renderItem={({item}) => (
@@ -119,15 +120,7 @@ const MenuScreen = ({route}: any) => {
               <FlatList
                 showsHorizontalScrollIndicator={false}
                 horizontal
-                data={[
-                  'All',
-                  'Apetizers',
-                  'Deserts',
-                  'Salads',
-                  'Sandwiches',
-                  'Soups',
-                  'Tacos',
-                ]}
+                data={allCategories}
                 renderItem={({item}) => (
                   <CategoryHorizontalCard
                     category={item}
