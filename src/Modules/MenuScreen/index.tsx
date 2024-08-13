@@ -1,5 +1,6 @@
 import {View, Text, FlatList} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import firestore, {Filter} from '@react-native-firebase/firestore';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
@@ -7,6 +8,10 @@ import {HotelType} from '../../Components/HotelsContainer';
 import styles from './style';
 import SelectInitialCategoryCard from '../../Components/SelectInitialCategoryCard';
 import CategoryHorizontalCard from '../../Components/CategoryHorizontalCard';
+import StaticVariables from '../../Preferences/StaticVariables';
+import {FoodType} from '../../Components/FeaturedItemsComponent';
+import {commonStyles} from '../../CommonStyles/CommonStyles';
+import FoodItemCard from '../../Components/FoodItemCard';
 
 export type CategoryType =
   | 'All'
@@ -22,6 +27,38 @@ const MenuScreen = ({route}: any) => {
   const hotel: HotelType = route.params.hotel;
   const [selectedCategory, setSelectedCategory] =
     useState<CategoryType>(undefined);
+  const [foodItems, setFoodItems] = useState<FoodType[]>(
+    StaticVariables.EMPTY_ARRAY,
+  );
+
+  useEffect(() => {
+    fetchFoodItems();
+  }, [selectedCategory]);
+
+  const fetchFoodItems = () => {
+    if (selectedCategory == 'All') {
+      firestore()
+        .collection('foods')
+        .where('hotelId', '==', hotel.id)
+        .get()
+        .then(snapshot =>
+          setFoodItems(snapshot.docs.map((i: any) => i.data())),
+        );
+    } else if (selectedCategory) {
+      firestore()
+        .collection('foods')
+        .where(
+          Filter.and(
+            Filter('hotelId', '==', hotel.id),
+            Filter('category', '==', selectedCategory.toLowerCase()),
+          ),
+        )
+        .get()
+        .then(snapshot =>
+          setFoodItems(snapshot.docs.map((i: any) => i.data())),
+        );
+    }
+  };
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -87,14 +124,20 @@ const MenuScreen = ({route}: any) => {
                 renderItem={({item}) => (
                   <CategoryHorizontalCard
                     category={item}
+                    selectedCategory={selectedCategory}
                     setSelectedCategory={setSelectedCategory}
                   />
                 )}
               />
             </>
           }
-          data={[]}
-          renderItem={null}
+          ListEmptyComponent={
+            <Text style={[commonStyles.bigBoldText, screenStyles.noItemsText]}>
+              No Items
+            </Text>
+          }
+          data={foodItems}
+          renderItem={({item}) => <FoodItemCard food={item} />}
         />
       )}
     </>

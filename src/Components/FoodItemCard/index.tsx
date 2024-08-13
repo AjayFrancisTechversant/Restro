@@ -5,10 +5,10 @@ import {FoodType} from '../FeaturedItemsComponent';
 import styles from './style';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 
-type FeaturedItemCardPropsType = {
+type FoodItemCardPropsType = {
   food: FoodType;
 };
-const FeaturedItemCard: React.FC<FeaturedItemCardPropsType> = ({food}) => {
+const FoodItemCard: React.FC<FoodItemCardPropsType> = ({food}) => {
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -37,4 +37,4 @@ const FeaturedItemCard: React.FC<FeaturedItemCardPropsType> = ({food}) => {
   );
 };
 
-export default FeaturedItemCard;
+export default FoodItemCard;

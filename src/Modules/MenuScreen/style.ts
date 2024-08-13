@@ -14,9 +14,9 @@ const styles = (
       padding: height * 0.02,
       flex: 1,
     },
-    headerComponentStyle: {width:width*0.9},
+    headerComponentStyle: {width: width * 0.9},
     heading: {alignSelf: 'center', fontWeight: 'bold', fontSize: 30},
-    
+    noItemsText: {alignSelf: 'center', margin: height * 0.1},
   });
 
 export default styles;

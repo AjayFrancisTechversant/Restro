@@ -9,15 +9,18 @@ import styles from './style';
 import {CategoryType} from '../../Modules/MenuScreen';
 import {SetStateType} from '../../Types/Types';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import {commonStyles} from '../../CommonStyles/CommonStyles';
 
 type CategoryHorizontalCardPropsType = {
   category: CategoryType;
   setSelectedCategory: SetStateType<CategoryType>;
+  selectedCategory: CategoryType;
 };
 
 const CategoryHorizontalCard: React.FC<CategoryHorizontalCardPropsType> = ({
   category,
   setSelectedCategory,
+  selectedCategory,
 }) => {
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -30,40 +33,85 @@ const CategoryHorizontalCard: React.FC<CategoryHorizontalCardPropsType> = ({
 
   return (
     <TouchableOpacity
-      style={screenStyles.card}
+      style={[
+        screenStyles.card,
+        {
+          backgroundColor:
+            category == selectedCategory
+              ? ColorPalette.red
+              : ColorPalette.white,
+        },
+      ]}
       onPress={() => setSelectedCategory(category)}>
       {category == 'All' ? (
         <MaterialCommunityIcons
-          color={ColorPalette.red}
+          color={
+            category == selectedCategory ? ColorPalette.white : ColorPalette.red
+          }
           name="dots-square"
           size={40}
         />
       ) : category == 'Soups' ? (
-        <Entypo color={ColorPalette.red} name="bowl" size={40} />
+        <Entypo
+          color={
+            category == selectedCategory ? ColorPalette.white : ColorPalette.red
+          }
+          name="bowl"
+          size={40}
+        />
       ) : category == 'Apetizers' ? (
         <MaterialCommunityIcons
-          color={ColorPalette.red}
+          color={
+            category == selectedCategory ? ColorPalette.white : ColorPalette.red
+          }
           name="food-outline"
           size={40}
         />
       ) : category == 'Salads' ? (
-        <FontAwesome6 name="bowl-food" color={ColorPalette.red} size={40} />
+        <FontAwesome6
+          name="bowl-food"
+          color={
+            category == selectedCategory ? ColorPalette.white : ColorPalette.red
+          }
+          size={40}
+        />
       ) : category == 'Sandwiches' ? (
         <MaterialCommunityIcons
-          color={ColorPalette.red}
+          color={
+            category == selectedCategory ? ColorPalette.white : ColorPalette.red
+          }
           name="food-steak"
           size={40}
         />
       ) : category == 'Tacos' ? (
         <MaterialCommunityIcons
-          color={ColorPalette.red}
+          color={
+            category == selectedCategory ? ColorPalette.white : ColorPalette.red
+          }
           name="taco"
           size={40}
         />
       ) : category == 'Deserts' ? (
-        <Ionicons color={ColorPalette.red} name="ice-cream-outline" size={40} />
+        <Ionicons
+          color={
+            category == selectedCategory ? ColorPalette.white : ColorPalette.red
+          }
+          name="ice-cream-outline"
+          size={40}
+        />
       ) : null}
-      <Text>{category}</Text>
+      <Text
+        style={[
+          commonStyles.boldText,
+          {
+            color:
+              selectedCategory == category
+                ? ColorPalette.white
+                : ColorPalette.red,
+          },
+        ]}>
+        {category}
+      </Text>
     </TouchableOpacity>
   );
 };

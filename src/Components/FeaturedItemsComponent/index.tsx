@@ -7,7 +7,7 @@ import styles from './style';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import StaticVariables from '../../Preferences/StaticVariables';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import FeaturedItemCard from '../FeaturedItemCard';
+import FoodItemCard from '../FoodItemCard';
 
 export type FoodType = {
   category: string;
@@ -58,7 +58,7 @@ const FeaturedItemsComponent: React.FC<FeaturedItemsComponentPropsType> = ({
       ListEmptyComponent={
         <ActivityIndicator size={40} color={ColorPalette.gray} />
       }
-      renderItem={({item}) => <FeaturedItemCard food={item}/>}
+      renderItem={({item}) => <FoodItemCard food={item}/>}
     />
   );
 };
