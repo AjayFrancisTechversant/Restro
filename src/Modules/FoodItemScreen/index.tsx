@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
+import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import {HotelType} from '../../Components/HotelsContainer';
 import {FoodType} from '../../Components/FeaturedItemsComponent';
@@ -22,6 +23,7 @@ import styles from './style';
 const FoodItemScreen = ({route}: any) => {
   const hotel: HotelType = route.params.hotel;
   const food: FoodType = route.params.food;
+  const navigation: any = useNavigation();
   const [comment, setComment] = useState(StaticVariables.EMPTY_STRING);
   const [quantity, setQuantity] = useState(0);
   const screenContext = useScreenContext();
@@ -32,6 +34,10 @@ const FoodItemScreen = ({route}: any) => {
     screenContext.isTypeTablet,
     screenContext,
   );
+  const handleAddToOrder = () => {
+    // add order
+    navigation.pop()
+  };
   const handleViewOrder = () => {
     //navigate to orderScreen
   };
@@ -72,6 +78,7 @@ const FoodItemScreen = ({route}: any) => {
             </View>
           </View>
           <MyButton
+            onPress={handleAddToOrder}
             disabled={quantity != 0 ? false : true}
             style={[
               screenStyles.addToOrderButton,
