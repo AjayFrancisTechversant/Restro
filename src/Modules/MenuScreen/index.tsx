@@ -13,7 +13,6 @@ import {FoodType} from '../../Components/FeaturedItemsComponent';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import FoodItemCard from '../../Components/FoodItemCard';
 import SearchFoodComponent from '../../Components/SearchFoodComponent';
-import ViewOrderButton from '../../Components/ViewOrderButton';
 import MyButton from '../../Components/MyButton';
 
 export type CategoryType =
