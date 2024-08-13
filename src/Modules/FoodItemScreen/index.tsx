@@ -23,13 +23,16 @@ import MyButton from '../../Components/MyButton';
 import styles from './style';
 
 const FoodItemScreen = ({route}: any) => {
-    const currentUserId = auth().currentUser?.uid;
+  const currentUserId = auth().currentUser?.uid;
   const hotel: HotelType = route.params.hotel;
   const food: FoodType = route.params.food;
   const navigation: any = useNavigation();
   const [comment, setComment] = useState(StaticVariables.EMPTY_STRING);
   //find the quantity from db(form orders)
   const [quantity, setQuantity] = useState(0);
+  const [existingFoods, setExistingFoods] = useState(
+    StaticVariables.EMPTY_ARRAY,
+  );
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -42,8 +45,16 @@ const FoodItemScreen = ({route}: any) => {
     addOrder();
     navigation.pop();
   };
+
   const addOrder = () => {
-    //calculate totalORderPrice
+    firestore()
+      .collection('orders')
+      .doc(currentUserId)
+      .get()
+      .then(documentSnapshot => {
+        setExistingFoods(documentSnapshot.data().foods);
+      });
+      
     const orderStructure = {
       hotelDetails: {
         hotelId: hotel.id,
@@ -53,6 +64,7 @@ const FoodItemScreen = ({route}: any) => {
         rating: hotel.rating,
       },
       foods: [
+        ...existingFoods,
         {
           category: food.category,
           comment,
@@ -65,13 +77,14 @@ const FoodItemScreen = ({route}: any) => {
       ],
     };
     firestore()
-  .collection('orders')
-  .doc(currentUserId)
-  .set(orderStructure)
-  .then(() => {
-    console.log('Order added!');
-  });
+      .collection('orders')
+      .doc(currentUserId)
+      .set(orderStructure)
+      .then(() => {
+        console.log('Order added!');
+      });
   };
+  
   const handleViewOrder = () => {
     navigation.navigate(StaticVariables.OrderScreen);
   };
