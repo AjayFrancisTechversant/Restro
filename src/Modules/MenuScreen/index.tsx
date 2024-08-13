@@ -81,6 +81,7 @@ const MenuScreen = ({route}: any) => {
               </View>
               <Text style={screenStyles.heading}>{hotel.name}</Text>
               <Text>SearchBar Component</Text>
+              <Text style={commonStyles.boldText}>Select a Category</Text>
             </>
           }
           data={[
