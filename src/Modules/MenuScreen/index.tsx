@@ -84,7 +84,6 @@ const MenuScreen = ({route}: any) => {
     screenContext.isTypeTablet,
     screenContext,
   );
-  console.log(searchResults);
 
   return (
     <View style={{flex: 1}}>
