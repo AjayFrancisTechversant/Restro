@@ -3935,7 +3935,6 @@ __metadata:
     react: 18.2.0
     react-native: 0.74.4
     react-native-device-info: ^11.1.0
-    react-native-element-dropdown: ^2.12.1
     react-native-gesture-handler: ^2.18.1
     react-native-get-location: ^5.0.0
     react-native-paper: ^5.12.5
@@ -9221,18 +9220,6 @@ __metadata:
   peerDependencies:
     react-native: "*"
   checksum: 272cab82573933a1f3a9bc394b82a387ccbdf9fbef131fc1f04b8ff78b36f581931b5c643f5aa278f28577cbc320ef2ac588cafdb73292e9b0cf4427d54c44ce
-  languageName: node
-  linkType: hard
-
-"react-native-element-dropdown@npm:^2.12.1":
-  version: 2.12.1
-  resolution: "react-native-element-dropdown@npm:2.12.1"
-  dependencies:
-    lodash: ^4.17.21
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: 5eaa4a78a0ba7a3dc25b913035e959c0876dc7f61498bd31eeaca73027453bb51f77e2ec8ab72ef6aa622db04f40fef4b0c2b4e27f367152a3b6dff0e35b6596
   languageName: node
   linkType: hard
 
