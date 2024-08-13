@@ -86,7 +86,6 @@ const MenuScreen = ({route}: any) => {
                 <HeaderComponent color={ColorPalette.gray} />
               </View>
               <Text style={screenStyles.heading}>{hotel.name}</Text>
-              <SearchFoodComponent hotel={hotel} />
               <Text style={commonStyles.boldText}>Select a Category</Text>
             </>
           }

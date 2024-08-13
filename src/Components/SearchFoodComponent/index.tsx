@@ -20,8 +20,8 @@ const SearchFoodComponent: React.FC<SearchFoodComponentPropsType> = ({
   );
 
   return (
-    <View>
-      <Text>SearchFoodComponent</Text>
+      <View>
+        <Text>SearchFoodComponent</Text>
     </View>
   );
 };
