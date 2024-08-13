@@ -41,11 +41,15 @@ const SearchFoodComponent: React.FC<SearchFoodComponentPropsType> = ({
   };
 
   const search = (text: string) => {
-    setSearchResults(
-      allFoodItems.filter(i =>
-        i.name.toLowerCase().includes(text.toLowerCase()),
-      ),
-    );
+    if (text) {
+      setSearchResults(
+        allFoodItems.filter(i =>
+          i.name.toLowerCase().includes(text.toLowerCase()),
+        ),
+      );
+    } else {
+      setSearchResults(StaticVariables.EMPTY_ARRAY);
+    }
   };
 
   const screenContext = useScreenContext();

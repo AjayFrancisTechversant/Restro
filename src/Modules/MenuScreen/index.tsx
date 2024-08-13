@@ -84,7 +84,7 @@ const MenuScreen = ({route}: any) => {
     screenContext.isTypeTablet,
     screenContext,
   );
-console.log(searchResults);
+  console.log(searchResults);
 
   return (
     <View style={{flex: 1}}>
@@ -123,18 +123,20 @@ console.log(searchResults);
                 setSearchResults={setSearchResults}
                 hotel={hotel}
               />
-              <FlatList
-                showsHorizontalScrollIndicator={false}
-                horizontal
-                data={allCategories}
-                renderItem={({item}) => (
-                  <CategoryHorizontalCard
-                    category={item}
-                    selectedCategory={selectedCategory}
-                    setSelectedCategory={setSelectedCategory}
-                  />
-                )}
-              />
+              {searchResults == StaticVariables.EMPTY_ARRAY && (
+                <FlatList
+                  showsHorizontalScrollIndicator={false}
+                  horizontal
+                  data={allCategories}
+                  renderItem={({item}) => (
+                    <CategoryHorizontalCard
+                      category={item}
+                      selectedCategory={selectedCategory}
+                      setSelectedCategory={setSelectedCategory}
+                    />
+                  )}
+                />
+              )}
             </>
           }
           ListEmptyComponent={
@@ -142,7 +144,11 @@ console.log(searchResults);
               No Items
             </Text>
           }
-          data={foodItems}
+          data={
+            searchResults == StaticVariables.EMPTY_ARRAY
+              ? foodItems
+              : searchResults
+          }
           renderItem={({item}) => <FoodItemCard food={item} />}
         />
       )}
