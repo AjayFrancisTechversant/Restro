@@ -6,6 +6,7 @@ import HotelScreen from '../../Modules/HotelScreen';
 import ProfileScreen from '../../Modules/ProfileScreen';
 import MenuScreen from '../../Modules/MenuScreen';
 import FoodItemScreen from '../../Modules/FoodItemScreen';
+import OrderScreen from '../../Modules/OrderScreen';
 
 const Stack = createNativeStackNavigator();
 const HomeStack = () => {
@@ -19,6 +20,7 @@ const HomeStack = () => {
       <Stack.Screen name="HotelScreen" component={HotelScreen}/>
       <Stack.Screen  name="MenuScreen" component={MenuScreen}/>
       <Stack.Screen  name="FoodItemScreen" component={FoodItemScreen}/>
+      <Stack.Screen  name="OrderScreen" component={OrderScreen}/>
     </Stack.Navigator>
   );
 };

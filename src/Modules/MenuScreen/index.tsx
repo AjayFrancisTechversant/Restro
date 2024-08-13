@@ -1,11 +1,11 @@
 import {View, Text, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
 import firestore, {Filter} from '@react-native-firebase/firestore';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {HotelType} from '../../Components/HotelsContainer';
-import styles from './style';
 import SelectInitialCategoryCard from '../../Components/SelectInitialCategoryCard';
 import CategoryHorizontalCard from '../../Components/CategoryHorizontalCard';
 import StaticVariables from '../../Preferences/StaticVariables';
@@ -14,6 +14,7 @@ import {commonStyles} from '../../CommonStyles/CommonStyles';
 import FoodItemCard from '../../Components/FoodItemCard';
 import SearchFoodComponent from '../../Components/SearchFoodComponent';
 import MyButton from '../../Components/MyButton';
+import styles from './style';
 
 export type CategoryType =
   | 'All'
@@ -27,6 +28,7 @@ export type CategoryType =
 
 const MenuScreen = ({route}: any) => {
   const hotel: HotelType = route.params.hotel;
+  const navigation:any = useNavigation();
   const [selectedCategory, setSelectedCategory] =
     useState<CategoryType>(undefined);
   const [foodItems, setFoodItems] = useState<FoodType[]>(
@@ -73,9 +75,10 @@ const MenuScreen = ({route}: any) => {
     }
   };
 
-  const handleViewOrder = () => [
+  const handleViewOrder = () => {
     //navigate to orderScreen
-  ];
+    navigation.navigate(StaticVariables.OrderScreen);
+  };
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
