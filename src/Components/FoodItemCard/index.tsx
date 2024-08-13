@@ -4,11 +4,16 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import {FoodType} from '../FeaturedItemsComponent';
 import styles from './style';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
+import {useNavigation} from '@react-navigation/native';
+import StaticVariables from '../../Preferences/StaticVariables';
+import {HotelType} from '../HotelsContainer';
 
 type FoodItemCardPropsType = {
   food: FoodType;
+  hotel: HotelType;
 };
-const FoodItemCard: React.FC<FoodItemCardPropsType> = ({food}) => {
+const FoodItemCard: React.FC<FoodItemCardPropsType> = ({food, hotel}) => {
+  const navigation: any = useNavigation();
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -19,7 +24,11 @@ const FoodItemCard: React.FC<FoodItemCardPropsType> = ({food}) => {
   );
 
   return (
-    <TouchableOpacity onPress={() => {}} style={screenStyles.card}>
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate(StaticVariables.FoodItemScreen, {hotel, food});
+      }}
+      style={screenStyles.card}>
       <Image
         style={screenStyles.imageStyle}
         source={{

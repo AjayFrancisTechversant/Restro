@@ -148,7 +148,7 @@ const MenuScreen = ({route}: any) => {
               ? foodItems
               : searchResults
           }
-          renderItem={({item}) => <FoodItemCard food={item} />}
+          renderItem={({item}) => <FoodItemCard hotel={hotel} food={item} />}
         />
       )}
       <MyButton onPress={handleViewOrder} style={screenStyles.ViewOrderButton}>

@@ -17,6 +17,7 @@ const StaticVariables = {
   EditZipcodeScreen: 'EditZipcodeScreen',
   HotelScreen: 'HotelScreen',
   MenuScreen: 'MenuScreen',
+  FoodItemScreen: 'FoodItemScreen',
   ContactUsScreen: 'ContactUsScreen',
 };
 export default StaticVariables;

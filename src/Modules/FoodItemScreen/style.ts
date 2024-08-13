@@ -10,13 +10,7 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
-    card: {
-      height: height * 0.1,
-      width: height * 0.1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: 10,margin:height*0.005,elevation:5
-    },
+    container: {},
   });
 
 export default styles;

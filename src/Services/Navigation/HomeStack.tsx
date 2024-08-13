@@ -5,6 +5,7 @@ import EditZipcodeScreen from '../../Modules/EditZipcodeScreen';
 import HotelScreen from '../../Modules/HotelScreen';
 import ProfileScreen from '../../Modules/ProfileScreen';
 import MenuScreen from '../../Modules/MenuScreen';
+import FoodItemScreen from '../../Modules/FoodItemScreen';
 
 const Stack = createNativeStackNavigator();
 const HomeStack = () => {
@@ -17,6 +18,7 @@ const HomeStack = () => {
       <Stack.Screen name="EditZipcodeScreen" component={EditZipcodeScreen} />
       <Stack.Screen name="HotelScreen" component={HotelScreen}/>
       <Stack.Screen  name="MenuScreen" component={MenuScreen}/>
+      <Stack.Screen  name="FoodItemScreen" component={FoodItemScreen}/>
     </Stack.Navigator>
   );
 };

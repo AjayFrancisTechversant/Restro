@@ -58,7 +58,7 @@ const FeaturedItemsComponent: React.FC<FeaturedItemsComponentPropsType> = ({
       ListEmptyComponent={
         <ActivityIndicator size={40} color={ColorPalette.gray} />
       }
-      renderItem={({item}) => <FoodItemCard food={item}/>}
+      renderItem={({item}) => <FoodItemCard hotel={hotel} food={item} />}
     />
   );
 };
