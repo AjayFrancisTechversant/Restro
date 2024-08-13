@@ -42,7 +42,7 @@ const HotelScreen = ({route}: any) => {
           />
           <View style={screenStyles.container}>
             <View style={screenStyles.headerComponentContainer}>
-              <HeaderComponent color={ColorPalette.gray} />
+              <HeaderComponent color={ColorPalette.white} />
             </View>
             <View style={screenStyles.hotelDetailscontainer}>
               <Text style={commonStyles.bigBoldText}>{hotel.name}</Text>

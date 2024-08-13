@@ -12,10 +12,11 @@ const styles = (
   StyleSheet.create({
     container: {
       padding: height * 0.02,
-      flex: 1
+      flex: 1,
     },
-    headerComponentContainer: {width: width * 0.9},
-
+    headerComponentStyle: {width:width*0.9},
+    heading: {alignSelf: 'center', fontWeight: 'bold', fontSize: 30},
+    
   });
 
 export default styles;
