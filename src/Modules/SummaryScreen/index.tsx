@@ -64,8 +64,9 @@ const SummaryScreen = () => {
             text={`15% ( $ ${0} )`}
           />
         </Pressable>
-        {preferenceFromRedux == 'dine-in' ? null : preferenceFromRedux ==
-          'carry-out' ? (
+        {preferenceFromRedux == 'dine-in' ? (
+          <Text>dine -in something component</Text>
+        ) : preferenceFromRedux == 'carry-out' ? (
           <VehicleDetailsComponent />
         ) : preferenceFromRedux == 'delivery' ? (
           <AddressDetailsComponent />
@@ -74,9 +75,12 @@ const SummaryScreen = () => {
         <ATMCardComponent />
         <MyButton
           onPress={() => navigation.navigate(StaticVariables.SummaryScreen)}
-          style={{
-            backgroundColor: ColorPalette.red,
-          }}>
+          style={[
+            screenStyles.bottomButton,
+            {
+              backgroundColor: ColorPalette.red,
+            },
+          ]}>
           <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
             Looks Good!...Pay Now
           </Text>

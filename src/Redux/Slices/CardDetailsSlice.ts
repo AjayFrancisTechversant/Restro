@@ -31,10 +31,18 @@ const CardDetailsSlice = createSlice({
     updateName(state, action: PayloadAction<string>) {
       state.name = action.payload;
     },
+    clearCardDetails(state) {
+      state = initialState;
+    },
   },
 });
 
-export const {updateNumber, updateExpiry, updateCvv, updateName} =
-  CardDetailsSlice.actions;
+export const {
+  updateNumber,
+  updateExpiry,
+  updateCvv,
+  updateName,
+  clearCardDetails,
+} = CardDetailsSlice.actions;
 
 export default CardDetailsSlice.reducer;

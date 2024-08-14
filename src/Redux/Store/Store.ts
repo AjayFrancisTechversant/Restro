@@ -3,19 +3,23 @@ import {persistReducer, persistStore} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import userDetailsReducer from '../Slices/UserDetailsSlice';
 import cardDetailsReducer from '../Slices/CardDetailsSlice';
+import addressDetailsReducer from '../Slices/AddressDetailsSlice';
+import vehicleDetailsReducer from '../Slices/vehicleDetailsSlice';
 
 // Configure persist options
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['userDetails', 'cardDetails'],
-  // blacklist: ['', ''],
+  whitelist: ['userDetails'],
+  blacklist: ['cardDetails', 'addressDetails', 'vehicleDetails'],
 };
 
 //combine all reducers into rootreducers
 const rootReducer = combineReducers({
   userDetails: userDetailsReducer,
   cardDetails: cardDetailsReducer,
+  addressDetails: addressDetailsReducer,
+  vehicleDetails: vehicleDetailsReducer,
 });
 
 // Create a persisted reducer

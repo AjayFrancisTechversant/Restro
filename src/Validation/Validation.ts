@@ -1,4 +1,4 @@
-import {validEmail, validPassword} from '../RegExp/RegExp';
+import {validEmail, validPassword, validVehicleNumber} from '../RegExp/RegExp';
 
 // Define possible validation types
 export type ValidationType =
@@ -8,6 +8,8 @@ export type ValidationType =
   | 'rating'
   | 'cvv'
   | 'cardNumber'
+  // | 'vehicleNumber'
+  | 'zipcode'
   | 'required';
 
 const validate = (
@@ -23,6 +25,9 @@ const validate = (
     case 'password':
       return validPassword.test(value) ? true : false;
 
+    // case 'vehicleNumber':
+    //   return validVehicleNumber.test(value) ? true : false;
+
     case 'phone':
       return value.length == 10 ? true : false;
 
@@ -32,6 +37,9 @@ const validate = (
     case 'cardNumber':
       return value.length == 12 ? true : false;
 
+    case 'zipcode':
+      return value.length == 6 ? true : false;
+
     case 'rating':
       return Number(value) <= 5 && Number(value) > 0 ? true : false;
 
@@ -39,7 +47,6 @@ const validate = (
       return value.trim() !== '' ? true : false;
 
     default:
-      // Default case for unknown validationType
       return value.trim() !== '' ? true : false;
   }
 };

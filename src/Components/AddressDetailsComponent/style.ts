@@ -8,8 +8,19 @@ const styles = (
   isPortrait: boolean,
   isTypeTablet: boolean,
   screenContext: ScreenContextType,
-) => StyleSheet.create({container:{
-    marginVertical:height*0.01
-}});
+) =>
+  StyleSheet.create({
+    card: {
+      marginVertical: height * 0.01,
+      backgroundColor: ColorPalette.lightRed,
+      padding: height * 0.03,
+      alignSelf: 'center',
+      borderRadius: 10,
+      elevation: 5,
+    },
+    headerContainer: {
+      alignItems: 'center',
+    },
+  });
 
 export default styles;

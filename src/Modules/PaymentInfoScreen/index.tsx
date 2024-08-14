@@ -25,18 +25,13 @@ import validate from '../../Validation/Validation';
 import MyButton from '../../Components/MyButton';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {
+  CardDetailsReduxStateType,
   updateCvv,
   updateExpiry,
   updateName,
   updateNumber,
 } from '../../Redux/Slices/CardDetailsSlice';
 
-type cardDetailsType = {
-  number: string;
-  expiry: string;
-  cvv: string;
-  name: string;
-};
 type ErrorType = {
   numberError: boolean;
   expiryError: boolean;
@@ -52,10 +47,10 @@ const PaymentInfoScreen = () => {
     state => state.cardDetails,
   );
   const [error, setError] = useState<ErrorType>({
-    cvvError: true,
-    expiryError: true,
-    nameError: true,
-    numberError: true,
+    cvvError: !validate(cvv, 'cvv'),
+    expiryError: !validate(expiry),
+    nameError: !validate(name),
+    numberError: !validate(number, 'cardNumber'),
   });
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -65,7 +60,10 @@ const PaymentInfoScreen = () => {
     screenContext.isTypeTablet,
     screenContext,
   );
-  const HandleOnChangeText = (text: string, name: keyof cardDetailsType) => {
+  const HandleOnChangeText = (
+    text: string,
+    name: keyof CardDetailsReduxStateType,
+  ) => {
     switch (name) {
       case 'number':
         dispatch(updateNumber(text));
@@ -121,6 +119,7 @@ const PaymentInfoScreen = () => {
             <Image source={visaCard} style={screenStyles.cardImageStyle} />
           </View>
           <MyTextInput
+            value={number}
             errorText={error.numberError && number ? '*Invalid' : undefined}
             onChangeText={text => HandleOnChangeText(text, 'number')}
             label="CARD NUMBER"
@@ -128,6 +127,7 @@ const PaymentInfoScreen = () => {
             style={screenStyles.textInput}
           />
           <MyTextInput
+            value={expiry}
             errorText={error.expiryError && expiry ? '*Invalid' : undefined}
             onChangeText={text => HandleOnChangeText(text, 'expiry')}
             label="EXPIRY"
@@ -135,6 +135,7 @@ const PaymentInfoScreen = () => {
             style={screenStyles.textInput}
           />
           <MyTextInput
+            value={cvv}
             errorText={error.cvvError && cvv ? '*Invalid' : undefined}
             onChangeText={text => HandleOnChangeText(text, 'cvv')}
             keyboardType="numeric"
@@ -142,6 +143,7 @@ const PaymentInfoScreen = () => {
             style={screenStyles.textInput}
           />
           <MyTextInput
+            value={name}
             errorText={error.nameError && name ? '*Invalid' : undefined}
             onChangeText={text => HandleOnChangeText(text, 'name')}
             label="NAME ON CARD"
@@ -157,15 +159,18 @@ const PaymentInfoScreen = () => {
                 : true
             }
             onPress={() => navigation.navigate(StaticVariables.SummaryScreen)}
-            style={{
-              backgroundColor:
-                !error.numberError &&
-                !error.cvvError &&
-                !error.expiryError &&
-                !error.nameError
-                  ? ColorPalette.red
-                  : ColorPalette.lightRed,
-            }}>
+            style={[
+              screenStyles.bottomButton,
+              {
+                backgroundColor:
+                  !error.numberError &&
+                  !error.cvvError &&
+                  !error.expiryError &&
+                  !error.nameError
+                    ? ColorPalette.red
+                    : ColorPalette.lightRed,
+              },
+            ]}>
             <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
               Next
             </Text>
