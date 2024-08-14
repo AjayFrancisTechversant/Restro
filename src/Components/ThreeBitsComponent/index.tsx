@@ -2,8 +2,11 @@ import {View, Text} from 'react-native';
 import React from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './style';
-
-const ThreeBitsComponent = () => {
+import ColorPalette from '../../Assets/Themes/ColorPalette';
+type ThreeBitsComponentPropsType = {
+  step: 1 | 2 | 3;
+};
+const ThreeBitsComponent: React.FC<ThreeBitsComponentPropsType> = ({step}) => {
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -15,7 +18,24 @@ const ThreeBitsComponent = () => {
 
   return (
     <View style={screenStyles.container}>
-      <Text>ThreeBitsComponent</Text>
+      <View
+        style={[
+          screenStyles.eachBit,
+          {backgroundColor: ColorPalette.red},
+        ]}></View>
+      <View
+        style={[
+          screenStyles.eachBit,
+          {
+            backgroundColor:
+              step == 2 || step == 3 ? ColorPalette.red : ColorPalette.gray,
+          },
+        ]}></View>
+      <View
+        style={[
+          screenStyles.eachBit,
+          {backgroundColor: step == 3 ? ColorPalette.red : ColorPalette.gray},
+        ]}></View>
     </View>
   );
 };

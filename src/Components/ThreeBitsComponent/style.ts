@@ -10,7 +10,18 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
-    container: {borderWidth: 1},
+    container: {
+      flexDirection: 'row',
+      gap: width * 0.02,
+      alignSelf: 'center',
+      marginVertical: height * 0.01,
+    },
+    eachBit: {
+      height: 5,
+      width: 30,
+      borderRadius: 10,
+      backgroundColor: ColorPalette.gray,
+    },
   });
 
 export default styles;

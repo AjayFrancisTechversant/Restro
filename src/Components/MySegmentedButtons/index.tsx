@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import React from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './style';
@@ -6,8 +6,15 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import {updatePreference} from '../../Redux/Slices/UserDetailsSlice';
+import {useNavigation} from '@react-navigation/native';
 
-const MySegmentedButtons = () => {
+type MySegmentedButtonsPropsType = {
+  nonEditable?: boolean;
+};
+const MySegmentedButtons: React.FC<MySegmentedButtonsPropsType> = ({
+  nonEditable,
+}) => {
+  const navigation: any = useNavigation();
   const preferenceFromRedux = useAppSelector(
     state => state.userDetails.preference,
   );
@@ -20,11 +27,29 @@ const MySegmentedButtons = () => {
     screenContext.isTypeTablet,
     screenContext,
   );
+  const renderNonEditableAlert = () => {
+    return Alert.alert(
+      'Not now!',
+      'You cannot change this option at the moment. You can go back to Home screen and restart again if you want!',
+      [
+        {
+          text: 'Go to Home',
+          onPress: () => navigation.popToTop(),
+          style: 'cancel',
+        },
+        {text: 'OK'},
+      ],
+    );
+  };
   return (
     <View style={screenStyles.MySegmentedButtonsContainer}>
       <View style={screenStyles.container}>
         <TouchableOpacity
-          onPress={() => dispatch(updatePreference('dine-in'))}
+          onPress={() => {
+            if (nonEditable) {
+              renderNonEditableAlert();
+            } else dispatch(updatePreference('dine-in'));
+          }}
           style={[
             screenStyles.eachButtonStyle,
             {
@@ -48,7 +73,11 @@ const MySegmentedButtons = () => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => dispatch(updatePreference('carry-out'))}
+          onPress={() => {
+            if (nonEditable) {
+              renderNonEditableAlert();
+            } else dispatch(updatePreference('carry-out'));
+          }}
           style={[
             screenStyles.eachButtonStyle,
             {
@@ -72,7 +101,11 @@ const MySegmentedButtons = () => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => dispatch(updatePreference('delivery'))}
+          onPress={() => {
+            if (nonEditable) {
+              renderNonEditableAlert();
+            } else dispatch(updatePreference('delivery'));
+          }}
           style={[
             screenStyles.eachButtonStyle,
             {

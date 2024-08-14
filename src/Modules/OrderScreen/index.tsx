@@ -1,11 +1,14 @@
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useEffect} from 'react';
 import auth from '@react-native-firebase/auth';
+import {useNavigation} from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './style';
+import StaticVariables from '../../Preferences/StaticVariables';
 
 const OrderScreen = () => {
+  const navigation: any = useNavigation();
   const currentUserId = auth().currentUser?.uid;
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -32,6 +35,10 @@ const OrderScreen = () => {
   return (
     <View>
       <Text>OrderScreen</Text>
+      <TouchableOpacity
+        onPress={() => navigation.navigate(StaticVariables.PaymentInfoScreen)}>
+        <Text>go to orders</Text>
+      </TouchableOpacity>
     </View>
   );
 };
