@@ -3,7 +3,6 @@ import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
-import styles from './style';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import HeaderComponent from '../../Components/HeaderComponent';
@@ -15,6 +14,7 @@ import {useAppSelector} from '../../hooks/hooks';
 import VehicleDetailsComponent from '../../Components/VehicleDetailsComponent';
 import AddressDetailsComponent from '../../Components/AddressDetailsComponent';
 import ATMCardComponent from '../../Components/ATMCardComponent';
+import styles from './style';
 
 type TipType = '0%' | '10%' | '15%';
 
