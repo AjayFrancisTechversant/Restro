@@ -34,7 +34,6 @@ const styles = (
       margin: height * 0.02,
     },
     textInput: {marginVertical: height * 0.01},
-    expAndCvvContainer: {flexDirection: 'row',gap:width*0.2},
   });
 
 export default styles;

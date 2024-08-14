@@ -9,6 +9,7 @@ const ColorPalette = {
   offWhite: '#E6E6E6',
   lightGray: '#dee6dc',
   red: '#e11f26',
+  darkRed: '#a33337',
   lightRed: '#ea747a',
   blue: '#318dde',
 };

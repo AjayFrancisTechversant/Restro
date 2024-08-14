@@ -6,6 +6,8 @@ export type ValidationType =
   | 'phone'
   | 'password'
   | 'rating'
+  | 'cvv'
+  | 'cardNumber'
   | 'required';
 
 const validate = (
@@ -24,8 +26,14 @@ const validate = (
     case 'phone':
       return value.length == 10 ? true : false;
 
+    case 'cvv':
+      return value.length == 3 ? true : false;
+
+    case 'cardNumber':
+      return value.length == 12 ? true : false;
+
     case 'rating':
-      return (Number(value) <= 5 )&&(Number(value) > 0 )? true : false;
+      return Number(value) <= 5 && Number(value) > 0 ? true : false;
 
     case 'required':
       return value.trim() !== '' ? true : false;

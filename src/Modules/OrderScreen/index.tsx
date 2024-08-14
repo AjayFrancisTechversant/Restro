@@ -37,7 +37,7 @@ const OrderScreen = () => {
       <Text>OrderScreen</Text>
       <TouchableOpacity
         onPress={() => navigation.navigate(StaticVariables.PaymentInfoScreen)}>
-        <Text>go to orders</Text>
+        <Text>go to paymentScreen</Text>
       </TouchableOpacity>
     </View>
   );

@@ -1,4 +1,11 @@
-import {View, Text, ScrollView, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  KeyboardAvoidingView,
+} from 'react-native';
 import React, {useState} from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
@@ -15,6 +22,7 @@ import MySegmentedButtons from '../../Components/MySegmentedButtons';
 import styles from './style';
 import MyTextInput from '../../Components/MyTextInput';
 import validate from '../../Validation/Validation';
+import MyButton from '../../Components/MyButton';
 
 type cardDetailsType = {
   number: string;
@@ -56,19 +64,19 @@ const PaymentInfoScreen = () => {
     switch (name) {
       case 'number':
         setCardDetails({...cardDetails, number: text});
-        setError({...error, numberError: !validate(text)});
+        setError({...error, numberError: !validate(text, 'cardNumber')});
         break;
       case 'expiry':
         setCardDetails({...cardDetails, expiry: text});
-        // setError({...error, lastNameError: !validate(text)});
+        setError({...error, expiryError: !validate(text)});
         break;
       case 'cvv':
         setCardDetails({...cardDetails, cvv: text});
-        // setError({...error, emailError: !validate(text, 'email')});
+        setError({...error, cvvError: !validate(text, 'cvv')});
         break;
       case 'name':
         setCardDetails({...cardDetails, name: text});
-        // setError({...error, mobileError: !validate(text, 'phone')});
+        setError({...error, nameError: !validate(text)});
         break;
       default:
         break;
@@ -76,61 +84,98 @@ const PaymentInfoScreen = () => {
   };
 
   return (
-    <ScrollView style={screenStyles.container}>
-      <HeaderComponent color={ColorPalette.gray} />
-      <Text style={[commonStyles.bigBoldText, screenStyles.heading]}>
-        Payment Info
-      </Text>
-      <ThreeBitsComponent step={2} />
-      <MySegmentedButtons nonEditable />
-      <View style={screenStyles.lineStyle}></View>
-      <Text style={[commonStyles.bigBoldText, screenStyles.hotelName]}>
-        HOtel Name
-      </Text>
-      <Text>
-        <Entypo name="location-pin" size={20} />
-        HOtel Location
-      </Text>
-      <View style={screenStyles.orderCard}>
-        <Text style={[commonStyles.boldText]}>Order Total: $ 0.00</Text>
-        <TouchableOpacity
-          onPress={() => navigation.navigate(StaticVariables.OrderScreen)}>
-          <Text style={[commonStyles.redText, commonStyles.boldText]}>
-            View Cart
+    <KeyboardAvoidingView behavior="position">
+      <ScrollView>
+        <View style={screenStyles.container}>
+          <HeaderComponent color={ColorPalette.gray} />
+          <Text style={[commonStyles.bigBoldText, screenStyles.heading]}>
+            Payment Info
           </Text>
-        </TouchableOpacity>
-      </View>
-      <View style={screenStyles.atmCardsContainer}>
-        <Image source={rupayCard} style={screenStyles.cardImageStyle} />
-        <Image source={masterCard} style={screenStyles.cardImageStyle} />
-        <Image source={visaCard} style={screenStyles.cardImageStyle} />
-      </View>
-      <MyTextInput
-        onChangeText={text => HandleOnChangeText(text, 'number')}
-        label="CARD NUMBER"
-        keyboardType="numeric"
-        style={screenStyles.textInput}
-      />
-      <View style={screenStyles.expAndCvvContainer}>
-        <MyTextInput
-          onChangeText={text => HandleOnChangeText(text, 'expiry')}
-          label="EXPIRY"
-          keyboardType="numeric"
-          style={screenStyles.textInput}
-        />
-        <MyTextInput
-          onChangeText={text => HandleOnChangeText(text, 'cvv')}
-          keyboardType="numeric"
-          label="CVV"
-          style={screenStyles.textInput}
-        />
-      </View>
-      <MyTextInput
-        onChangeText={text => HandleOnChangeText(text, 'name')}
-        label="NAME ON CARD"
-        style={screenStyles.textInput}
-      />
-    </ScrollView>
+          <ThreeBitsComponent step={2} />
+          <MySegmentedButtons nonEditable />
+          <View style={screenStyles.lineStyle}></View>
+          <Text style={[commonStyles.bigBoldText, screenStyles.hotelName]}>
+            HOtel Name
+          </Text>
+          <Text>
+            <Entypo name="location-pin" size={20} />
+            HOtel Location
+          </Text>
+          <View style={screenStyles.orderCard}>
+            <Text style={[commonStyles.boldText]}>Order Total: $ 0.00</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate(StaticVariables.OrderScreen)}>
+              <Text style={[commonStyles.redText, commonStyles.boldText]}>
+                View Cart
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={screenStyles.atmCardsContainer}>
+            <Image source={rupayCard} style={screenStyles.cardImageStyle} />
+            <Image source={masterCard} style={screenStyles.cardImageStyle} />
+            <Image source={visaCard} style={screenStyles.cardImageStyle} />
+          </View>
+          <MyTextInput
+            errorText={
+              error.numberError && cardDetails.number ? '*Invalid' : undefined
+            }
+            onChangeText={text => HandleOnChangeText(text, 'number')}
+            label="CARD NUMBER"
+            keyboardType="numeric"
+            style={screenStyles.textInput}
+          />
+          <MyTextInput
+            errorText={
+              error.expiryError && cardDetails.expiry ? '*Invalid' : undefined
+            }
+            onChangeText={text => HandleOnChangeText(text, 'expiry')}
+            label="EXPIRY"
+            keyboardType="numeric"
+            style={screenStyles.textInput}
+          />
+          <MyTextInput
+            errorText={
+              error.cvvError && cardDetails.cvv ? '*Invalid' : undefined
+            }
+            onChangeText={text => HandleOnChangeText(text, 'cvv')}
+            keyboardType="numeric"
+            label="CVV"
+            style={screenStyles.textInput}
+          />
+          <MyTextInput
+            errorText={
+              error.nameError && cardDetails.name ? '*Invalid' : undefined
+            }
+            onChangeText={text => HandleOnChangeText(text, 'name')}
+            label="NAME ON CARD"
+            style={screenStyles.textInput}
+          />
+          <MyButton
+            disabled={
+              !error.numberError &&
+              !error.cvvError &&
+              !error.expiryError &&
+              !error.nameError
+                ? false
+                : true
+            }
+            onPress={() => navigation.navigate(StaticVariables.SummaryScreen)}
+            style={{
+              backgroundColor:
+                !error.numberError &&
+                !error.cvvError &&
+                !error.expiryError &&
+                !error.nameError
+                  ? ColorPalette.red
+                  : ColorPalette.lightRed,
+            }}>
+            <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+              Next
+            </Text>
+          </MyButton>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

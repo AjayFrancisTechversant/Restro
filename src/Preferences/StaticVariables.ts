@@ -20,6 +20,7 @@ const StaticVariables = {
   FoodItemScreen: 'FoodItemScreen',
   OrderScreen: 'OrderScreen',
   PaymentInfoScreen: 'PaymentInfoScreen',
+  SummaryScreen: 'SummaryScreen',
   ContactUsScreen: 'ContactUsScreen',
 };
 export default StaticVariables;

@@ -8,4 +8,5 @@ export const commonStyles = StyleSheet.create({
   bigBoldText: {fontWeight: 'bold', fontSize: 20},
   redText: {color: ColorPalette.red},
   flexOne: {flex: 1},
+  flexDirectionRow: {flexDirection: 'row'},
 });
