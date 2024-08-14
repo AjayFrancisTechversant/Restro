@@ -23,6 +23,13 @@ import styles from './style';
 import MyTextInput from '../../Components/MyTextInput';
 import validate from '../../Validation/Validation';
 import MyButton from '../../Components/MyButton';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
+import {
+  updateCvv,
+  updateExpiry,
+  updateName,
+  updateNumber,
+} from '../../Redux/Slices/CardDetailsSlice';
 
 type cardDetailsType = {
   number: string;
@@ -39,13 +46,11 @@ type ErrorType = {
 
 const PaymentInfoScreen = () => {
   const navigation: any = useNavigation();
+  const dispatch = useAppDispatch();
   //calculate total order price global fn
-  const [cardDetails, setCardDetails] = useState<cardDetailsType>({
-    number: StaticVariables.EMPTY_STRING,
-    cvv: StaticVariables.EMPTY_STRING,
-    expiry: StaticVariables.EMPTY_STRING,
-    name: StaticVariables.EMPTY_STRING,
-  });
+  const {number, expiry, cvv, name} = useAppSelector(
+    state => state.cardDetails,
+  );
   const [error, setError] = useState<ErrorType>({
     cvvError: true,
     expiryError: true,
@@ -63,19 +68,19 @@ const PaymentInfoScreen = () => {
   const HandleOnChangeText = (text: string, name: keyof cardDetailsType) => {
     switch (name) {
       case 'number':
-        setCardDetails({...cardDetails, number: text});
+        dispatch(updateNumber(text));
         setError({...error, numberError: !validate(text, 'cardNumber')});
         break;
       case 'expiry':
-        setCardDetails({...cardDetails, expiry: text});
+        dispatch(updateExpiry(text));
         setError({...error, expiryError: !validate(text)});
         break;
       case 'cvv':
-        setCardDetails({...cardDetails, cvv: text});
+        dispatch(updateCvv(text));
         setError({...error, cvvError: !validate(text, 'cvv')});
         break;
       case 'name':
-        setCardDetails({...cardDetails, name: text});
+        dispatch(updateName(text));
         setError({...error, nameError: !validate(text)});
         break;
       default:
@@ -116,36 +121,28 @@ const PaymentInfoScreen = () => {
             <Image source={visaCard} style={screenStyles.cardImageStyle} />
           </View>
           <MyTextInput
-            errorText={
-              error.numberError && cardDetails.number ? '*Invalid' : undefined
-            }
+            errorText={error.numberError && number ? '*Invalid' : undefined}
             onChangeText={text => HandleOnChangeText(text, 'number')}
             label="CARD NUMBER"
             keyboardType="numeric"
             style={screenStyles.textInput}
           />
           <MyTextInput
-            errorText={
-              error.expiryError && cardDetails.expiry ? '*Invalid' : undefined
-            }
+            errorText={error.expiryError && expiry ? '*Invalid' : undefined}
             onChangeText={text => HandleOnChangeText(text, 'expiry')}
             label="EXPIRY"
             keyboardType="numeric"
             style={screenStyles.textInput}
           />
           <MyTextInput
-            errorText={
-              error.cvvError && cardDetails.cvv ? '*Invalid' : undefined
-            }
+            errorText={error.cvvError && cvv ? '*Invalid' : undefined}
             onChangeText={text => HandleOnChangeText(text, 'cvv')}
             keyboardType="numeric"
             label="CVV"
             style={screenStyles.textInput}
           />
           <MyTextInput
-            errorText={
-              error.nameError && cardDetails.name ? '*Invalid' : undefined
-            }
+            errorText={error.nameError && name ? '*Invalid' : undefined}
             onChangeText={text => HandleOnChangeText(text, 'name')}
             label="NAME ON CARD"
             style={screenStyles.textInput}

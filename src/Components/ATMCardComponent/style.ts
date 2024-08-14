@@ -14,7 +14,10 @@ const styles = (
       backgroundColor: ColorPalette.darkRed,
       padding: height * 0.03,
       borderRadius: 10,
+      alignSelf: 'center',
+      width: width * 0.9,
       marginVertical: height * 0.02,
+      elevation: 5,
     },
     headerComponent: {
       flexDirection: 'row',
@@ -27,7 +30,8 @@ const styles = (
     },
     detailsContainer: {
       flexDirection: 'row',
-      gap: width*0.2,marginVertical:height*0.02
+      gap: width * 0.2,
+      marginVertical: height * 0.02,
     },
   });
 

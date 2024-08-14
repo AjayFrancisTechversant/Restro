@@ -1,4 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import StaticVariables from '../../Preferences/StaticVariables';
 
 type PrefenceType = 'dine-in' | 'carry-out' | 'delivery' | undefined;
 
@@ -16,16 +17,16 @@ export type UserDetailsReduxStateType = {
 };
 
 const initialState: UserDetailsReduxStateType = {
-  zipcode: '',
-  region: '',
-  country: '',
+  zipcode: StaticVariables.EMPTY_STRING,
+  region: StaticVariables.EMPTY_STRING,
+  country: StaticVariables.EMPTY_STRING,
   preference: undefined,
-  firstName: '',
-  lastName: '',
-  email: '',
-  mobile: '',
-  rememberedPassword: '',
-  rememberedEmail: '',
+  firstName: StaticVariables.EMPTY_STRING,
+  lastName: StaticVariables.EMPTY_STRING,
+  email: StaticVariables.EMPTY_STRING,
+  mobile: StaticVariables.EMPTY_STRING,
+  rememberedPassword: StaticVariables.EMPTY_STRING,
+  rememberedEmail: StaticVariables.EMPTY_STRING,
 };
 
 const UserDetailsSlice = createSlice({

@@ -9,12 +9,13 @@ import FoodItemScreen from '../../Modules/FoodItemScreen';
 import OrderScreen from '../../Modules/OrderScreen';
 import PaymentInfoScreen from '../../Modules/PaymentInfoScreen';
 import SummaryScreen from '../../Modules/SummaryScreen';
+import AddressScreen from '../../Modules/AddressScreen';
 
 const Stack = createNativeStackNavigator();
 const HomeStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="SummaryScreen"
+      initialRouteName="PaymentInfoScreen"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
@@ -23,6 +24,7 @@ const HomeStack = () => {
       <Stack.Screen name="MenuScreen" component={MenuScreen} />
       <Stack.Screen name="FoodItemScreen" component={FoodItemScreen} />
       <Stack.Screen name="OrderScreen" component={OrderScreen} />
+      <Stack.Screen name="AddressScreen" component={AddressScreen} />
 
       <Stack.Screen name="PaymentInfoScreen" component={PaymentInfoScreen} />
       <Stack.Screen name="SummaryScreen" component={SummaryScreen} />

@@ -6,10 +6,13 @@ import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import {useAppSelector} from '../../hooks/hooks';
 import styles from './style';
 
 const ATMCardComponent = () => {
-  //get card from redux
+  const {number, expiry, name} = useAppSelector(
+    state => state.cardDetails,
+  );
   const navigation = useNavigation();
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -50,7 +53,7 @@ const ATMCardComponent = () => {
         </View>
         <View style={[commonStyles.flexDirectionRow]}>
           <Text style={[commonStyles.boldText, commonStyles.whiteText]}>
-            1234
+            {number.slice(number.length - 4, number.length)}
           </Text>
         </View>
       </View>
@@ -60,7 +63,7 @@ const ATMCardComponent = () => {
             Expiry
           </Text>
           <Text style={[commonStyles.boldText, commonStyles.whiteText]}>
-            2312323
+            {expiry}
           </Text>
         </View>
         <View>
@@ -74,7 +77,9 @@ const ATMCardComponent = () => {
           </View>
         </View>
       </View>
-      <Text style={[commonStyles.boldText, commonStyles.whiteText]}>Name</Text>
+      <Text style={[commonStyles.boldText, commonStyles.whiteText]}>
+        {name}
+      </Text>
     </View>
   );
 };

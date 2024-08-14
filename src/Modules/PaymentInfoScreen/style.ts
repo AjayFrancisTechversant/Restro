@@ -10,7 +10,7 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
-    container: {flex: 1, padding: height * 0.02, borderWidth: 1},
+    container: {flex: 1, padding: height * 0.02},
     heading: {alignSelf: 'center'},
     lineStyle: {width: '100%', borderWidth: 0.2, marginVertical: height * 0.01},
     hotelName: {marginVertical: height * 0.01, fontSize: 25},

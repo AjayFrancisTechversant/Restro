@@ -10,9 +10,8 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
-    container: {flex: 1, padding: height * 0.02,},
-    heading: {alignSelf: 'center'},
-    lineStyle: {width: '100%', borderWidth: 0.2, marginVertical: height * 0.01},
+    container: {flex: 1, padding: height * 0.02, borderWidth: 1},
+
   });
 
 export default styles;
