@@ -7,12 +7,13 @@ import ProfileScreen from '../../Modules/ProfileScreen';
 import MenuScreen from '../../Modules/MenuScreen';
 import FoodItemScreen from '../../Modules/FoodItemScreen';
 import OrderScreen from '../../Modules/OrderScreen';
+import PaymentInfoScreen from '../../Modules/PaymentInfoScreen';
 
 const Stack = createNativeStackNavigator();
 const HomeStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="HomeScreen"
+      initialRouteName="PaymentInfoScreen"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
@@ -21,6 +22,8 @@ const HomeStack = () => {
       <Stack.Screen  name="MenuScreen" component={MenuScreen}/>
       <Stack.Screen  name="FoodItemScreen" component={FoodItemScreen}/>
       <Stack.Screen  name="OrderScreen" component={OrderScreen}/>
+      
+      <Stack.Screen  name="PaymentInfoScreen" component={PaymentInfoScreen}/>
     </Stack.Navigator>
   );
 };
