@@ -21,6 +21,7 @@ import {
 } from '../../Redux/Slices/vehicleDetailsSlice';
 import MyButton from '../../Components/MyButton';
 import StaticVariables from '../../Preferences/StaticVariables';
+import {Dropdown} from 'react-native-element-dropdown';
 
 type ErrorType = {
   makeError: boolean;
@@ -34,12 +35,21 @@ const VehicleScreen = () => {
   const {make, model, number, category} = useAppSelector(
     state => state.vehicleDetails,
   );
+
   const [error, setError] = useState<ErrorType>({
     makeError: !validate(make),
     modelError: !validate(model),
     numberError: !validate(number),
     categoryError: !validate(category),
   });
+  const dropDownData = [
+    {label: 'Car', value: 'Car'},
+    {label: 'Van', value: 'Van'},
+    {label: 'SUV', value: 'SUV'},
+    {label: 'Pickup Truck', value: 'Pickup Truck'},
+    {label: 'Two Wheeler', value: 'Two Wheeler'},
+  ];
+
   const navigation: any = useNavigation();
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -49,7 +59,6 @@ const VehicleScreen = () => {
     screenContext.isTypeTablet,
     screenContext,
   );
-  //category dropdown
   const HandleOnChangeText = (
     text: string,
     name: keyof VehicleDetailsReduxStateType,
@@ -98,6 +107,19 @@ const VehicleScreen = () => {
               </Text>
             </View>
           </View>
+          <Dropdown
+            style={screenStyles.dropdown}
+            data={dropDownData}
+            maxHeight={screenContext.height * 0.2}
+            labelField="label"
+            valueField="value"
+            placeholder="Select Vehicle Type"
+            value={category}
+            onChange={item => {
+              dispatch(updateCategory(item.value));
+              setError({...error, categoryError: !validate(item.value)});
+            }}
+          />
           <MyTextInput
             value={make}
             errorText={error.makeError && make ? '*Invalid' : undefined}
@@ -119,6 +141,7 @@ const VehicleScreen = () => {
             label="Vehicle number"
             style={screenStyles.textInput}
           />
+
           <MyButton
             disabled={
               !error.makeError &&

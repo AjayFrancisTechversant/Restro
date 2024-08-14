@@ -16,10 +16,18 @@ const styles = (
     bigContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'center',marginVertical:height*0.05
+      justifyContent: 'center',
+      marginVertical: height * 0.05,
     },
     textInput: {marginVertical: height * 0.01},
-    bottomButton: {alignSelf: 'center'},
+    bottomButton: {alignSelf: 'center',marginVertical:height*0.01},
+    menuContentStyle: {width: width * 0.8, alignItems: 'center'},
+    dropdown: {
+      margin: height*0.02,
+      backgroundColor: 'white',
+      borderRadius: 12,
+      padding: 12,
+    },
   });
 
 export default styles;
