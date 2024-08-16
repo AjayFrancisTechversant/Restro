@@ -31,8 +31,8 @@ const CardDetailsSlice = createSlice({
     updateName(state, action: PayloadAction<string>) {
       state.name = action.payload;
     },
-    clearCardDetails(state) {
-      state = initialState;
+    clearCardDetails() {
+      return initialState;
     },
   },
 });

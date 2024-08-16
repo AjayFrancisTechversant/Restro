@@ -23,6 +23,9 @@ const StaticVariables = {
   AddressScreen: 'AddressScreen',
   PaymentInfoScreen: 'PaymentInfoScreen',
   SummaryScreen: 'SummaryScreen',
+  SuccessScreenDineIn: 'SuccessScreenDineIn',
+  SuccessScreenCarryOut: 'SuccessScreenCarryOut',
+  SuccessScreenDelivery: 'SuccessScreenDelivery',
   ContactUsScreen: 'ContactUsScreen',
 };
 export default StaticVariables;

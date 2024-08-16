@@ -11,4 +11,5 @@ export const commonStyles = StyleSheet.create({
   flexShrinkOne: {flexShrink: 1},
   flexDirectionRow: {flexDirection: 'row'},
   redTextBoldXL: {color: ColorPalette.red, fontSize: 30, fontWeight: 'bold'},
+  alignSelfCenter: {alignSelf: 'center'},
 });

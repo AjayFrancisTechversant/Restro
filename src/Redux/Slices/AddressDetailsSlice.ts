@@ -30,8 +30,8 @@ const AddressDetailsSlice = createSlice({
     updateZipCode(state, action: PayloadAction<string>) {
       state.zipcode = action.payload;
     },
-    clearAddressDetails(state) {
-      state = initialState;
+    clearAddressDetails() {
+      return initialState;
     },
   },
 });

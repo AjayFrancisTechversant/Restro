@@ -10,16 +10,20 @@ import ThreeBitsComponent from '../../Components/ThreeBitsComponent';
 import MySegmentedButtons from '../../Components/MySegmentedButtons';
 import MyButton from '../../Components/MyButton';
 import PreferenceRadioCard from '../../Components/Onboarding/PreferenceRadioCard';
-import {useAppSelector} from '../../hooks/hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import VehicleDetailsComponent from '../../Components/VehicleDetailsComponent';
 import AddressDetailsComponent from '../../Components/AddressDetailsComponent';
 import ATMCardComponent from '../../Components/ATMCardComponent';
 import styles from './style';
+import {clearAddressDetails} from '../../Redux/Slices/AddressDetailsSlice';
+import {clearCardDetails} from '../../Redux/Slices/CardDetailsSlice';
+import {clearVehicleDetails} from '../../Redux/Slices/vehicleDetailsSlice';
 
 type TipType = '0%' | '10%' | '15%';
 
 const SummaryScreen = () => {
   const navigation: any = useNavigation();
+  const dispatch = useAppDispatch();
   const preferenceFromRedux = useAppSelector(
     state => state.userDetails.preference,
   );
@@ -33,7 +37,37 @@ const SummaryScreen = () => {
     screenContext,
   );
   //get total order price global fn
-
+  const handleSubmit = () => {
+    dispatch(clearAddressDetails());
+    dispatch(clearCardDetails());
+    dispatch(clearVehicleDetails());
+    if (preferenceFromRedux == 'dine-in') {
+      navigation.reset({
+        index: 0,
+        routes: [
+          {name: StaticVariables.HomeScreen},
+          {name: StaticVariables.SuccessScreenDineIn},
+        ],
+      });
+    } else if (preferenceFromRedux == 'carry-out') {
+      navigation.reset({
+        index: 0,
+        routes: [
+          {name: StaticVariables.HomeScreen},
+          {name: StaticVariables.SuccessScreenCarryOut},
+        ],
+      });
+    } else if (preferenceFromRedux == 'delivery') {
+      navigation.reset({
+        index: 0,
+        routes: [
+          {name: StaticVariables.HomeScreen},
+          {name: StaticVariables.SuccessScreenDelivery},
+        ],
+      });
+    }
+    //navigation reaplace to success screen by condition according to prefernece
+  };
   return (
     <ScrollView>
       <View style={screenStyles.container}>
@@ -64,9 +98,7 @@ const SummaryScreen = () => {
             text={`15% ( $ ${0} )`}
           />
         </Pressable>
-        {preferenceFromRedux == 'dine-in' ? (
-          <Text>dine -in something component</Text>
-        ) : preferenceFromRedux == 'carry-out' ? (
+        {preferenceFromRedux == 'carry-out' ? (
           <VehicleDetailsComponent />
         ) : preferenceFromRedux == 'delivery' ? (
           <AddressDetailsComponent />
@@ -74,7 +106,7 @@ const SummaryScreen = () => {
         <Text style={commonStyles.boldText}>Payment Info</Text>
         <ATMCardComponent />
         <MyButton
-          onPress={() => navigation.navigate(StaticVariables.SummaryScreen)}
+          onPress={handleSubmit}
           style={[
             screenStyles.bottomButton,
             {

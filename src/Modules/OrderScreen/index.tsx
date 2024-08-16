@@ -46,8 +46,9 @@ const OrderScreen = () => {
       navigation.navigate(StaticVariables.VehicleScreen);
     } else if (preferenceFromRedux == 'delivery') {
       navigation.navigate(StaticVariables.AddressScreen);
+    } else if (preferenceFromRedux == 'dine-in') {
+      navigation.navigate(StaticVariables.PaymentInfoScreen);
     }
-    //what if dine-in
   };
   return (
     <FlatList

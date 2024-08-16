@@ -30,8 +30,8 @@ const vehicleDetailsSlice = createSlice({
     updateCategory(state, action: PayloadAction<string>) {
       state.category = action.payload;
     },
-    clearVehicleDetails(state) {
-      state = initialState;
+    clearVehicleDetails() {
+      return initialState;
     },
   },
 });

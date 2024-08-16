@@ -11,12 +11,15 @@ import PaymentInfoScreen from '../../Modules/PaymentInfoScreen';
 import SummaryScreen from '../../Modules/SummaryScreen';
 import AddressScreen from '../../Modules/AddressScreen';
 import VehicleScreen from '../../Modules/VehicleScreen';
+import SuccessScreenCarryOut from '../../Modules/SuccessScreenCarryOut';
+import SuccessScreenDelivery from '../../Modules/SuccessScreenDelivery';
+import SuccessScreenDineIn from '../../Modules/SuccessScreenDineIn';
 
 const Stack = createNativeStackNavigator();
 const HomeStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="HomeScreen"
+      initialRouteName="SuccessScreenCarryOut"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
@@ -29,6 +32,9 @@ const HomeStack = () => {
       <Stack.Screen name="VehicleScreen" component={VehicleScreen} />
       <Stack.Screen name="PaymentInfoScreen" component={PaymentInfoScreen} />
       <Stack.Screen name="SummaryScreen" component={SummaryScreen} />
+      <Stack.Screen name="SuccessScreenDineIn" component={SuccessScreenDineIn} />
+      <Stack.Screen name="SuccessScreenCarryOut" component={SuccessScreenCarryOut} />
+      <Stack.Screen name="SuccessScreenDelivery" component={SuccessScreenDelivery} />
     </Stack.Navigator>
   );
 };
