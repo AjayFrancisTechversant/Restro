@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {ScreenContextType} from '../../Contexts/ScreenContext';
+import ColorPalette from '../../Assets/Themes/ColorPalette';
 
 const styles = (
   height: number,
@@ -9,7 +10,14 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
-    container: {flex: 1, borderWidth: 1, padding: height * 0.02},
+    card: {
+      padding: height * 0.02,
+      elevation: 5,
+      backgroundColor: ColorPalette.white,
+      borderRadius: 10,
+      marginVertical: height * 0.02,
+      flexDirection: 'row',gap:width*0.01
+    },
   });
 
 export default styles;

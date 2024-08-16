@@ -48,7 +48,7 @@ const FoodItemScreen = ({route}: any) => {
   };
 
   useEffect(() => {
-    getExistingFoods();
+    // getExistingFoods();
   }, []);
 
   const addOrder = () => {

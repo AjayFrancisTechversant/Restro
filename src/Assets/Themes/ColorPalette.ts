@@ -1,3 +1,5 @@
+import { green } from "react-native-reanimated/lib/typescript/Colors";
+
 const ColorPalette = {
   white: '#ffffff',
   black: '#000000',
@@ -8,6 +10,7 @@ const ColorPalette = {
   transparent: 'transparent',
   offWhite: '#E6E6E6',
   lightGray: '#dee6dc',
+  green: '#33b55a',
   red: '#e11f26',
   darkRed: '#a33337',
   lightRed: '#ea747a',
