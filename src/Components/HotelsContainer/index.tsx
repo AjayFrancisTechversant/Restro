@@ -4,8 +4,9 @@ import firestore from '@react-native-firebase/firestore';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import HotelCard from '../HotelCard';
 import StaticVariables from '../../Preferences/StaticVariables';
-import styles from './style';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import styles from './style';
+import {useAppSelector} from '../../hooks/hooks';
 
 export type HotelType = {
   name: string;
@@ -16,20 +17,26 @@ export type HotelType = {
 };
 
 const HotelsContainer = () => {
+  const preferenceFromRedux = useAppSelector(
+    state => state.userDetails.preference,
+  );
   const [hotels, setHotels] = useState<HotelType[]>(
     StaticVariables.EMPTY_ARRAY,
   );
-  
+
   useEffect(() => {
     fecthHotels();
-  }, []);
+  }, [preferenceFromRedux]);
   const fecthHotels = () => {
-    firestore()
-      .collection('hotels')
-      .get()
-      .then(querySnapshot =>
-        setHotels(querySnapshot.docs.map((i: any) => i.data())),
-      );
+    if (preferenceFromRedux) {
+      firestore()
+        .collection('hotels')
+        .where('preferences', 'array-contains', preferenceFromRedux)
+        .get()
+        .then(querySnapshot =>
+          setHotels(querySnapshot.docs.map((i: any) => i.data())),
+        );
+    }
   };
   const screenContext = useScreenContext();
   const screenStyles = styles(
