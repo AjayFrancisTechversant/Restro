@@ -13,6 +13,7 @@ import ThreeBitsComponent from '../../Components/ThreeBitsComponent';
 import MySegmentedButtons from '../../Components/MySegmentedButtons';
 import MyButton from '../../Components/MyButton';
 import {useAppSelector} from '../../hooks/hooks';
+import OrderDetailsComponent from '../OrderDetailsComponent';
 
 const OrderScreen = () => {
   const preferenceFromRedux = useAppSelector(
@@ -63,7 +64,7 @@ const OrderScreen = () => {
         </View>
       }
       data={['']}
-      renderItem={() => <Text>orderDetails container</Text>}
+      renderItem={() => <OrderDetailsComponent />}
       ListFooterComponent={
         <MyButton
           // disable if no foodds iin order from firebase

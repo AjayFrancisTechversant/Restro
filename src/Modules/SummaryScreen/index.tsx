@@ -18,6 +18,7 @@ import styles from './style';
 import {clearAddressDetails} from '../../Redux/Slices/AddressDetailsSlice';
 import {clearCardDetails} from '../../Redux/Slices/CardDetailsSlice';
 import {clearVehicleDetails} from '../../Redux/Slices/vehicleDetailsSlice';
+import OrderDetailsComponent from '../OrderDetailsComponent';
 
 type TipType = '0%' | '10%' | '15%';
 
@@ -77,7 +78,7 @@ const SummaryScreen = () => {
         <ThreeBitsComponent step={3} />
         <MySegmentedButtons nonEditable />
         <View style={screenStyles.lineStyle}></View>
-        <Text>orderDetails Component</Text>
+        <OrderDetailsComponent />
         <Text style={commonStyles.boldText}>Add Tip </Text>
         <Pressable onPress={() => setTip('0%')}>
           <PreferenceRadioCard
