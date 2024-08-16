@@ -7,6 +7,7 @@ import StaticVariables from '../../Preferences/StaticVariables';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import styles from './style';
 import {useAppSelector} from '../../hooks/hooks';
+import {PrefenceType} from '../../Redux/Slices/UserDetailsSlice';
 
 export type HotelType = {
   name: string;
@@ -14,6 +15,7 @@ export type HotelType = {
   rating: string;
   image: string;
   id: string;
+  preferences: PrefenceType[];
 };
 
 const HotelsContainer = () => {
@@ -29,7 +31,7 @@ const HotelsContainer = () => {
   }, [preferenceFromRedux]);
   const fecthHotels = () => {
     if (preferenceFromRedux) {
-      setHotels(StaticVariables.EMPTY_ARRAY)
+      setHotels(StaticVariables.EMPTY_ARRAY);
       firestore()
         .collection('hotels')
         .where('preferences', 'array-contains', preferenceFromRedux)

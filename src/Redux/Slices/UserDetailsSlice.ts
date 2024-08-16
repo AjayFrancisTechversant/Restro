@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import StaticVariables from '../../Preferences/StaticVariables';
 
-type PrefenceType = 'dine-in' | 'carry-out' | 'delivery' | undefined;
+export type PrefenceType = 'dine-in' | 'carry-out' | 'delivery' | undefined;
 
 export type UserDetailsReduxStateType = {
   zipcode: string;

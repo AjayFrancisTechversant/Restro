@@ -5,8 +5,9 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -21,6 +22,7 @@ import MyTextInput from '../../Components/MyTextInput';
 import StaticVariables from '../../Preferences/StaticVariables';
 import MyButton from '../../Components/MyButton';
 import styles from './style';
+import {FoodInTheOrderType} from '../OrderScreen';
 
 const FoodItemScreen = ({route}: any) => {
   const currentUserId = auth().currentUser?.uid;
@@ -45,8 +47,11 @@ const FoodItemScreen = ({route}: any) => {
     navigation.pop();
   };
 
-  const addOrder = () => {
+  useEffect(() => {
     getExistingFoods();
+  }, []);
+
+  const addOrder = () => {
     const orderStructure = {
       hotelDetails: {
         hotelId: hotel.id,
@@ -76,15 +81,24 @@ const FoodItemScreen = ({route}: any) => {
         console.log('Order added!');
       });
   };
-
-  const getExistingFoods = () => {
-    firestore()
+  
+  const getExistingFoods = async () => {
+    try {
+      const documentSnapshot = await firestore()
       .collection('orders')
       .doc(currentUserId)
-      .get()
-      .then(documentSnapshot => {
-        setExistingFoods(documentSnapshot.data().foods);
-      });
+      .get();
+      const existingFoodsArray: FoodInTheOrderType[] =
+      documentSnapshot.data()?.foods;
+      setExistingFoods(existingFoodsArray);
+      const samefood = existingFoodsArray.find(i => i.name == food.name);
+      console.log(samefood);
+      if (samefood) {
+        setQuantity(samefood.quantity);
+      }
+    } catch (error) {
+      Alert.alert((error as Error).message);
+    }
   };
 
   const handleViewOrder = () => {

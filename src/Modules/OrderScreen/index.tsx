@@ -1,26 +1,43 @@
-import {View, Text, TouchableOpacity, FlatList} from 'react-native';
-import React, {useEffect} from 'react';
-import auth from '@react-native-firebase/auth';
+import {View, Text, FlatList} from 'react-native';
+import React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import firestore from '@react-native-firebase/firestore';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
 import styles from './style';
 import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
-import ThreeBitsComponent from '../../Components/ThreeBitsComponent';
 import MySegmentedButtons from '../../Components/MySegmentedButtons';
 import MyButton from '../../Components/MyButton';
 import {useAppSelector} from '../../hooks/hooks';
 import OrderDetailsComponent from '../OrderDetailsComponent';
+
+export type FoodInTheOrderType = {
+  category: string;
+  desc: string;
+  name: string;
+  foodImage: string;
+  pricePerQuantity: number;
+  comment: string;
+  quantity: number;
+};
+
+export type OrderType = {
+  foods: FoodInTheOrderType[];
+  hotelDetails: {
+    hotelId: string;
+    hotelImage: string;
+    location: string;
+    name: string;
+    rating: String;
+  };
+};
 
 const OrderScreen = () => {
   const preferenceFromRedux = useAppSelector(
     state => state.userDetails.preference,
   );
   const navigation: any = useNavigation();
-  const currentUserId = auth().currentUser?.uid;
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -29,19 +46,7 @@ const OrderScreen = () => {
     screenContext.isTypeTablet,
     screenContext,
   );
-  useEffect(() => {
-    fetchOrders();
-  }, []);
 
-  const fetchOrders = () => {
-    firestore()
-      .collection('orders')
-      .doc(currentUserId)
-      .get()
-      .then(docSnapshot => {
-        console.log(docSnapshot.data());
-      });
-  };
   const handleSubmit = () => {
     if (preferenceFromRedux == 'carry-out') {
       navigation.navigate(StaticVariables.VehicleScreen);
