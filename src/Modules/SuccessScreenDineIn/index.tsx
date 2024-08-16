@@ -5,12 +5,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './style';
 import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import MyButton from '../../Components/MyButton';
 import StaticVariables from '../../Preferences/StaticVariables';
+import styles from './style';
 
 const SuccessScreenDineIn = () => {
   // get order details from db

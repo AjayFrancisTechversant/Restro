@@ -66,7 +66,6 @@ const SummaryScreen = () => {
         ],
       });
     }
-    //navigation reaplace to success screen by condition according to prefernece
   };
   return (
     <ScrollView>

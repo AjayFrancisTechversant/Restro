@@ -26,6 +26,7 @@ const StaticVariables = {
   SuccessScreenDineIn: 'SuccessScreenDineIn',
   SuccessScreenCarryOut: 'SuccessScreenCarryOut',
   SuccessScreenDelivery: 'SuccessScreenDelivery',
+  TrackingScreen: 'TrackingScreen',
   ContactUsScreen: 'ContactUsScreen',
 };
 export default StaticVariables;

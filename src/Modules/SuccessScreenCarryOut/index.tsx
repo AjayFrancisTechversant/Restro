@@ -149,64 +149,90 @@ const SuccessScreenCarryOut = () => {
         </Text>
       </View>
       <View>
-        <Text
-          style={[
-            screenStyles.text,
-            {
-              color:
-                progress == 'justPlacedOrder'
-                  ? ColorPalette.red
-                  : ColorPalette.white,
-            },
-          ]}>
-          For more Information about your order, Contact us!
-        </Text>
-        <MyButton
-          onPress={() => navigation.navigate(StaticVariables.ContactUsScreen)}
-          style={[
-            screenStyles.bottomButton,
-            {
-              backgroundColor:
-                progress == 'justPlacedOrder'
-                  ? ColorPalette.red
-                  : ColorPalette.white,
-            },
-          ]}>
-          <Text
-            style={[
-              commonStyles.boldText,
-              {
-                color:
-                  progress == 'justPlacedOrder'
-                    ? ColorPalette.white
-                    : ColorPalette.red,
-              },
-            ]}>
-            Contact Us
-          </Text>
-        </MyButton>
         {progress == 'justPlacedOrder' ? (
-          <MyButton
-            onPress={() => setProgress('customerOutside')}
-            style={[
-              screenStyles.bottomButton,
-              {backgroundColor: ColorPalette.red},
-            ]}>
-            <Text style={[commonStyles.boldText, commonStyles.whiteText]}>
-              I'm Outside!
+          <>
+            <Text
+              style={[
+                screenStyles.text,
+                {
+                  color: ColorPalette.red,
+                },
+              ]}>
+              For more Information about your order, Contact us!
             </Text>
-          </MyButton>
+            <MyButton
+              onPress={() =>
+                navigation.navigate(StaticVariables.ContactUsScreen)
+              }
+              style={[
+                screenStyles.bottomButton,
+                {
+                  backgroundColor: ColorPalette.red,
+                },
+              ]}>
+              <Text
+                style={[
+                  commonStyles.boldText,
+                  {
+                    color: ColorPalette.white,
+                  },
+                ]}>
+                Contact Us
+              </Text>
+            </MyButton>
+            <MyButton
+              onPress={() => setProgress('customerOutside')}
+              style={[
+                screenStyles.bottomButton,
+                {backgroundColor: ColorPalette.red},
+              ]}>
+              <Text style={[commonStyles.boldText, commonStyles.whiteText]}>
+                I'm Outside!
+              </Text>
+            </MyButton>
+          </>
         ) : progress == 'customerOutside' ? (
-          <MyButton
-            onPress={() => setProgress('handedOver')}
-            style={[
-              screenStyles.bottomButton,
-              {backgroundColor: ColorPalette.white},
-            ]}>
-            <Text style={[commonStyles.boldText, commonStyles.redText]}>
-              Collect Order!
+          <>
+            <Text
+              style={[
+                screenStyles.text,
+                {
+                  color: ColorPalette.white,
+                },
+              ]}>
+              For more Information about your order, Contact us!
             </Text>
-          </MyButton>
+            <MyButton
+              onPress={() =>
+                navigation.navigate(StaticVariables.ContactUsScreen)
+              }
+              style={[
+                screenStyles.bottomButton,
+                {
+                  backgroundColor: ColorPalette.white,
+                },
+              ]}>
+              <Text
+                style={[
+                  commonStyles.boldText,
+                  {
+                    color: ColorPalette.red,
+                  },
+                ]}>
+                Contact Us
+              </Text>
+            </MyButton>
+            <MyButton
+              onPress={() => setProgress('handedOver')}
+              style={[
+                screenStyles.bottomButton,
+                {backgroundColor: ColorPalette.white},
+              ]}>
+              <Text style={[commonStyles.boldText, commonStyles.redText]}>
+                Collect Order!
+              </Text>
+            </MyButton>
+          </>
         ) : (
           <MyButton
             onPress={handleFinish}
