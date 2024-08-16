@@ -13,7 +13,7 @@ const styles = (
     container: {
       padding: height * 0.02,
       flex: 1,
-      backgroundColor: ColorPalette.lightGray,
+      backgroundColor: ColorPalette.offWhite,
       marginVertical: height * 0.01,
       borderRadius: 20
     },

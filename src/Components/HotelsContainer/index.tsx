@@ -51,7 +51,7 @@ const HotelsContainer = () => {
     <FlatList
       style={screenStyles.container}
       ListEmptyComponent={
-        <ActivityIndicator size={50} color={ColorPalette.gray} />
+        <ActivityIndicator size={50} color={ColorPalette.red} />
       }
       data={hotels}
       renderItem={({item}) => <HotelCard hotel={item} />}
