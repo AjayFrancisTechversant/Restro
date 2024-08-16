@@ -1,22 +1,43 @@
-import {View, Text, Image, TouchableOpacity, FlatList} from 'react-native';
-import React from 'react';
-import Entypo from 'react-native-vector-icons/Entypo';
-import {Chip} from 'react-native-paper';
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import firestore from '@react-native-firebase/firestore';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Entypo from 'react-native-vector-icons/Entypo';
+import {HotelType} from '../../Components/HotelsContainer';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import HeaderComponent from '../../Components/HeaderComponent';
-import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import MyButton from '../../Components/MyButton';
-import FeaturedItemsComponent from '../../Components/FeaturedItemsComponent';
-import {HotelType} from '../../Components/HotelsContainer';
-import StaticVariables from '../../Preferences/StaticVariables';
+import {Chip} from 'react-native-paper';
 import styles from './style';
+import ColorPalette from '../../Assets/Themes/ColorPalette';
+import HeaderComponent from '../../Components/HeaderComponent';
+import StaticVariables from '../../Preferences/StaticVariables';
+import ReviewCard from '../../Components/ReviewCard';
 
-const HotelScreen = ({route}: any) => {
+export type ReviewType = {
+  name: string;
+  comment: string;
+  hotelId: string;
+  rating: string;
+};
+
+const ReviewsScreen = ({route}: any) => {
+  const currentUserId = auth().currentUser?.uid;
   const navigation: any = useNavigation();
   const hotel: HotelType = route.params.hotel;
+  const [reviews, setReviews] = useState<ReviewType[]>(
+    StaticVariables.EMPTY_ARRAY,
+  );
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -25,6 +46,16 @@ const HotelScreen = ({route}: any) => {
     screenContext.isTypeTablet,
     screenContext,
   );
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('reviews')
+      .where('hotelId', '==', hotel.id)
+      .onSnapshot(querrySnapshot => {
+        setReviews(querrySnapshot.docs.map((i: any) => i.data()));
+      });
+
+    return () => subscriber();
+  }, [currentUserId]);
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
@@ -38,9 +69,7 @@ const HotelScreen = ({route}: any) => {
             }}
           />
           <View style={screenStyles.container}>
-            <View style={screenStyles.headerComponentContainer}>
-              <HeaderComponent color={ColorPalette.white} />
-            </View>
+            <HeaderComponent color={ColorPalette.white} />
             <View style={screenStyles.hotelDetailscontainer}>
               <Text style={commonStyles.bigBoldText}>{hotel.name}</Text>
               <Text>
@@ -58,11 +87,7 @@ const HotelScreen = ({route}: any) => {
                   </Chip>
                 ))}
               </View>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate(StaticVariables.ReviewsScreen, {hotel})
-                }
-                style={screenStyles.ratingsContainerButton}>
+              <TouchableOpacity style={screenStyles.ratingsContainerButton}>
                 <FontAwesome name="star" color={ColorPalette.red} size={20} />
                 <FontAwesome name="star" color={ColorPalette.red} size={20} />
                 <FontAwesome name="star" color={ColorPalette.red} size={20} />
@@ -83,27 +108,31 @@ const HotelScreen = ({route}: any) => {
                 </MyButton>
               </View>
             </View>
+            <View style={screenStyles.navigationButtonsContainer}>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Text style={commonStyles.boldText}>
+                  <AntDesign name="arrowleft" size={20} /> Reviews
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate(StaticVariables.AddReviewScreen, {hotel})
+                }>
+                <Text style={[commonStyles.redText, commonStyles.boldText]}>
+                  <AntDesign name="plus" size={20} /> Add your review
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </>
       }
-      data={['']}
-      renderItem={() => <FeaturedItemsComponent hotel={hotel} />}
-      ListFooterComponent={
-        <MyButton
-          onPress={() =>
-            navigation.navigate(StaticVariables.MenuScreen, {hotel})
-          }
-          style={[
-            screenStyles.bottomButton,
-            {backgroundColor: ColorPalette.red},
-          ]}>
-          <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-            View Menu
-          </Text>
-        </MyButton>
+      ListEmptyComponent={
+        <ActivityIndicator size={50} color={ColorPalette.gray} />
       }
+      data={reviews}
+      renderItem={({item}) => <ReviewCard review={item} />}
     />
   );
 };
 
-export default HotelScreen;
+export default ReviewsScreen;

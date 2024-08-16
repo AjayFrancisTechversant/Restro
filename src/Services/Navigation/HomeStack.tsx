@@ -15,6 +15,8 @@ import SuccessScreenCarryOut from '../../Modules/SuccessScreenCarryOut';
 import SuccessScreenDelivery from '../../Modules/SuccessScreenDelivery';
 import SuccessScreenDineIn from '../../Modules/SuccessScreenDineIn';
 import TrackingScreen from '../../Modules/TrackingScreen';
+import ReviewsScreen from '../../Modules/ReviewsScreen';
+import AddReviewScreen from '../../Modules/AddReviewScreen';
 
 const Stack = createNativeStackNavigator();
 const HomeStack = () => {
@@ -26,6 +28,8 @@ const HomeStack = () => {
       <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
       <Stack.Screen name="EditZipcodeScreen" component={EditZipcodeScreen} />
       <Stack.Screen name="HotelScreen" component={HotelScreen} />
+      <Stack.Screen name="ReviewsScreen" component={ReviewsScreen} />
+      <Stack.Screen name="AddReviewScreen" component={AddReviewScreen} />
       <Stack.Screen name="MenuScreen" component={MenuScreen} />
       <Stack.Screen name="FoodItemScreen" component={FoodItemScreen} />
       <Stack.Screen name="OrderScreen" component={OrderScreen} />

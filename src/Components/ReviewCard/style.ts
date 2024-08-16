@@ -13,7 +13,10 @@ const styles = (
     card: {
       backgroundColor: ColorPalette.white,
       borderRadius: 10,
-      padding: height * 0.02,margin:height*0.01,elevation:5
+      padding: height * 0.02,
+      marginBottom: height * 0.01,
+      marginHorizontal: height * 0.02,
+      elevation: 5,
     },
   });
 

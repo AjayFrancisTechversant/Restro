@@ -1,9 +1,9 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import {ReviewType} from '../ReviewsComponent';
 import styles from './style';
 import { commonStyles } from '../../CommonStyles/CommonStyles';
+import { ReviewType } from '../../Modules/ReviewsScreen';
 
 type ReviewCardPropsType = {
   review: ReviewType;
