@@ -28,7 +28,6 @@ const FoodItemScreen = ({route}: any) => {
   const food: FoodType = route.params.food;
   const navigation: any = useNavigation();
   const [comment, setComment] = useState(StaticVariables.EMPTY_STRING);
-  //find the quantity from db(form orders)
   const [quantity, setQuantity] = useState(0);
   const [existingFoods, setExistingFoods] = useState(
     StaticVariables.EMPTY_ARRAY,
