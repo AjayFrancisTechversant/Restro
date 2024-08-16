@@ -10,13 +10,12 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
-    
     container: {
       padding: height * 0.02,
       flex: 1,
       backgroundColor: ColorPalette.white,
     },
-    
+    contentContainerStyle: {paddingBottom: height * 0.03},
   });
 
 export default styles;

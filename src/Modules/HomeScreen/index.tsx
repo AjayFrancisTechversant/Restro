@@ -1,4 +1,4 @@
-import {View} from 'react-native';
+import {FlatList, View} from 'react-native';
 import React from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import HeaderComponent from '../../Components/HeaderComponent';
@@ -17,15 +17,20 @@ const HomeScreen = () => {
     screenContext.isTypeTablet,
     screenContext,
   );
-
-  //use SwitchCase for conditionally rendering
   return (
-    <View style={screenStyles.container}>
-      <HeaderComponent color={ColorPalette.gray} />
-      <MySegmentedButtons />
-      <ZipcodeDisplayComponent />
-      <HotelsContainer />
-    </View>
+    <FlatList
+      style={screenStyles.container}
+      ListHeaderComponent={
+        <>
+          <HeaderComponent color={ColorPalette.gray} />
+          <MySegmentedButtons />
+          <ZipcodeDisplayComponent />
+        </>
+      }
+      data={['']}
+      renderItem={() => <HotelsContainer />}
+      contentContainerStyle={screenStyles.contentContainerStyle}
+    />
   );
 };
 

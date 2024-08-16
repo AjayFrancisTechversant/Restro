@@ -1,4 +1,4 @@
-import {View, Text, ScrollView, Pressable} from 'react-native';
+import {View, Text, ScrollView, Pressable, FlatList} from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
@@ -69,56 +69,66 @@ const SummaryScreen = () => {
     }
   };
   return (
-    <ScrollView>
-      <View style={screenStyles.container}>
-        <HeaderComponent color={ColorPalette.gray} />
-        <Text style={[commonStyles.bigBoldText, screenStyles.heading]}>
-          Order Summary
-        </Text>
-        <ThreeBitsComponent step={3} />
-        <MySegmentedButtons nonEditable />
-        <View style={screenStyles.lineStyle}></View>
-        <OrderDetailsComponent />
-        <Text style={commonStyles.boldText}>Add Tip </Text>
-        <Pressable onPress={() => setTip('0%')}>
-          <PreferenceRadioCard
-            isSelected={tip == '0%' ? true : false}
-            text={`$ 0`}
-          />
-        </Pressable>
-        <Pressable onPress={() => setTip('10%')}>
-          <PreferenceRadioCard
-            isSelected={tip == '10%' ? true : false}
-            text={`10% ( $ ${0} )`}
-          />
-        </Pressable>
-        <Pressable onPress={() => setTip('15%')}>
-          <PreferenceRadioCard
-            isSelected={tip == '15%' ? true : false}
-            text={`15% ( $ ${0} )`}
-          />
-        </Pressable>
-        {preferenceFromRedux == 'carry-out' ? (
-          <VehicleDetailsComponent />
-        ) : preferenceFromRedux == 'delivery' ? (
-          <AddressDetailsComponent />
-        ) : null}
-        <Text style={commonStyles.boldText}>Payment Info</Text>
-        <ATMCardComponent />
-        <MyButton
-          onPress={handleSubmit}
-          style={[
-            screenStyles.bottomButton,
-            {
-              backgroundColor: ColorPalette.red,
-            },
-          ]}>
-          <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-            Looks Good!...Pay Now
+    <FlatList
+      showsVerticalScrollIndicator={false}
+      style={screenStyles.container}
+      ListHeaderComponent={
+        <>
+          <HeaderComponent color={ColorPalette.gray} />
+          <Text style={[commonStyles.bigBoldText, screenStyles.heading]}>
+            Order Summary
           </Text>
-        </MyButton>
-      </View>
-    </ScrollView>
+          <ThreeBitsComponent step={3} />
+          <MySegmentedButtons nonEditable />
+          <View style={screenStyles.lineStyle}></View>
+        </>
+      }
+      data={['']}
+      renderItem={() => <OrderDetailsComponent />}
+      ListFooterComponent={
+        <>
+          <Text style={commonStyles.boldText}>Add Tip </Text>
+          <Pressable onPress={() => setTip('0%')}>
+            <PreferenceRadioCard
+              isSelected={tip == '0%' ? true : false}
+              text={`$ 0`}
+            />
+          </Pressable>
+          <Pressable onPress={() => setTip('10%')}>
+            <PreferenceRadioCard
+              isSelected={tip == '10%' ? true : false}
+              text={`10% ( $ ${0} )`}
+            />
+          </Pressable>
+          <Pressable onPress={() => setTip('15%')}>
+            <PreferenceRadioCard
+              isSelected={tip == '15%' ? true : false}
+              text={`15% ( $ ${0} )`}
+            />
+          </Pressable>
+          {preferenceFromRedux == 'carry-out' ? (
+            <VehicleDetailsComponent />
+          ) : preferenceFromRedux == 'delivery' ? (
+            <AddressDetailsComponent />
+          ) : null}
+          <Text style={commonStyles.boldText}>Payment Info</Text>
+          <ATMCardComponent />
+          <MyButton
+            onPress={handleSubmit}
+            style={[
+              screenStyles.bottomButton,
+              {
+                backgroundColor: ColorPalette.red,
+              },
+            ]}>
+            <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+              Looks Good!...Pay Now
+            </Text>
+          </MyButton>
+        </>
+      }
+      ListFooterComponentStyle={screenStyles.footerStyle}
+    />
   );
 };
 

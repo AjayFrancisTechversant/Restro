@@ -14,8 +14,8 @@ const styles = (
       padding: height * 0.02,
       flex: 1,
       backgroundColor: ColorPalette.lightGray,
-      marginTop: height * 0.01,
-      borderRadius: 20,
+      marginVertical: height * 0.01,
+      borderRadius: 20
     },
   });
 

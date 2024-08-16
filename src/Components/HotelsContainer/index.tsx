@@ -1,4 +1,4 @@
-import {View, FlatList, ActivityIndicator} from 'react-native';
+import {FlatList, ActivityIndicator} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import firestore from '@react-native-firebase/firestore';
 import {useScreenContext} from '../../Contexts/ScreenContext';
@@ -19,6 +19,7 @@ const HotelsContainer = () => {
   const [hotels, setHotels] = useState<HotelType[]>(
     StaticVariables.EMPTY_ARRAY,
   );
+  
   useEffect(() => {
     fecthHotels();
   }, []);
@@ -39,13 +40,14 @@ const HotelsContainer = () => {
     screenContext,
   );
   return (
-    <View style={screenStyles.container}>
-      <FlatList
-        ListEmptyComponent={<ActivityIndicator size={50} color={ColorPalette.gray}/>}
-        data={hotels}
-        renderItem={({item}) => <HotelCard hotel={item} />}
-      />
-    </View>
+    <FlatList
+      style={screenStyles.container}
+      ListEmptyComponent={
+        <ActivityIndicator size={50} color={ColorPalette.gray} />
+      }
+      data={hotels}
+      renderItem={({item}) => <HotelCard hotel={item} />}
+    />
   );
 };
 

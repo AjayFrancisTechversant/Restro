@@ -16,7 +16,7 @@ type HotelCardPropsType = {
 };
 
 const HotelCard: React.FC<HotelCardPropsType> = ({hotel}) => {
-  const navigation:any = useNavigation();
+  const navigation: any = useNavigation();
   const [isBookmarked, setIsBookmarked] = useState(false);
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -29,7 +29,7 @@ const HotelCard: React.FC<HotelCardPropsType> = ({hotel}) => {
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate(StaticVariables.HotelScreen,{hotel})}
+      onPress={() => navigation.navigate(StaticVariables.HotelScreen, {hotel})}
       style={screenStyles.card}>
       <Image
         style={screenStyles.imageStyle}
@@ -38,15 +38,6 @@ const HotelCard: React.FC<HotelCardPropsType> = ({hotel}) => {
         }}
       />
       <View style={screenStyles.hotelDetailsContainer}>
-        <TouchableOpacity
-          onPress={() => setIsBookmarked(!isBookmarked)}
-          style={screenStyles.bookmarkButton}>
-          <Ionicons
-            name={isBookmarked ? 'bookmark' : 'bookmark-outline'}
-            size={20}
-            color={ColorPalette.red}
-          />
-        </TouchableOpacity>
         <Text style={commonStyles.bigBoldText}>{hotel.name}</Text>
         <Text>
           <Entypo name="location-pin" color={ColorPalette.gray} size={20} />
