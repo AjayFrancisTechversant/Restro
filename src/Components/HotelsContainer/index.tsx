@@ -29,6 +29,7 @@ const HotelsContainer = () => {
   }, [preferenceFromRedux]);
   const fecthHotels = () => {
     if (preferenceFromRedux) {
+      setHotels(StaticVariables.EMPTY_ARRAY)
       firestore()
         .collection('hotels')
         .where('preferences', 'array-contains', preferenceFromRedux)
