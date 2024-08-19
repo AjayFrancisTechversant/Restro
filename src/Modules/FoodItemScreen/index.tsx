@@ -37,6 +37,9 @@ const FoodItemScreen = ({route}: any) => {
   const [existingFoods, setExistingFoods] = useState(
     StaticVariables.EMPTY_ARRAY,
   );
+  const [currentHotelIdinOrder, setCurrentHotelIdinOrder] = useState(
+    StaticVariables.EMPTY_STRING,
+  );
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -56,6 +59,14 @@ const FoodItemScreen = ({route}: any) => {
 
   const addOrder = async () => {
     try {
+      if (currentHotelIdinOrder == hotel.id) {
+        //same hotel
+        console.log('same hotel');
+      } else {
+        //different hotel
+        console.log('differnt hotel');
+      }
+
       if (quantity > 0) {
         let updatedFoods = [...existingFoods];
         const existingFoodIndex = updatedFoods.findIndex(
@@ -107,10 +118,13 @@ const FoodItemScreen = ({route}: any) => {
         .collection('orders')
         .doc(currentUserId)
         .get();
-      const existingFoodsArray: FoodInTheOrderType[] =
-        documentSnapshot.data()?.foods;
-      if (existingFoodsArray) {
+
+      const order = documentSnapshot.data();
+
+      const existingFoodsArray: FoodInTheOrderType[] = order?.foods;
+      if (order) {
         setExistingFoods(existingFoodsArray);
+        setCurrentHotelIdinOrder(order.hotel.id);
       }
       const samefood = existingFoodsArray?.find(i => i.name == food.name);
       if (samefood) {

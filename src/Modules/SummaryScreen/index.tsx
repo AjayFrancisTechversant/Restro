@@ -37,7 +37,6 @@ const SummaryScreen = () => {
     screenContext.isTypeTablet,
     screenContext,
   );
-  //get total order price global fn
   const handleSubmit = () => {
     dispatch(clearAddressDetails());
     dispatch(clearCardDetails());
