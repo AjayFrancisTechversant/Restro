@@ -11,11 +11,13 @@ const styles = (
 ) =>
   StyleSheet.create({
     card: {
-      height: height * 0.1,
-      width: height * 0.1,
+      height: height * 0.15,
+      width: height * 0.15,
       alignItems: 'center',
       justifyContent: 'center',
-      borderRadius: 10,margin:height*0.005,elevation:5
+      borderRadius: 10,
+      margin: height * 0.005,
+      elevation: 5,padding:height*0.01
     },
   });
 
