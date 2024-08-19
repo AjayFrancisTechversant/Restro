@@ -1,8 +1,6 @@
 import {View, Text, FlatList, ActivityIndicator} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
 import firestore, {Filter} from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
@@ -14,8 +12,8 @@ import {FoodType} from '../../Components/FeaturedItemsComponent';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import FoodItemCard from '../../Components/FoodItemCard';
 import SearchFoodComponent from '../../Components/SearchFoodComponent';
-import MyButton from '../../Components/MyButton';
 import styles from './style';
+import ViewMyOrderButton from '../../Components/ViewMyOrderButton';
 
 export type CategoryType =
   | 'All'
@@ -29,8 +27,6 @@ export type CategoryType =
 
 const MenuScreen = ({route}: any) => {
   const hotel: HotelType = route.params.hotel;
-  const navigation: any = useNavigation();
-  const currentUserId = auth().currentUser?.uid;
   const [loading, setLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] =
     useState<CategoryType>(undefined);
@@ -77,9 +73,6 @@ const MenuScreen = ({route}: any) => {
     }
   };
 
-  const handleViewOrder = () => {
-    navigation.navigate(StaticVariables.OrderScreen);
-  };
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -163,11 +156,7 @@ const MenuScreen = ({route}: any) => {
           }
         />
       )}
-      <MyButton onPress={handleViewOrder} style={screenStyles.ViewOrderButton}>
-        <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-          View my Orders
-        </Text>
-      </MyButton>
+      <ViewMyOrderButton/>
     </View>
   );
 };

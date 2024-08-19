@@ -25,10 +25,6 @@ const styles = (
     headerComponentStyle: {width: width * 0.9},
     heading: {alignSelf: 'center', fontWeight: 'bold', fontSize: 30},
     noItemsText: {alignSelf: 'center', margin: height * 0.1},
-    ViewOrderButton: {
-      backgroundColor: ColorPalette.red,
-      alignSelf: 'center',
-    },
   });
 
 export default styles;

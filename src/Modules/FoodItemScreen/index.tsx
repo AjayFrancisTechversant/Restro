@@ -26,6 +26,7 @@ import {FoodInTheOrderType, OrderType} from '../OrderScreen';
 import {removeFoodFromCart} from '../../Services/API/removeFoodFromCart';
 import styles from './style';
 import {MessageOptions, showMessage} from 'react-native-flash-message';
+import ViewMyOrderButton from '../../Components/ViewMyOrderButton';
 
 const FoodItemScreen = ({route}: any) => {
   const currentUserId = auth().currentUser?.uid;
@@ -184,12 +185,8 @@ const FoodItemScreen = ({route}: any) => {
     setQuantityLoading(false);
   };
 
-  const handleViewOrder = () => {
-    navigation.navigate(StaticVariables.OrderScreen);
-  };
-
   return (
-    <KeyboardAvoidingView behavior="position" style={[commonStyles.flexOne]}>
+    <KeyboardAvoidingView behavior="position">
       <ScrollView>
         <Image source={{uri: food.image}} style={screenStyles.imageStyle} />
         <View style={screenStyles.headerComponentStyle}>
@@ -245,12 +242,8 @@ const FoodItemScreen = ({route}: any) => {
             </Text>
           </MyButton>
         </View>
+        <ViewMyOrderButton />
       </ScrollView>
-      <MyButton onPress={handleViewOrder} style={screenStyles.ViewOrderButton}>
-        <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-          View my Orders
-        </Text>
-      </MyButton>
     </KeyboardAvoidingView>
   );
 };

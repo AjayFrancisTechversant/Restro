@@ -17,7 +17,7 @@ const styles = (
       margin: height * 0.02,
     },
     imageStyle: {height: height * 0.3, width},
-    container: {flex: 1, padding: height * 0.02, borderWidth: 1},
+    container: {flex: 1, padding: height * 0.02},
     heading: {fontWeight: 'bold', fontSize: 30, marginVertical: height * 0.01},
     textInput: {
       borderWidth: 0.5,
