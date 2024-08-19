@@ -21,7 +21,7 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import MyTextInput from '../../Components/MyTextInput';
 import StaticVariables from '../../Preferences/StaticVariables';
 import MyButton from '../../Components/MyButton';
-import {FoodInTheOrderType} from '../OrderScreen';
+import {FoodInTheOrderType, OrderType} from '../OrderScreen';
 import styles from './style';
 
 const FoodItemScreen = ({route}: any) => {
@@ -48,22 +48,27 @@ const FoodItemScreen = ({route}: any) => {
   };
 
   useEffect(() => {
-    // getExistingFoods();
+    getExistingFoods();
   }, []);
 
-  const addOrder = () => {
-    const orderStructure = {
-      hotel: {
-        id: hotel.id,
-        image: hotel.image,
-        location: hotel.location,
-        name: hotel.name,
-        rating: hotel.rating,
-        preferences: hotel.preferences,
-      },
-      foods: [
-        ...existingFoods,
-        {
+  const addOrder = async () => {
+    try {
+      const orderDoc = await firestore()
+        .collection('orders')
+        .doc(currentUserId)
+        .get();
+
+      let updatedFoods = [...existingFoods];
+
+      const existingFoodIndex = updatedFoods.findIndex(
+        item => item.name === food.name,
+      );
+
+      if (existingFoodIndex > -1) {
+        updatedFoods[existingFoodIndex].quantity = quantity;
+        updatedFoods[existingFoodIndex].comment = comment;
+      } else {
+        updatedFoods.push({
           category: food.category,
           comment,
           desc: food.desc,
@@ -71,16 +76,31 @@ const FoodItemScreen = ({route}: any) => {
           name: food.name,
           pricePerQuantity: food.price,
           quantity,
+        });
+      }
+
+      const orderStructure: OrderType = {
+        hotel: {
+          id: hotel.id,
+          image: hotel.image,
+          location: hotel.location,
+          name: hotel.name,
+          rating: hotel.rating,
+          preferences: hotel.preferences,
         },
-      ],
-    };
-    firestore()
-      .collection('orders')
-      .doc(currentUserId)
-      .set(orderStructure)
-      .then(() => {
-        console.log('Order added!');
-      });
+        foods: updatedFoods,
+      };
+
+      // Update or create the order in Firestore
+      await firestore()
+        .collection('orders')
+        .doc(currentUserId)
+        .set(orderStructure, {merge: true});
+
+      console.log('Order added/updated successfully!');
+    } catch (error) {
+      Alert.alert('Error', (error as Error).message);
+    }
   };
 
   const getExistingFoods = async () => {
