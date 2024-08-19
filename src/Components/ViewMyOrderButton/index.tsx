@@ -37,7 +37,6 @@ const ViewMyOrderButton = () => {
       });
     return () => subscriber();
   }, []);
-  console.log(cartPrice);
 
   return (
     <MyButton
