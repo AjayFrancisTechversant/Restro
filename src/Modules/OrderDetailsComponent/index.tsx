@@ -1,5 +1,5 @@
 import {Text, FlatList, TouchableOpacity, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import auth from '@react-native-firebase/auth';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -43,22 +43,21 @@ const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
 
   useEffect(() => {
     const subscriber = firestore()
-      .collection('Users')
-      .doc(userId)
-      .onSnapshot(documentSnapshot => {
-        console.log('User data: ', documentSnapshot.data());
+      .collection('orders')
+      .doc(currentUserId)
+      .onSnapshot((docSnapshot: any) => {
+        setOrder(docSnapshot.data());
+        if (setIsCheckoutDisabled) {
+          if (docSnapshot.data().foods.length == 0) {
+            setIsCheckoutDisabled(true);
+          } else setIsCheckoutDisabled(false);
+        }
+        calculatePrices();
       });
-
-    // Stop listening for updates when no longer required
     return () => subscriber();
   }, []);
 
-  useEffect(() => {
-    fetchOrders();
-    calculatePrices();
-  }, []);
-
-  const calculatePrices = async () => {
+  const calculatePrices = useCallback(async () => {
     if (currentUserId) {
       const subTotal = await getTotalPrice(currentUserId);
       if (subTotal) {
@@ -68,21 +67,7 @@ const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
         setPrices({delivery, total, subTotal, tax});
       }
     }
-  };
-  const fetchOrders = () => {
-    firestore()
-      .collection('orders')
-      .doc(currentUserId)
-      .get()
-      .then((docSnapshot: any) => {
-        setOrder(docSnapshot.data());
-        if (setIsCheckoutDisabled) {
-          if (docSnapshot.data().foods) {
-            setIsCheckoutDisabled(true);
-          } else setIsCheckoutDisabled(false);
-        }
-      });
-  };
+  }, [order]);
 
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -94,7 +79,7 @@ const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
   );
   return (
     <>
-      {order?.foods ? (
+      {order?.foods.length != 0 ? (
         <FlatList
           style={screenStyles.container}
           ListHeaderComponent={
@@ -155,7 +140,9 @@ const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
               </View>
               <View style={screenStyles.amountContainer}>
                 <Text style={commonStyles.boldText}>Taxes</Text>
-                <Text style={commonStyles.boldText}>$ {prices.tax}</Text>
+                <Text style={commonStyles.boldText}>
+                  $ {prices.tax.toPrecision(2)}
+                </Text>
               </View>
               <View style={screenStyles.amountContainer}>
                 <Text style={commonStyles.boldText}>Delivery</Text>

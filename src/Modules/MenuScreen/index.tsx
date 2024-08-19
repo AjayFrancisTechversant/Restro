@@ -16,7 +16,6 @@ import FoodItemCard from '../../Components/FoodItemCard';
 import SearchFoodComponent from '../../Components/SearchFoodComponent';
 import MyButton from '../../Components/MyButton';
 import styles from './style';
-import {getTotalPrice} from '../../Services/API/getTotalPrice';
 
 export type CategoryType =
   | 'All'
@@ -32,9 +31,7 @@ const MenuScreen = ({route}: any) => {
   const hotel: HotelType = route.params.hotel;
   const navigation: any = useNavigation();
   const currentUserId = auth().currentUser?.uid;
-  const [totalPrice, setTotalPrice] = useState<number>(0);
   const [loading, setLoading] = useState(false);
-  const [priceLoading, setPriceLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] =
     useState<CategoryType>(undefined);
   const [foodItems, setFoodItems] = useState<FoodType[]>(
@@ -46,21 +43,7 @@ const MenuScreen = ({route}: any) => {
   useEffect(() => {
     fetchFoodItems();
   }, [selectedCategory]);
-  
-  useEffect(() => {
-    fetchTotalPrice();
-  }, []);
 
-  const fetchTotalPrice = async () => {
-    setPriceLoading(true);
-    if (currentUserId) {
-      const totalPrice = await getTotalPrice(currentUserId);
-      if (totalPrice) {
-        setTotalPrice(totalPrice);
-      }
-      setPriceLoading(false);
-    }
-  };
   const allCategories: CategoryType[] = [
     'All',
     'Apetizers',
@@ -182,12 +165,7 @@ const MenuScreen = ({route}: any) => {
       )}
       <MyButton onPress={handleViewOrder} style={screenStyles.ViewOrderButton}>
         <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-          View my Orders ${' '}
-          {!priceLoading ? (
-            totalPrice
-          ) : (
-            <ActivityIndicator color={ColorPalette.white} size={15} />
-          )}
+          View my Orders
         </Text>
       </MyButton>
     </View>

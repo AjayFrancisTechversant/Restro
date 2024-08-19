@@ -1,5 +1,6 @@
-import {View, Text, ScrollView} from 'react-native';
-import React, {useState} from 'react';
+import {View, Text, ScrollView, Alert} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import firestore from '@react-native-firebase/firestore';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import auth from '@react-native-firebase/auth';
@@ -11,12 +12,13 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import HeaderComponent from '../../Components/HeaderComponent';
 import StaticVariables from '../../Preferences/StaticVariables';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
-import {color} from '@rneui/base';
+import {OrderType} from '../OrderScreen';
 
 type ProgressType = 'justPlacedOrder' | 'customerOutside' | 'handedOver';
 
 const SuccessScreenCarryOut = () => {
-  //get order details from db
+  const [order, setOrder] = useState<OrderType>();
+  const [orderId, setOrderId] = useState<string>();
   const [progress, setProgress] = useState<ProgressType>('justPlacedOrder');
   const currentUserId = auth().currentUser?.uid;
   const navigation: any = useNavigation();
@@ -28,9 +30,31 @@ const SuccessScreenCarryOut = () => {
     screenContext.isTypeTablet,
     screenContext,
   );
+  useEffect(() => {
+    fecthOrder();
+  }, []);
+
+  const fecthOrder = async () => {
+    try {
+      const docSnapshot: any = await firestore()
+        .collection('orders')
+        .doc(currentUserId)
+        .get();
+      setOrder(docSnapshot.data());
+      setOrderId(docSnapshot.id);
+    } catch (error) {
+      Alert.alert((error as Error).message);
+    }
+  };
   const handleFinish = () => {
-    //clear order details from db using remove the doc using uid on finish
-    navigation.popToTop();
+    firestore()
+      .collection('orders')
+      .doc(currentUserId)
+      .delete()
+      .then(() => {
+        navigation.popToTop();
+      })
+      .catch(error => Alert.alert((error as Error).message));
   };
   return (
     <View
@@ -112,7 +136,7 @@ const SuccessScreenCarryOut = () => {
                   : ColorPalette.white,
             },
           ]}>
-          Hotel Name
+          {order?.hotel.name}
         </Text>
         <Text
           style={[
@@ -133,7 +157,7 @@ const SuccessScreenCarryOut = () => {
                 : ColorPalette.white
             }
           />
-          Hotel location
+          {order?.hotel.location}
         </Text>
         <Text
           style={[
@@ -145,7 +169,7 @@ const SuccessScreenCarryOut = () => {
                   : ColorPalette.white,
             },
           ]}>
-          Order #333636
+          Order #{orderId}
         </Text>
       </View>
       <View>

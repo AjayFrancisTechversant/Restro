@@ -21,8 +21,8 @@ const styles = (
       justifyContent: 'space-between',
     },
     view1: {flex: 1},
-    view2: {flex: 8},
-    view3: {flex: 1, justifyContent: 'flex-end'},
+    view2: {flex: 7},
+    view3: {flex: 2, justifyContent: 'flex-end'},
   });
 
 export default styles;

@@ -51,7 +51,7 @@ const OrderScreen = () => {
     } else if (preferenceFromRedux == 'dine-in') {
       navigation.navigate(StaticVariables.PaymentInfoScreen);
     }
-  };
+  };  
   return (
     <FlatList
       ListHeaderComponent={
@@ -65,7 +65,7 @@ const OrderScreen = () => {
         </View>
       }
       data={['']}
-      renderItem={() => <OrderDetailsComponent />}
+      renderItem={() => <OrderDetailsComponent setIsCheckoutDisabled={setIsCheckoutDisabled}/>}
       ListFooterComponentStyle={screenStyles.footerStyle}
       ListFooterComponent={
         !isCheckoutDisabled ? (

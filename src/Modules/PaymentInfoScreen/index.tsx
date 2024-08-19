@@ -6,8 +6,10 @@ import {
   Image,
   KeyboardAvoidingView,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import HeaderComponent from '../../Components/HeaderComponent';
@@ -31,6 +33,9 @@ import {
   updateName,
   updateNumber,
 } from '../../Redux/Slices/CardDetailsSlice';
+import {OrderType} from '../OrderScreen';
+import {Alert} from 'react-native';
+import {getTotalPrice} from '../../Services/API/getTotalPrice';
 
 type ErrorType = {
   numberError: boolean;
@@ -46,6 +51,9 @@ const PaymentInfoScreen = () => {
   const {number, expiry, cvv, name} = useAppSelector(
     state => state.cardDetails,
   );
+  const currentUserId = auth().currentUser?.uid;
+  const [order, setOrder] = useState<OrderType>();
+  const [totalPrice, setTotalPrice] = useState(0);
   const [error, setError] = useState<ErrorType>({
     cvvError: !validate(cvv, 'cvv'),
     expiryError: !validate(expiry),
@@ -60,6 +68,27 @@ const PaymentInfoScreen = () => {
     screenContext.isTypeTablet,
     screenContext,
   );
+  useEffect(() => {
+    fecthOrder();
+  }, []);
+
+  const fecthOrder = async () => {
+    try {
+      const docSnapshot: any = await firestore()
+        .collection('orders')
+        .doc(currentUserId)
+        .get();
+      setOrder(docSnapshot.data());
+      if (currentUserId) {
+        const totalprice = await getTotalPrice(currentUserId);
+        if (totalprice) {
+          setTotalPrice(totalprice+(totalprice*0.1)+2);
+        }
+      }
+    } catch (error) {
+      Alert.alert((error as Error).message);
+    }
+  };
   const HandleOnChangeText = (
     text: string,
     name: keyof CardDetailsReduxStateType,
@@ -98,14 +127,14 @@ const PaymentInfoScreen = () => {
           <MySegmentedButtons nonEditable />
           <View style={screenStyles.lineStyle}></View>
           <Text style={[commonStyles.bigBoldText, screenStyles.hotelName]}>
-            HOtel Name
+            {order?.hotel.name}
           </Text>
           <Text>
             <Entypo name="location-pin" size={20} />
-            HOtel Location
+            {order?.hotel.location}
           </Text>
           <View style={screenStyles.orderCard}>
-            <Text style={[commonStyles.boldText]}>Order Total: $ 0.00</Text>
+            <Text style={[commonStyles.boldText]}>Order Total: $ {totalPrice}</Text>
             <TouchableOpacity
               onPress={() => navigation.navigate(StaticVariables.OrderScreen)}>
               <Text style={[commonStyles.redText, commonStyles.boldText]}>

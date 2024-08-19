@@ -23,7 +23,6 @@ import MyTextInput from '../../Components/MyTextInput';
 import StaticVariables from '../../Preferences/StaticVariables';
 import MyButton from '../../Components/MyButton';
 import {FoodInTheOrderType, OrderType} from '../OrderScreen';
-import {getTotalPrice} from '../../Services/API/getTotalPrice';
 import styles from './style';
 import {removeFoodFromCart} from '../../Services/API/removeFoodFromCart';
 
@@ -35,8 +34,6 @@ const FoodItemScreen = ({route}: any) => {
   const [comment, setComment] = useState(StaticVariables.EMPTY_STRING);
   const [quantity, setQuantity] = useState(0);
   const [quantityLoading, setQuantityLoading] = useState(false);
-  const [priceLoading, setPriceLoading] = useState(false);
-  const [totalPrice, setTotalPrice] = useState<number>(0);
   const [existingFoods, setExistingFoods] = useState(
     StaticVariables.EMPTY_ARRAY,
   );
@@ -55,7 +52,6 @@ const FoodItemScreen = ({route}: any) => {
 
   useEffect(() => {
     getExistingFoods();
-    fetchTotalPrice();
   }, []);
 
   const addOrder = async () => {
@@ -125,16 +121,7 @@ const FoodItemScreen = ({route}: any) => {
     }
     setQuantityLoading(false);
   };
-  const fetchTotalPrice = async () => {
-    setPriceLoading(true);
-    if (currentUserId) {
-      const totalPrice = await getTotalPrice(currentUserId);
-      if (totalPrice) {
-        setTotalPrice(totalPrice);
-      }
-      setPriceLoading(false);
-    }
-  };
+
   const handleViewOrder = () => {
     navigation.navigate(StaticVariables.OrderScreen);
   };
@@ -199,12 +186,7 @@ const FoodItemScreen = ({route}: any) => {
       </ScrollView>
       <MyButton onPress={handleViewOrder} style={screenStyles.ViewOrderButton}>
         <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-          View my Orders ${' '}
-          {!priceLoading ? (
-            totalPrice
-          ) : (
-            <ActivityIndicator color={ColorPalette.white} size={15} />
-          )}
+          View my Orders
         </Text>
       </MyButton>
     </KeyboardAvoidingView>
