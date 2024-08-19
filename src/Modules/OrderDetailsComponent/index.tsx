@@ -42,6 +42,18 @@ const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
   });
 
   useEffect(() => {
+    const subscriber = firestore()
+      .collection('Users')
+      .doc(userId)
+      .onSnapshot(documentSnapshot => {
+        console.log('User data: ', documentSnapshot.data());
+      });
+
+    // Stop listening for updates when no longer required
+    return () => subscriber();
+  }, []);
+
+  useEffect(() => {
     fetchOrders();
     calculatePrices();
   }, []);
