@@ -25,6 +25,7 @@ import MyButton from '../../Components/MyButton';
 import {FoodInTheOrderType, OrderType} from '../OrderScreen';
 import {removeFoodFromCart} from '../../Services/API/removeFoodFromCart';
 import styles from './style';
+import {MessageOptions, showMessage} from 'react-native-flash-message';
 
 const FoodItemScreen = ({route}: any) => {
   const currentUserId = auth().currentUser?.uid;
@@ -56,6 +57,20 @@ const FoodItemScreen = ({route}: any) => {
   useEffect(() => {
     getExistingFoods();
   }, []);
+
+  const removeMessage: MessageOptions = {
+    message: 'Item Removed',
+    type: 'danger',
+    floating: true,
+    titleStyle: {fontWeight: 'bold'},
+  };
+
+  const addMessage: MessageOptions = {
+    message: 'Item Added',
+    type: 'success',
+    floating: true,
+    titleStyle: {fontWeight: 'bold'},
+  };
 
   const addOrder = async () => {
     try {
@@ -95,23 +110,27 @@ const FoodItemScreen = ({route}: any) => {
             .collection('orders')
             .doc(currentUserId)
             .set(orderStructure);
+          showMessage(addMessage);
         } else {
           if (currentUserId) {
             await removeFoodFromCart(food.name, currentUserId);
+            showMessage(removeMessage);
           }
         }
       } else {
         //different hotel
         if (quantity > 0) {
-          let updatedFoods = [{
-            category: food.category,
-            comment,
-            desc: food.desc,
-            foodImage: food.image,
-            name: food.name,
-            pricePerQuantity: food.price,
-            quantity,
-          }];
+          let updatedFoods = [
+            {
+              category: food.category,
+              comment,
+              desc: food.desc,
+              foodImage: food.image,
+              name: food.name,
+              pricePerQuantity: food.price,
+              quantity,
+            },
+          ];
           const orderStructure: OrderType = {
             hotel: {
               id: hotel.id,
@@ -127,14 +146,14 @@ const FoodItemScreen = ({route}: any) => {
             .collection('orders')
             .doc(currentUserId)
             .set(orderStructure);
+          showMessage(addMessage);
         } else {
           if (currentUserId) {
             await removeFoodFromCart(food.name, currentUserId);
+            showMessage(removeMessage);
           }
         }
       }
-
-     
     } catch (error) {
       Alert.alert('Error', (error as Error).message);
     }

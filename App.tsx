@@ -5,6 +5,7 @@ import {Provider} from 'react-redux';
 import {PaperProvider} from 'react-native-paper';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {PersistGate} from 'redux-persist/integration/react';
+import FlashMessage from 'react-native-flash-message';
 import {ScreenContextProvider} from './src/Contexts/ScreenContext';
 import UnauthorizedStack from './src/Services/Navigation/UnauthorizedStack';
 import AuthorizedStack from './src/Services/Navigation/AuthorizedStack';
@@ -33,6 +34,7 @@ function App(): React.JSX.Element {
       ) : (
         <ActivityIndicator />
       )}
+      <FlashMessage position="bottom" />
     </SafeAreaView>
   );
 }
