@@ -23,8 +23,8 @@ import MyTextInput from '../../Components/MyTextInput';
 import StaticVariables from '../../Preferences/StaticVariables';
 import MyButton from '../../Components/MyButton';
 import {FoodInTheOrderType, OrderType} from '../OrderScreen';
-import styles from './style';
 import {removeFoodFromCart} from '../../Services/API/removeFoodFromCart';
+import styles from './style';
 
 const FoodItemScreen = ({route}: any) => {
   const currentUserId = auth().currentUser?.uid;

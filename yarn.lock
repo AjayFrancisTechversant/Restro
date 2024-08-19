@@ -3936,6 +3936,7 @@ __metadata:
     react-native: 0.74.4
     react-native-device-info: ^11.1.0
     react-native-element-dropdown: ^2.12.1
+    react-native-flash-message: ^0.4.2
     react-native-gesture-handler: ^2.18.1
     react-native-get-location: ^5.0.0
     react-native-paper: ^5.12.5
@@ -9236,6 +9237,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-flash-message@npm:^0.4.2":
+  version: 0.4.2
+  resolution: "react-native-flash-message@npm:0.4.2"
+  dependencies:
+    prop-types: ^15.8.1
+    react-native-iphone-screen-helper: ^2.0.2
+  peerDependencies:
+    prop-types: ^15.0 || ^16.0
+    react: "*"
+    react-native: "*"
+  checksum: ab1e83db9f75888607cdeac8160194630a3e16f5e16133b6316d595b392b92f1c3b8e597e365636dcf3c622a4a5731753ce24fe9710867335c06ec0d212c5178
+  languageName: node
+  linkType: hard
+
 "react-native-gesture-handler@npm:^2.18.1":
   version: 2.18.1
   resolution: "react-native-gesture-handler@npm:2.18.1"
@@ -9257,6 +9272,15 @@ __metadata:
   peerDependencies:
     react-native: ">=0.60"
   checksum: 69447e1605eae56c9d39844af46d23f74dffc06d376f243226174ae9ff924eb5a20e6b28998d48b7b5b94fd85485ab5d5e53a4d8272d58f56fbce406ecd1d871
+  languageName: node
+  linkType: hard
+
+"react-native-iphone-screen-helper@npm:^2.0.2":
+  version: 2.1.1
+  resolution: "react-native-iphone-screen-helper@npm:2.1.1"
+  peerDependencies:
+    react-native: ">=0.42.0"
+  checksum: 1acbff415fcade41b0f191ea644bc1ef84c7b10b617ca8e82db586f2f3a371a867cca81f39f1971db7b582a42ffbbf804d6b132424635b03d28eeecf4698e84d
   languageName: node
   linkType: hard
 
