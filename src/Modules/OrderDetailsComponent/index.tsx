@@ -14,8 +14,8 @@ import MyTextInput from '../../Components/MyTextInput';
 import {useNavigation} from '@react-navigation/native';
 import StaticVariables from '../../Preferences/StaticVariables';
 import {getTotalPrice} from '../../Services/API/getTotalPrice';
-import styles from './style';
 import {SetStateType} from '../../Types/Types';
+import styles from './style';
 
 type OrderDetailsComponentPropsType = {
   inSummaryScreen?: boolean;

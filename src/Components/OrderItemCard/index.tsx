@@ -1,11 +1,13 @@
 import {View, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
+import auth from '@react-native-firebase/auth';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import {FoodInTheOrderType} from '../../Modules/OrderScreen';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import styles from './style';
+import {removeFoodFromCart} from '../../Services/API/removeFoodFromCart';
 
 type OrderItemCardPropsType = {
   food: FoodInTheOrderType;
@@ -15,6 +17,13 @@ const OrderItemCard: React.FC<OrderItemCardPropsType> = ({
   food,
   inSummaryScreen,
 }) => {
+  const currentUserId = auth().currentUser?.uid;
+
+  const handleRemove = async () => {
+    if (currentUserId) {
+      await removeFoodFromCart(food.name, currentUserId);
+    }
+  };
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -27,7 +36,7 @@ const OrderItemCard: React.FC<OrderItemCardPropsType> = ({
     <View style={screenStyles.card}>
       {!inSummaryScreen && (
         <View style={screenStyles.view1}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleRemove}>
             <AntDesign name="close" color={ColorPalette.red} size={20} />
           </TouchableOpacity>
         </View>

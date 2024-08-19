@@ -25,6 +25,7 @@ import MyButton from '../../Components/MyButton';
 import {FoodInTheOrderType, OrderType} from '../OrderScreen';
 import {getTotalPrice} from '../../Services/API/getTotalPrice';
 import styles from './style';
+import {removeFoodFromCart} from '../../Services/API/removeFoodFromCart';
 
 const FoodItemScreen = ({route}: any) => {
   const currentUserId = auth().currentUser?.uid;
@@ -59,44 +60,45 @@ const FoodItemScreen = ({route}: any) => {
 
   const addOrder = async () => {
     try {
-      let updatedFoods = [...existingFoods];
-
-      const existingFoodIndex = updatedFoods.findIndex(
-        item => item.name === food.name,
-      );
-      if (existingFoodIndex > -1) {
-        updatedFoods[existingFoodIndex].quantity = quantity;
-        updatedFoods[existingFoodIndex].comment = comment;
+      if (quantity > 0) {
+        let updatedFoods = [...existingFoods];
+        const existingFoodIndex = updatedFoods.findIndex(
+          item => item.name === food.name,
+        );
+        if (existingFoodIndex > -1) {
+          updatedFoods[existingFoodIndex].quantity = quantity;
+          updatedFoods[existingFoodIndex].comment = comment;
+        } else {
+          updatedFoods.push({
+            category: food.category,
+            comment,
+            desc: food.desc,
+            foodImage: food.image,
+            name: food.name,
+            pricePerQuantity: food.price,
+            quantity,
+          });
+        }
+        const orderStructure: OrderType = {
+          hotel: {
+            id: hotel.id,
+            image: hotel.image,
+            location: hotel.location,
+            name: hotel.name,
+            rating: hotel.rating,
+            preferences: hotel.preferences,
+          },
+          foods: updatedFoods,
+        };
+        await firestore()
+          .collection('orders')
+          .doc(currentUserId)
+          .set(orderStructure);
       } else {
-        updatedFoods.push({
-          category: food.category,
-          comment,
-          desc: food.desc,
-          foodImage: food.image,
-          name: food.name,
-          pricePerQuantity: food.price,
-          quantity,
-        });
+        if (currentUserId) {
+          await removeFoodFromCart(food.name, currentUserId);
+        }
       }
-
-      const orderStructure: OrderType = {
-        hotel: {
-          id: hotel.id,
-          image: hotel.image,
-          location: hotel.location,
-          name: hotel.name,
-          rating: hotel.rating,
-          preferences: hotel.preferences,
-        },
-        foods: updatedFoods,
-      };
-
-      await firestore()
-        .collection('orders')
-        .doc(currentUserId)
-        .set(orderStructure);
-
-      console.log('Order added/updated successfully!');
     } catch (error) {
       Alert.alert('Error', (error as Error).message);
     }
@@ -183,12 +185,10 @@ const FoodItemScreen = ({route}: any) => {
           </View>
           <MyButton
             onPress={handleAddToOrder}
-            disabled={quantity != 0 ? false : true}
             style={[
               screenStyles.addToOrderButton,
               {
-                backgroundColor:
-                  quantity != 0 ? ColorPalette.red : ColorPalette.lightRed,
+                backgroundColor: ColorPalette.red,
               },
             ]}>
             <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
