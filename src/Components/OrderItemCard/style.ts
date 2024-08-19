@@ -16,8 +16,11 @@ const styles = (
       backgroundColor: ColorPalette.white,
       borderRadius: 10,
       marginVertical: height * 0.02,
-      flexDirection: 'row',gap:width*0.01
+      flexDirection: 'row',
+      gap: width * 0.01,
+      justifyContent:'space-between'
     },
+    calculatedPrice: {justifyContent: 'flex-end'},
   });
 
 export default styles;

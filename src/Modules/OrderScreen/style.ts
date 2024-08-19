@@ -14,6 +14,9 @@ const styles = (
     heading: {alignSelf: 'center'},
     lineStyle: {width: '100%', borderWidth: 0.2, marginVertical: height * 0.01},
     bottomButton: {alignSelf: 'center'},
+    footerStyle: {
+      marginVertical: height * 0.03,
+    },
   });
 
 export default styles;

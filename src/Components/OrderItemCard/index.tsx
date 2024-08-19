@@ -2,10 +2,10 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './style';
 import {FoodInTheOrderType} from '../../Modules/OrderScreen';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
+import styles from './style';
 
 type OrderItemCardPropsType = {
   food: FoodInTheOrderType;
@@ -33,8 +33,8 @@ const OrderItemCard: React.FC<OrderItemCardPropsType> = ({food}) => {
         <Text>Quantity: {food.quantity}</Text>
         <Text>PricePerQuantity: ${food.pricePerQuantity}</Text>
       </View>
-      <View>
-        <Text>$ calculated price</Text>
+      <View style={screenStyles.calculatedPrice}>
+        <Text style={commonStyles.boldText}>$ calculated price</Text>
       </View>
     </View>
   );

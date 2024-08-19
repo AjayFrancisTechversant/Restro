@@ -3,7 +3,6 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
-import styles from './style';
 import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
@@ -11,6 +10,7 @@ import MySegmentedButtons from '../../Components/MySegmentedButtons';
 import MyButton from '../../Components/MyButton';
 import {useAppSelector} from '../../hooks/hooks';
 import OrderDetailsComponent from '../OrderDetailsComponent';
+import styles from './style';
 
 export type FoodInTheOrderType = {
   category: string;
@@ -70,6 +70,7 @@ const OrderScreen = () => {
       }
       data={['']}
       renderItem={() => <OrderDetailsComponent />}
+      ListFooterComponentStyle={screenStyles.footerStyle}
       ListFooterComponent={
         <MyButton
           // disable if no foodds iin order from firebase

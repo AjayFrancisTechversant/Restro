@@ -1,4 +1,4 @@
-import {Text, FlatList} from 'react-native';
+import {Text, FlatList, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import auth from '@react-native-firebase/auth';
@@ -10,6 +10,10 @@ import {OrderType} from '../OrderScreen';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import OrderItemCard from '../../Components/OrderItemCard';
+import MyTextInput from '../../Components/MyTextInput';
+import {TextInput} from 'react-native-paper';
+import {useNavigation} from '@react-navigation/native';
+import StaticVariables from '../../Preferences/StaticVariables';
 
 type OrderDetailsComponentPropsType = {
   editable?: boolean;
@@ -18,6 +22,7 @@ type OrderDetailsComponentPropsType = {
 const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
   editable,
 }) => {
+  const navigation: any = useNavigation();
   const currentUserId = auth().currentUser?.uid;
   const [order, setOrder] = useState<OrderType>();
   useEffect(() => {
@@ -66,7 +71,39 @@ const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
       }
       data={order?.foods}
       renderItem={({item}) => <OrderItemCard food={item} />}
-      ListFooterComponent={null}
+      ListFooterComponent={
+        <>
+          <TouchableOpacity
+            onPress={() => navigation.goBack(StaticVariables.MenuScreen)}
+            style={screenStyles.addMoreItemsButton}>
+            <Text style={[commonStyles.redText, commonStyles.boldText]}>
+              + Add more items
+            </Text>
+          </TouchableOpacity>
+          <MyTextInput
+            style={screenStyles.couponCodeStyle}
+            label="Enter Coupon Code"
+            right={<TextInput.Icon icon="check" forceTextInputFocus={false} />}
+          />
+          <View style={screenStyles.amountContainer}>
+            <Text style={commonStyles.boldText}>Subtotal</Text>
+            <Text style={commonStyles.boldText}>$0.00</Text>
+          </View>
+          <View style={screenStyles.amountContainer}>
+            <Text style={commonStyles.boldText}>Taxes</Text>
+            <Text style={commonStyles.boldText}>$2.00</Text>
+          </View>
+          <View style={screenStyles.amountContainer}>
+            <Text style={commonStyles.boldText}>Delivery</Text>
+            <Text style={commonStyles.boldText}>$0.00</Text>
+          </View>
+          <View style={screenStyles.lineBreak}></View>
+          <View style={screenStyles.amountContainer}>
+            <Text style={commonStyles.boldText}>TOTAL</Text>
+            <Text style={commonStyles.boldText}>$0.00</Text>
+          </View>
+        </>
+      }
     />
   );
 };
