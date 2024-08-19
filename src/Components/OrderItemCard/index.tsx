@@ -9,8 +9,12 @@ import styles from './style';
 
 type OrderItemCardPropsType = {
   food: FoodInTheOrderType;
+  inSummaryScreen?: boolean;
 };
-const OrderItemCard: React.FC<OrderItemCardPropsType> = ({food}) => {
+const OrderItemCard: React.FC<OrderItemCardPropsType> = ({
+  food,
+  inSummaryScreen,
+}) => {
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -21,11 +25,13 @@ const OrderItemCard: React.FC<OrderItemCardPropsType> = ({food}) => {
   );
   return (
     <View style={screenStyles.card}>
-      <View style={screenStyles.view1}>
-        <TouchableOpacity>
-          <AntDesign name="close" color={ColorPalette.red} size={20} />
-        </TouchableOpacity>
-      </View>
+      {!inSummaryScreen && (
+        <View style={screenStyles.view1}>
+          <TouchableOpacity>
+            <AntDesign name="close" color={ColorPalette.red} size={20} />
+          </TouchableOpacity>
+        </View>
+      )}
       <View style={screenStyles.view2}>
         <Text style={commonStyles.boldText}>{food.name}</Text>
         <Text>Protein: replace this text</Text>

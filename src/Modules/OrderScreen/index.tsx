@@ -1,5 +1,5 @@
 import {View, Text, FlatList} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
@@ -33,6 +33,7 @@ const OrderScreen = () => {
     state => state.userDetails.preference,
   );
   const navigation: any = useNavigation();
+  const [isCheckoutDisabled, setIsCheckoutDisabled] = useState(true);
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -67,20 +68,20 @@ const OrderScreen = () => {
       renderItem={() => <OrderDetailsComponent />}
       ListFooterComponentStyle={screenStyles.footerStyle}
       ListFooterComponent={
-        <MyButton
-          // disable if no foodds iin order from firebase
-          //also colorChange
-          onPress={handleSubmit}
-          style={[
-            screenStyles.bottomButton,
-            {
-              backgroundColor: ColorPalette.red,
-            },
-          ]}>
-          <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-            Checkout
-          </Text>
-        </MyButton>
+        !isCheckoutDisabled ? (
+          <MyButton
+            onPress={handleSubmit}
+            style={[
+              screenStyles.bottomButton,
+              {
+                backgroundColor: ColorPalette.red,
+              },
+            ]}>
+            <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+              Checkout
+            </Text>
+          </MyButton>
+        ) : null
       }
     />
   );

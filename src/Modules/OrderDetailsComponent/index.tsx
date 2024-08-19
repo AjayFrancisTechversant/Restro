@@ -15,9 +15,11 @@ import {useNavigation} from '@react-navigation/native';
 import StaticVariables from '../../Preferences/StaticVariables';
 import {getTotalPrice} from '../../Services/API/getTotalPrice';
 import styles from './style';
+import {SetStateType} from '../../Types/Types';
 
 type OrderDetailsComponentPropsType = {
-  editable?: boolean;
+  inSummaryScreen?: boolean;
+  setIsCheckoutDisabled?: SetStateType<boolean>;
 };
 type Prices = {
   subTotal: number;
@@ -26,7 +28,8 @@ type Prices = {
   total: number;
 };
 const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
-  editable,
+  inSummaryScreen,
+  setIsCheckoutDisabled,
 }) => {
   const navigation: any = useNavigation();
   const currentUserId = auth().currentUser?.uid;
@@ -61,9 +64,13 @@ const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
       .get()
       .then((docSnapshot: any) => {
         setOrder(docSnapshot.data());
+        if (setIsCheckoutDisabled) {
+          if (docSnapshot.data().foods) {
+            setIsCheckoutDisabled(true);
+          } else setIsCheckoutDisabled(false);
+        }
       });
   };
-  // console.log(order);
 
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -74,65 +81,86 @@ const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
     screenContext,
   );
   return (
-    <FlatList
-      style={screenStyles.container}
-      ListHeaderComponent={
-        <>
-          <Text style={commonStyles.bigBoldText}>{order?.hotel.name}</Text>
-          <Text style={[commonStyles.boldText, commonStyles.grayText]}>
-            <Entypo name="location-pin" color={ColorPalette.gray} size={20} />
-            {order?.hotel.location}
-          </Text>
-          <Text style={[commonStyles.boldText, commonStyles.greenText]}>
-            We are Open
-          </Text>
-          <Text style={[commonStyles.boldText, commonStyles.grayText]}>
-            <Feather name="clock" />
-            10:00am - 9:00pm
-          </Text>
-        </>
-      }
-      data={order?.foods}
-      renderItem={({item}) => <OrderItemCard food={item} />}
-      ListFooterComponentStyle={screenStyles.footerStyle}
-      ListFooterComponent={
-        <>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate(StaticVariables.MenuScreen, {
-                hotel: order?.hotel,
-              })
-            }
-            style={screenStyles.addMoreItemsButton}>
-            <Text style={[commonStyles.redText, commonStyles.boldText]}>
-              + Add more items
-            </Text>
-          </TouchableOpacity>
-          <MyTextInput
-            style={screenStyles.couponCodeStyle}
-            label="Enter Coupon Code"
-            right={<TextInput.Icon icon="check" forceTextInputFocus={false} />}
-          />
-          <View style={screenStyles.amountContainer}>
-            <Text style={commonStyles.boldText}>Subtotal</Text>
-            <Text style={commonStyles.boldText}>$ {prices.subTotal}</Text>
-          </View>
-          <View style={screenStyles.amountContainer}>
-            <Text style={commonStyles.boldText}>Taxes</Text>
-            <Text style={commonStyles.boldText}>$ {prices.tax}</Text>
-          </View>
-          <View style={screenStyles.amountContainer}>
-            <Text style={commonStyles.boldText}>Delivery</Text>
-            <Text style={commonStyles.boldText}>$ {prices.delivery}</Text>
-          </View>
-          <View style={screenStyles.lineBreak}></View>
-          <View style={screenStyles.amountContainer}>
-            <Text style={commonStyles.boldText}>TOTAL</Text>
-            <Text style={commonStyles.boldText}>$ {prices.total}</Text>
-          </View>
-        </>
-      }
-    />
+    <>
+      {order?.foods ? (
+        <FlatList
+          style={screenStyles.container}
+          ListHeaderComponent={
+            <>
+              <Text style={commonStyles.bigBoldText}>{order?.hotel.name}</Text>
+              <Text style={[commonStyles.boldText, commonStyles.grayText]}>
+                <Entypo
+                  name="location-pin"
+                  color={ColorPalette.gray}
+                  size={20}
+                />
+                {order?.hotel.location}
+              </Text>
+              <Text style={[commonStyles.boldText, commonStyles.greenText]}>
+                We are Open
+              </Text>
+              <Text style={[commonStyles.boldText, commonStyles.grayText]}>
+                <Feather name="clock" />
+                10:00am - 9:00pm
+              </Text>
+            </>
+          }
+          data={order?.foods}
+          renderItem={({item}) => (
+            <OrderItemCard inSummaryScreen={inSummaryScreen} food={item} />
+          )}
+          ListFooterComponentStyle={screenStyles.footerStyle}
+          ListFooterComponent={
+            <>
+              {!inSummaryScreen && (
+                <>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate(StaticVariables.MenuScreen, {
+                        hotel: order?.hotel,
+                      })
+                    }
+                    style={screenStyles.addMoreItemsButton}>
+                    <Text style={[commonStyles.redText, commonStyles.boldText]}>
+                      + Add more items
+                    </Text>
+                  </TouchableOpacity>
+                  <MyTextInput
+                    style={screenStyles.couponCodeStyle}
+                    label="Enter Coupon Code"
+                    right={
+                      <TextInput.Icon
+                        icon="check"
+                        forceTextInputFocus={false}
+                      />
+                    }
+                  />
+                </>
+              )}
+              <View style={screenStyles.amountContainer}>
+                <Text style={commonStyles.boldText}>Subtotal</Text>
+                <Text style={commonStyles.boldText}>$ {prices.subTotal}</Text>
+              </View>
+              <View style={screenStyles.amountContainer}>
+                <Text style={commonStyles.boldText}>Taxes</Text>
+                <Text style={commonStyles.boldText}>$ {prices.tax}</Text>
+              </View>
+              <View style={screenStyles.amountContainer}>
+                <Text style={commonStyles.boldText}>Delivery</Text>
+                <Text style={commonStyles.boldText}>$ {prices.delivery}</Text>
+              </View>
+              <View style={screenStyles.lineBreak}></View>
+              <View style={screenStyles.amountContainer}>
+                <Text style={commonStyles.boldText}>TOTAL</Text>
+                <Text style={commonStyles.boldText}>$ {prices.total}</Text>
+              </View>
+            </>
+          }
+        />
+      ) : (
+        <Text style={screenStyles.NoItemsText}>No items in your cart!</Text>
+      )}
+    </>
   );
 };
 

@@ -84,7 +84,7 @@ const SummaryScreen = () => {
         </>
       }
       data={['']}
-      renderItem={() => <OrderDetailsComponent />}
+      renderItem={() => <OrderDetailsComponent inSummaryScreen />}
       ListFooterComponent={
         <>
           <Text style={commonStyles.boldText}>Add Tip </Text>

@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
@@ -22,6 +23,7 @@ import MyTextInput from '../../Components/MyTextInput';
 import StaticVariables from '../../Preferences/StaticVariables';
 import MyButton from '../../Components/MyButton';
 import {FoodInTheOrderType, OrderType} from '../OrderScreen';
+import {getTotalPrice} from '../../Services/API/getTotalPrice';
 import styles from './style';
 
 const FoodItemScreen = ({route}: any) => {
@@ -31,6 +33,9 @@ const FoodItemScreen = ({route}: any) => {
   const navigation: any = useNavigation();
   const [comment, setComment] = useState(StaticVariables.EMPTY_STRING);
   const [quantity, setQuantity] = useState(0);
+  const [quantityLoading, setQuantityLoading] = useState(false);
+  const [priceLoading, setPriceLoading] = useState(false);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
   const [existingFoods, setExistingFoods] = useState(
     StaticVariables.EMPTY_ARRAY,
   );
@@ -49,6 +54,7 @@ const FoodItemScreen = ({route}: any) => {
 
   useEffect(() => {
     getExistingFoods();
+    fetchTotalPrice();
   }, []);
 
   const addOrder = async () => {
@@ -58,7 +64,6 @@ const FoodItemScreen = ({route}: any) => {
       const existingFoodIndex = updatedFoods.findIndex(
         item => item.name === food.name,
       );
-
       if (existingFoodIndex > -1) {
         updatedFoods[existingFoodIndex].quantity = quantity;
         updatedFoods[existingFoodIndex].comment = comment;
@@ -89,7 +94,7 @@ const FoodItemScreen = ({route}: any) => {
       await firestore()
         .collection('orders')
         .doc(currentUserId)
-        .set(orderStructure, {merge: true});
+        .set(orderStructure);
 
       console.log('Order added/updated successfully!');
     } catch (error) {
@@ -98,6 +103,7 @@ const FoodItemScreen = ({route}: any) => {
   };
 
   const getExistingFoods = async () => {
+    setQuantityLoading(true);
     try {
       const documentSnapshot = await firestore()
         .collection('orders')
@@ -105,17 +111,28 @@ const FoodItemScreen = ({route}: any) => {
         .get();
       const existingFoodsArray: FoodInTheOrderType[] =
         documentSnapshot.data()?.foods;
-      setExistingFoods(existingFoodsArray);
-      const samefood = existingFoodsArray.find(i => i.name == food.name);
-      console.log(samefood);
+      if (existingFoodsArray) {
+        setExistingFoods(existingFoodsArray);
+      }
+      const samefood = existingFoodsArray?.find(i => i.name == food.name);
       if (samefood) {
         setQuantity(samefood.quantity);
       }
     } catch (error) {
       Alert.alert((error as Error).message);
     }
+    setQuantityLoading(false);
   };
-
+  const fetchTotalPrice = async () => {
+    setPriceLoading(true);
+    if (currentUserId) {
+      const totalPrice = await getTotalPrice(currentUserId);
+      if (totalPrice) {
+        setTotalPrice(totalPrice);
+      }
+      setPriceLoading(false);
+    }
+  };
   const handleViewOrder = () => {
     navigation.navigate(StaticVariables.OrderScreen);
   };
@@ -132,6 +149,9 @@ const FoodItemScreen = ({route}: any) => {
             {hotel.name} - {hotel.location}
           </Text>
           <Text style={screenStyles.heading}>{food.name}</Text>
+          <Text style={[commonStyles.boldText, commonStyles.redText]}>
+            $ {food.price}
+          </Text>
           <Text style={commonStyles.boldText}>{food.desc}</Text>
           <MyTextInput
             label="Add comment..."
@@ -149,7 +169,13 @@ const FoodItemScreen = ({route}: any) => {
                 disabled={quantity > 0 ? false : true}>
                 <Entypo name="minus" size={30} />
               </TouchableOpacity>
-              <Text style={commonStyles.bigBoldText}>{quantity}</Text>
+              <Text style={commonStyles.bigBoldText}>
+                {!quantityLoading ? (
+                  quantity
+                ) : (
+                  <ActivityIndicator size={20} color={ColorPalette.gray} />
+                )}
+              </Text>
               <TouchableOpacity onPress={() => setQuantity(quantity + 1)}>
                 <Entypo name="plus" size={30} />
               </TouchableOpacity>
@@ -173,7 +199,12 @@ const FoodItemScreen = ({route}: any) => {
       </ScrollView>
       <MyButton onPress={handleViewOrder} style={screenStyles.ViewOrderButton}>
         <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-          View my Orders $ 0.00
+          View my Orders ${' '}
+          {!priceLoading ? (
+            totalPrice
+          ) : (
+            <ActivityIndicator color={ColorPalette.white} size={15} />
+          )}
         </Text>
       </MyButton>
     </KeyboardAvoidingView>

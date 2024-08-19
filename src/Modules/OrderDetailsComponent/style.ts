@@ -9,7 +9,7 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
-    container: {flex: 1, borderWidth: 1, padding: height * 0.02},
+    container: {flex: 1, padding: height * 0.02},
     addMoreItemsButton: {
       alignSelf: 'flex-end',
     },
@@ -26,6 +26,7 @@ const styles = (
     footerStyle: {
       marginVertical: height * 0.03,
     },
+    NoItemsText: {fontWeight: 'bold', fontSize: 20, alignSelf: 'center'},
   });
 
 export default styles;

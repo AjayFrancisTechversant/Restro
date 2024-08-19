@@ -34,6 +34,8 @@ const styles = (
       backgroundColor: ColorPalette.red,
       width: width * 0.7,
       alignSelf: 'center',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     ViewOrderButton: {
       backgroundColor: ColorPalette.red,
