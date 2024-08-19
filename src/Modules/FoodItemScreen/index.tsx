@@ -61,22 +61,49 @@ const FoodItemScreen = ({route}: any) => {
     try {
       if (currentHotelIdinOrder == hotel.id) {
         //same hotel
-        console.log('same hotel');
+        if (quantity > 0) {
+          let updatedFoods = [...existingFoods];
+          const existingFoodIndex = updatedFoods.findIndex(
+            item => item.name === food.name,
+          );
+          if (existingFoodIndex > -1) {
+            updatedFoods[existingFoodIndex].quantity = quantity;
+            updatedFoods[existingFoodIndex].comment = comment;
+          } else {
+            updatedFoods.push({
+              category: food.category,
+              comment,
+              desc: food.desc,
+              foodImage: food.image,
+              name: food.name,
+              pricePerQuantity: food.price,
+              quantity,
+            });
+          }
+          const orderStructure: OrderType = {
+            hotel: {
+              id: hotel.id,
+              image: hotel.image,
+              location: hotel.location,
+              name: hotel.name,
+              rating: hotel.rating,
+              preferences: hotel.preferences,
+            },
+            foods: updatedFoods,
+          };
+          await firestore()
+            .collection('orders')
+            .doc(currentUserId)
+            .set(orderStructure);
+        } else {
+          if (currentUserId) {
+            await removeFoodFromCart(food.name, currentUserId);
+          }
+        }
       } else {
         //different hotel
-        console.log('differnt hotel');
-      }
-
-      if (quantity > 0) {
-        let updatedFoods = [...existingFoods];
-        const existingFoodIndex = updatedFoods.findIndex(
-          item => item.name === food.name,
-        );
-        if (existingFoodIndex > -1) {
-          updatedFoods[existingFoodIndex].quantity = quantity;
-          updatedFoods[existingFoodIndex].comment = comment;
-        } else {
-          updatedFoods.push({
+        if (quantity > 0) {
+          let updatedFoods = [{
             category: food.category,
             comment,
             desc: food.desc,
@@ -84,28 +111,30 @@ const FoodItemScreen = ({route}: any) => {
             name: food.name,
             pricePerQuantity: food.price,
             quantity,
-          });
-        }
-        const orderStructure: OrderType = {
-          hotel: {
-            id: hotel.id,
-            image: hotel.image,
-            location: hotel.location,
-            name: hotel.name,
-            rating: hotel.rating,
-            preferences: hotel.preferences,
-          },
-          foods: updatedFoods,
-        };
-        await firestore()
-          .collection('orders')
-          .doc(currentUserId)
-          .set(orderStructure);
-      } else {
-        if (currentUserId) {
-          await removeFoodFromCart(food.name, currentUserId);
+          }];
+          const orderStructure: OrderType = {
+            hotel: {
+              id: hotel.id,
+              image: hotel.image,
+              location: hotel.location,
+              name: hotel.name,
+              rating: hotel.rating,
+              preferences: hotel.preferences,
+            },
+            foods: updatedFoods,
+          };
+          await firestore()
+            .collection('orders')
+            .doc(currentUserId)
+            .set(orderStructure);
+        } else {
+          if (currentUserId) {
+            await removeFoodFromCart(food.name, currentUserId);
+          }
         }
       }
+
+     
     } catch (error) {
       Alert.alert('Error', (error as Error).message);
     }
