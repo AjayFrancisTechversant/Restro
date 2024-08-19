@@ -53,12 +53,10 @@ const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
       style={screenStyles.container}
       ListHeaderComponent={
         <>
-          <Text style={commonStyles.bigBoldText}>
-            {order?.hotelDetails.name}
-          </Text>
+          <Text style={commonStyles.bigBoldText}>{order?.hotel.name}</Text>
           <Text style={[commonStyles.boldText, commonStyles.grayText]}>
             <Entypo name="location-pin" color={ColorPalette.gray} size={20} />
-            {order?.hotelDetails.location}
+            {order?.hotel.location}
           </Text>
           <Text style={[commonStyles.boldText, commonStyles.greenText]}>
             We are Open
@@ -74,7 +72,11 @@ const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
       ListFooterComponent={
         <>
           <TouchableOpacity
-            onPress={() => navigation.goBack(StaticVariables.MenuScreen)}
+            onPress={() =>
+              navigation.navigate(StaticVariables.MenuScreen, {
+                hotel: order?.hotel,
+              })
+            }
             style={screenStyles.addMoreItemsButton}>
             <Text style={[commonStyles.redText, commonStyles.boldText]}>
               + Add more items

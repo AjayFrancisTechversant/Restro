@@ -53,12 +53,13 @@ const FoodItemScreen = ({route}: any) => {
 
   const addOrder = () => {
     const orderStructure = {
-      hotelDetails: {
-        hotelId: hotel.id,
-        hotelImage: hotel.image,
+      hotel: {
+        id: hotel.id,
+        image: hotel.image,
         location: hotel.location,
         name: hotel.name,
         rating: hotel.rating,
+        preferences: hotel.preferences,
       },
       foods: [
         ...existingFoods,
@@ -81,15 +82,15 @@ const FoodItemScreen = ({route}: any) => {
         console.log('Order added!');
       });
   };
-  
+
   const getExistingFoods = async () => {
     try {
       const documentSnapshot = await firestore()
-      .collection('orders')
-      .doc(currentUserId)
-      .get();
+        .collection('orders')
+        .doc(currentUserId)
+        .get();
       const existingFoodsArray: FoodInTheOrderType[] =
-      documentSnapshot.data()?.foods;
+        documentSnapshot.data()?.foods;
       setExistingFoods(existingFoodsArray);
       const samefood = existingFoodsArray.find(i => i.name == food.name);
       console.log(samefood);

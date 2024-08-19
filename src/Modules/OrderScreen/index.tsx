@@ -11,6 +11,7 @@ import MyButton from '../../Components/MyButton';
 import {useAppSelector} from '../../hooks/hooks';
 import OrderDetailsComponent from '../OrderDetailsComponent';
 import styles from './style';
+import {HotelType} from '../../Components/HotelsContainer';
 
 export type FoodInTheOrderType = {
   category: string;
@@ -24,13 +25,7 @@ export type FoodInTheOrderType = {
 
 export type OrderType = {
   foods: FoodInTheOrderType[];
-  hotelDetails: {
-    hotelId: string;
-    hotelImage: string;
-    location: string;
-    name: string;
-    rating: String;
-  };
+  hotel: HotelType;
 };
 
 const OrderScreen = () => {
