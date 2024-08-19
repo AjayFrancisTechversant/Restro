@@ -23,6 +23,9 @@ const styles = (
       alignSelf: 'center',
       marginVertical: height * 0.01,
     },
+    footerStyle: {
+      marginVertical: height * 0.03,
+    },
   });
 
 export default styles;

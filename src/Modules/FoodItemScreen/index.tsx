@@ -53,11 +53,6 @@ const FoodItemScreen = ({route}: any) => {
 
   const addOrder = async () => {
     try {
-      const orderDoc = await firestore()
-        .collection('orders')
-        .doc(currentUserId)
-        .get();
-
       let updatedFoods = [...existingFoods];
 
       const existingFoodIndex = updatedFoods.findIndex(
@@ -91,7 +86,6 @@ const FoodItemScreen = ({route}: any) => {
         foods: updatedFoods,
       };
 
-      // Update or create the order in Firestore
       await firestore()
         .collection('orders')
         .doc(currentUserId)

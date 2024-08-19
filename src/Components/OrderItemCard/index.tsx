@@ -21,20 +21,22 @@ const OrderItemCard: React.FC<OrderItemCardPropsType> = ({food}) => {
   );
   return (
     <View style={screenStyles.card}>
-      <View>
+      <View style={screenStyles.view1}>
         <TouchableOpacity>
           <AntDesign name="close" color={ColorPalette.red} size={20} />
         </TouchableOpacity>
       </View>
-      <View>
+      <View style={screenStyles.view2}>
         <Text style={commonStyles.boldText}>{food.name}</Text>
         <Text>Protein: replace this text</Text>
         <Text>Comments: {food.comment}</Text>
         <Text>Quantity: {food.quantity}</Text>
         <Text>PricePerQuantity: ${food.pricePerQuantity}</Text>
       </View>
-      <View style={screenStyles.calculatedPrice}>
-        <Text style={commonStyles.boldText}>$ calculated price</Text>
+      <View style={screenStyles.view3}>
+        <Text style={commonStyles.boldText}>
+          $ {food.quantity * food.pricePerQuantity}
+        </Text>
       </View>
     </View>
   );

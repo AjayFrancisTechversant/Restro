@@ -15,12 +15,14 @@ const styles = (
       elevation: 5,
       backgroundColor: ColorPalette.white,
       borderRadius: 10,
-      marginVertical: height * 0.02,
+      marginTop: height * 0.02,
       flexDirection: 'row',
       gap: width * 0.01,
-      justifyContent:'space-between'
+      justifyContent: 'space-between',
     },
-    calculatedPrice: {justifyContent: 'flex-end'},
+    view1: {flex: 1},
+    view2: {flex: 8},
+    view3: {flex: 1, justifyContent: 'flex-end'},
   });
 
 export default styles;

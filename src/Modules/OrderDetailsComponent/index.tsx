@@ -4,31 +4,56 @@ import Feather from 'react-native-vector-icons/Feather';
 import auth from '@react-native-firebase/auth';
 import Entypo from 'react-native-vector-icons/Entypo';
 import firestore from '@react-native-firebase/firestore';
+import {TextInput} from 'react-native-paper';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './style';
 import {OrderType} from '../OrderScreen';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import OrderItemCard from '../../Components/OrderItemCard';
 import MyTextInput from '../../Components/MyTextInput';
-import {TextInput} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import StaticVariables from '../../Preferences/StaticVariables';
+import {getTotalPrice} from '../../Services/API/getTotalPrice';
+import styles from './style';
 
 type OrderDetailsComponentPropsType = {
   editable?: boolean;
 };
-
+type Prices = {
+  subTotal: number;
+  tax: number;
+  delivery: number;
+  total: number;
+};
 const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
   editable,
 }) => {
   const navigation: any = useNavigation();
   const currentUserId = auth().currentUser?.uid;
   const [order, setOrder] = useState<OrderType>();
+  const [prices, setPrices] = useState<Prices>({
+    subTotal: 0,
+    delivery: 0,
+    tax: 0,
+    total: 0,
+  });
+
   useEffect(() => {
     fetchOrders();
+    calculatePrices();
   }, []);
 
+  const calculatePrices = async () => {
+    if (currentUserId) {
+      const subTotal = await getTotalPrice(currentUserId);
+      if (subTotal) {
+        const tax = subTotal * 0.1;
+        const delivery = 2;
+        const total = tax + delivery + subTotal;
+        setPrices({delivery, total, subTotal, tax});
+      }
+    }
+  };
   const fetchOrders = () => {
     firestore()
       .collection('orders')
@@ -38,7 +63,7 @@ const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
         setOrder(docSnapshot.data());
       });
   };
-  console.log(order);
+  // console.log(order);
 
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -69,6 +94,7 @@ const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
       }
       data={order?.foods}
       renderItem={({item}) => <OrderItemCard food={item} />}
+      ListFooterComponentStyle={screenStyles.footerStyle}
       ListFooterComponent={
         <>
           <TouchableOpacity
@@ -89,20 +115,20 @@ const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
           />
           <View style={screenStyles.amountContainer}>
             <Text style={commonStyles.boldText}>Subtotal</Text>
-            <Text style={commonStyles.boldText}>$0.00</Text>
+            <Text style={commonStyles.boldText}>$ {prices.subTotal}</Text>
           </View>
           <View style={screenStyles.amountContainer}>
             <Text style={commonStyles.boldText}>Taxes</Text>
-            <Text style={commonStyles.boldText}>$2.00</Text>
+            <Text style={commonStyles.boldText}>$ {prices.tax}</Text>
           </View>
           <View style={screenStyles.amountContainer}>
             <Text style={commonStyles.boldText}>Delivery</Text>
-            <Text style={commonStyles.boldText}>$0.00</Text>
+            <Text style={commonStyles.boldText}>$ {prices.delivery}</Text>
           </View>
           <View style={screenStyles.lineBreak}></View>
           <View style={screenStyles.amountContainer}>
             <Text style={commonStyles.boldText}>TOTAL</Text>
-            <Text style={commonStyles.boldText}>$0.00</Text>
+            <Text style={commonStyles.boldText}>$ {prices.total}</Text>
           </View>
         </>
       }
