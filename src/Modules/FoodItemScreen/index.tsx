@@ -241,8 +241,6 @@ const FoodItemScreen = ({route}: any) => {
     setQuantityLoading(false);
   };
 
-  console.log(selectedProtein);
-
   const calculateAddOrderAmount = () => {
     if (food.price) {
       return quantity * food.price;
