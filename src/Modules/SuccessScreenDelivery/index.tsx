@@ -15,9 +15,9 @@ import StaticVariables from '../../Preferences/StaticVariables';
 import {OrderType} from '../OrderScreen';
 import styles from './style';
 
-type ProgressType = 'inProgress' | 'handedOver';
+export type ProgressType = 'inProgress' | 'handedOver';
 
-const SuccessScreenDelivery:FC = () => {
+const SuccessScreenDelivery: FC = () => {
   const [order, setOrder] = useState<OrderType>();
   const [orderId, setOrderId] = useState<string>();
   const [progress, setProgress] = useState<ProgressType>('inProgress');
@@ -166,7 +166,9 @@ const SuccessScreenDelivery:FC = () => {
             </MyButton>
             <MyButton
               onPress={() =>
-                navigation.navigate(StaticVariables.TrackingScreen)
+                navigation.navigate(StaticVariables.TrackingScreen, {
+                  setProgress,
+                })
               }
               style={[
                 screenStyles.bottomButton,

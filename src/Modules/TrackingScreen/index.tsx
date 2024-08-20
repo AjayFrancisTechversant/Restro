@@ -1,5 +1,5 @@
 import {Image, Text, TouchableOpacity, View} from 'react-native';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MapView, {Marker, PROVIDER_GOOGLE, Region} from 'react-native-maps';
@@ -8,8 +8,16 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import scooterImage from '../../Assets/Images/scooterImage.png';
 import styles from './style';
+import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
+import {HomeStackParamsList} from '../../Services/Navigation/HomeStack';
 
-const TrackingScreen: FC = () => {
+type TrackingScreenPropsType = NativeStackScreenProps<
+  HomeStackParamsList,
+  'TrackingScreen'
+>;
+
+const TrackingScreen: FC<TrackingScreenPropsType> = ({route}) => {
+  const {setProgress} = route.params;
   const navigation = useNavigation();
   const regions: Region[] = [
     {
@@ -37,13 +45,9 @@ const TrackingScreen: FC = () => {
       longitudeDelta: 0.0006601586937904358,
     },
   ];
+  const mapRef = useRef<MapView>();
   const [markerPosition, setMarkerPosition] = useState(regions[0]);
-  const currentLocation = {
-    latitude: 10.010402585543062,
-    latitudeDelta: 0.029832686481412907,
-    longitude: 76.36564845219254,
-    longitudeDelta: 0.016250498592853546,
-  };
+
   useEffect(() => {
     changePositions();
   }, []);
@@ -51,15 +55,15 @@ const TrackingScreen: FC = () => {
     var count = 0;
     const inte = setInterval(() => {
       setMarkerPosition(regions[count]);
+      mapRef.current?.animateToRegion(markerPosition, 500);
       count += 1;
-      if (count > regions.length-1) {
+      if (count > regions.length - 1) {
         clearInterval(inte);
-        console.log('cleared');
-        
+        setProgress('handedOver');
+        navigation.goBack();
       }
     }, 2000);
   };
-  console.log(markerPosition);
 
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -79,20 +83,16 @@ const TrackingScreen: FC = () => {
       <Text style={screenStyles.heading}>Track Your Order</Text>
       <View style={screenStyles.mapContainer}>
         <MapView
+          ref={mapRef}
           region={markerPosition}
           style={commonStyles.flexOne}
           provider={PROVIDER_GOOGLE}
-          showsUserLocation
-          onRegionChangeComplete={e => console.log(e)}
-          // onRegionChangeComplete={e => console.log(e)}
-        >
-          
-            <Marker
-              // icon={smallScooter}
-              // image={smallScooter}
-              coordinate={markerPosition}
-            />
-          
+          showsUserLocation>
+          <Marker
+            // icon={smallScooter}
+            image={scooterImage}
+            coordinate={markerPosition}
+          />
         </MapView>
       </View>
     </View>

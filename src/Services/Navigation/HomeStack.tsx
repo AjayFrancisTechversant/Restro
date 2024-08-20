@@ -12,13 +12,16 @@ import SummaryScreen from '../../Modules/SummaryScreen';
 import AddressScreen from '../../Modules/AddressScreen';
 import VehicleScreen from '../../Modules/VehicleScreen';
 import SuccessScreenCarryOut from '../../Modules/SuccessScreenCarryOut';
-import SuccessScreenDelivery from '../../Modules/SuccessScreenDelivery';
+import SuccessScreenDelivery, {
+  ProgressType,
+} from '../../Modules/SuccessScreenDelivery';
 import SuccessScreenDineIn from '../../Modules/SuccessScreenDineIn';
 import TrackingScreen from '../../Modules/TrackingScreen';
 import ReviewsScreen from '../../Modules/ReviewsScreen';
 import AddReviewScreen from '../../Modules/AddReviewScreen';
 import {HotelType} from '../../Components/HotelsContainer';
 import {FoodType} from '../../Components/FeaturedItemsComponent';
+import {SetStateType} from '../../Types/Types';
 
 export type HomeStackParamsList = {
   HomeScreen: undefined;
@@ -37,7 +40,7 @@ export type HomeStackParamsList = {
   SuccessScreenDineIn: undefined;
   SuccessScreenCarryOut: undefined;
   SuccessScreenDelivery: undefined;
-  TrackingScreen: undefined;
+  TrackingScreen: {setProgress: SetStateType<ProgressType>};
 };
 const Stack = createNativeStackNavigator<HomeStackParamsList>();
 
