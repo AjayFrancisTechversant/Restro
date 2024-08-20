@@ -21,7 +21,7 @@ const styles = (
     heading: {fontWeight: 'bold', fontSize: 30, marginVertical: height * 0.01},
     proteinContainer: {
       marginVertical: height * 0.02,
-      borderWidth: 1,
+   
     },
     proteinContainerHeader: {
       flexDirection: 'row',

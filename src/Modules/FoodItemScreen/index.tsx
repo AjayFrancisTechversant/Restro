@@ -137,15 +137,21 @@ const FoodItemScreen = ({route}: any) => {
       } else {
         //different hotel
         if (quantity > 0) {
-          let updatedFoods = [
+          let updatedFoods: FoodInTheOrderType[] = [
             {
               category: food.category,
               comment,
               desc: food.desc,
               foodImage: food.image,
               name: food.name,
-              pricePerQuantity: food.price,
+              pricePerQuantity:
+                food.proteins && selectedProtein
+                  ? selectedProtein.price
+                  : food.price
+                  ? food.price
+                  : 0,
               quantity,
+              protein: selectedProtein,
             },
           ];
           const orderStructure: OrderType = {
@@ -242,22 +248,6 @@ const FoodItemScreen = ({route}: any) => {
                   />
                 </Pressable>
               ))}
-              {/* <Pressable
-                style={screenStyles.proteinRadioButton}
-                onPress={() => setProtein('Beef')}>
-                <PreferenceRadioCard
-                  isSelected={protein == 'Beef' ? true : false}
-                  text={`Beef ( $ ${0} )`}
-                />
-              </Pressable>
-              <Pressable
-                style={screenStyles.proteinRadioButton}
-                onPress={() => setProtein('Shrimp')}>
-                <PreferenceRadioCard
-                  isSelected={protein == 'Shrimp' ? true : false}
-                  text={`Shrimp ( $ ${0} )`}
-                />
-              </Pressable> */}
             </View>
           )}
           <MyTextInput
