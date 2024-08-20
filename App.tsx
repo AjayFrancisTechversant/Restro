@@ -10,6 +10,7 @@ import {ScreenContextProvider} from './src/Contexts/ScreenContext';
 import UnauthorizedStack from './src/Services/Navigation/UnauthorizedStack';
 import AuthorizedStack from './src/Services/Navigation/AuthorizedStack';
 import {persistor, store} from './src/Redux/Store/Store';
+import ColorPalette from './src/Assets/Themes/ColorPalette';
 
 function App(): React.JSX.Element {
   const [initializing, setInitializing] = useState(true);
@@ -32,7 +33,7 @@ function App(): React.JSX.Element {
           {!user ? <UnauthorizedStack /> : <AuthorizedStack />}
         </NavigationContainer>
       ) : (
-        <ActivityIndicator />
+        <ActivityIndicator size={50} color={ColorPalette.red} />
       )}
       <FlashMessage position="top" />
     </SafeAreaView>
