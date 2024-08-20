@@ -34,7 +34,7 @@ const FoodItemScreen = ({route}: any) => {
   const currentUserId = auth().currentUser?.uid;
   const hotel: HotelType = route.params.hotel;
   const food: FoodType = route.params.food;
-  const [protein, setProtein] = useState<ProteinType>('Chicken');
+  const [selectedProtein, setSelectedProtein] = useState<ProteinType>();
   const navigation: any = useNavigation();
   const [comment, setComment] = useState(StaticVariables.EMPTY_STRING);
   const [quantity, setQuantity] = useState(0);
@@ -188,6 +188,13 @@ const FoodItemScreen = ({route}: any) => {
     setQuantityLoading(false);
   };
 
+  const calculateAddOrderAmount = () => {
+    if (food.price) {
+      return quantity * food.price;
+    } else if (selectedProtein) {
+      return quantity * selectedProtein?.price;
+    } else return null;
+  };
   return (
     <KeyboardAvoidingView behavior="position">
       <ScrollView>
@@ -200,34 +207,44 @@ const FoodItemScreen = ({route}: any) => {
             {hotel.name} - {hotel.location}
           </Text>
           <Text style={screenStyles.heading}>{food.name}</Text>
-          <Text style={[commonStyles.boldText, commonStyles.redText]}>
-            $ {food.price}
-          </Text>
+          {food.price && (
+            <Text style={[commonStyles.boldText, commonStyles.redText]}>
+              $ {food.price}
+            </Text>
+          )}
           <Text style={commonStyles.boldText}>{food.desc}</Text>
-          {food.protein && (
+          {food.proteins && (
             <View style={screenStyles.proteinContainer}>
               <View style={screenStyles.proteinContainerHeader}>
                 <Text style={commonStyles.boldText}>PROTEIN</Text>
                 <Text style={commonStyles.redText}>*Required</Text>
               </View>
-              <Pressable onPress={() => setProtein('Chicken')}>
-                <PreferenceRadioCard
-                  isSelected={protein == 'Chicken' ? true : false}
-                  text={`Chicken`}
-                />
-              </Pressable>
-              <Pressable onPress={() => setProtein('Beef')}>
+              {food.proteins?.map((i: ProteinType) => (
+                <Pressable
+                  style={screenStyles.proteinRadioButton}
+                  onPress={() => setSelectedProtein(i)}>
+                  <PreferenceRadioCard
+                    isSelected={selectedProtein == i ? true : false}
+                    text={`${i.type}  $ ${i.price}`}
+                  />
+                </Pressable>
+              ))}
+              {/* <Pressable
+                style={screenStyles.proteinRadioButton}
+                onPress={() => setProtein('Beef')}>
                 <PreferenceRadioCard
                   isSelected={protein == 'Beef' ? true : false}
                   text={`Beef ( $ ${0} )`}
                 />
               </Pressable>
-              <Pressable onPress={() => setProtein('Shrimp')}>
+              <Pressable
+                style={screenStyles.proteinRadioButton}
+                onPress={() => setProtein('Shrimp')}>
                 <PreferenceRadioCard
                   isSelected={protein == 'Shrimp' ? true : false}
                   text={`Shrimp ( $ ${0} )`}
                 />
-              </Pressable>
+              </Pressable> */}
             </View>
           )}
           <MyTextInput
@@ -260,14 +277,18 @@ const FoodItemScreen = ({route}: any) => {
           </View>
           <MyButton
             onPress={handleAddToOrder}
+            disabled={food.proteins && !selectedProtein}
             style={[
               screenStyles.addToOrderButton,
               {
-                backgroundColor: ColorPalette.red,
+                backgroundColor:
+                  food.proteins && !selectedProtein
+                    ? ColorPalette.lightRed
+                    : ColorPalette.red,
               },
             ]}>
             <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-              Add to order {quantity != 0 && `($ ${quantity * food.price})`}
+              Add to order {quantity != 0 && `($ ${calculateAddOrderAmount()})`}
             </Text>
           </MyButton>
         </View>
