@@ -142,39 +142,65 @@ const FoodItemScreen = ({route}: any) => {
       } else {
         //different hotel
         if (quantity > 0) {
-          let updatedFoods: FoodInTheOrderType[] = [
-            {
-              category: food.category,
-              comment,
-              desc: food.desc,
-              foodImage: food.image,
-              name: food.name,
-              pricePerQuantity:
-                food.proteins && selectedProtein
-                  ? selectedProtein.price
-                  : food.price
-                  ? food.price
-                  : 0,
-              quantity,
-              protein: selectedProtein,
-            },
-          ];
-          const orderStructure: OrderType = {
-            hotel: {
-              id: hotel.id,
-              image: hotel.image,
-              location: hotel.location,
-              name: hotel.name,
-              rating: hotel.rating,
-              preferences: hotel.preferences,
-            },
-            foods: updatedFoods,
-          };
-          await firestore()
-            .collection('orders')
-            .doc(currentUserId)
-            .set(orderStructure);
-          showMessage(addMessage);
+          let updatedFoods: FoodInTheOrderType[];
+          if (food.proteins && selectedProtein) {
+            updatedFoods = [
+              {
+                category: food.category,
+                comment,
+                desc: food.desc,
+                foodImage: food.image,
+                name: food.name,
+                pricePerQuantity: selectedProtein?.price,
+                quantity,
+                protein: selectedProtein,
+              },
+            ];
+            const orderStructure: OrderType = {
+              hotel: {
+                id: hotel.id,
+                image: hotel.image,
+                location: hotel.location,
+                name: hotel.name,
+                rating: hotel.rating,
+                preferences: hotel.preferences,
+              },
+              foods: updatedFoods,
+            };
+            await firestore()
+              .collection('orders')
+              .doc(currentUserId)
+              .set(orderStructure);
+            showMessage(addMessage);
+          } else if (food.price) {
+            updatedFoods = [
+              {
+                category: food.category,
+                comment,
+                desc: food.desc,
+                foodImage: food.image,
+                name: food.name,
+                pricePerQuantity: food.price,
+                quantity,
+              },
+            ];
+            const orderStructure: OrderType = {
+              hotel: {
+                id: hotel.id,
+                image: hotel.image,
+                location: hotel.location,
+                name: hotel.name,
+                rating: hotel.rating,
+                preferences: hotel.preferences,
+              },
+              foods: updatedFoods,
+            };
+            await firestore()
+              .collection('orders')
+              .doc(currentUserId)
+              .set(orderStructure);
+            showMessage(addMessage);
+          }
         } else {
           if (currentUserId) {
             await removeFoodFromCart(food.name, currentUserId);

@@ -34,7 +34,7 @@ function App(): React.JSX.Element {
       ) : (
         <ActivityIndicator />
       )}
-      <FlashMessage position="bottom" />
+      <FlashMessage position="top" />
     </SafeAreaView>
   );
 }
