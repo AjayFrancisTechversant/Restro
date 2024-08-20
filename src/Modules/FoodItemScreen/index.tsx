@@ -201,6 +201,7 @@ const FoodItemScreen = ({route}: any) => {
             $ {food.price}
           </Text>
           <Text style={commonStyles.boldText}>{food.desc}</Text>
+          
           <MyTextInput
             label="Add comment..."
             multiline

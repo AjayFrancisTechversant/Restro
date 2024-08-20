@@ -16,6 +16,7 @@ export type FoodType = {
   hotelId: string;
   image: string;
   price: number;
+  protein?: 'Chicken' | 'Beef' | 'Shrimp';
 };
 
 type FeaturedItemsComponentPropsType = {

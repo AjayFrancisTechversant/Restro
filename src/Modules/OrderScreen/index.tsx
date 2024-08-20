@@ -21,6 +21,7 @@ export type FoodInTheOrderType = {
   pricePerQuantity: number;
   comment: string;
   quantity: number;
+  protein?: 'Chicken' | 'Beef' | 'Shrimp';
 };
 
 export type OrderType = {
@@ -51,7 +52,7 @@ const OrderScreen = () => {
     } else if (preferenceFromRedux == 'dine-in') {
       navigation.navigate(StaticVariables.PaymentInfoScreen);
     }
-  };  
+  };
   return (
     <FlatList
       ListHeaderComponent={
@@ -65,7 +66,9 @@ const OrderScreen = () => {
         </View>
       }
       data={['']}
-      renderItem={() => <OrderDetailsComponent setIsCheckoutDisabled={setIsCheckoutDisabled}/>}
+      renderItem={() => (
+        <OrderDetailsComponent setIsCheckoutDisabled={setIsCheckoutDisabled} />
+      )}
       ListFooterComponentStyle={screenStyles.footerStyle}
       ListFooterComponent={
         !isCheckoutDisabled ? (
