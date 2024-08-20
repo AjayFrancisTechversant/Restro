@@ -81,7 +81,7 @@ const FoodItemScreen = ({route}: any) => {
       if (currentHotelIdinOrder == hotel.id) {
         //same hotel
         if (quantity > 0) {
-          let updatedFoods = [...existingFoods];
+          let updatedFoods: FoodInTheOrderType[] = [...existingFoods];
           const existingFoodIndex = updatedFoods.findIndex(
             item => item.name === food.name,
           );
@@ -89,15 +89,28 @@ const FoodItemScreen = ({route}: any) => {
             updatedFoods[existingFoodIndex].quantity = quantity;
             updatedFoods[existingFoodIndex].comment = comment;
           } else {
-            updatedFoods.push({
-              category: food.category,
-              comment,
-              desc: food.desc,
-              foodImage: food.image,
-              name: food.name,
-              pricePerQuantity: food.price,
-              quantity,
-            });
+            if (food.proteins && selectedProtein) {
+              updatedFoods.push({
+                category: food.category,
+                comment,
+                desc: food.desc,
+                foodImage: food.image,
+                name: food.name,
+                pricePerQuantity: selectedProtein?.price,
+                quantity,
+                protein: selectedProtein,
+              });
+            } else if (food.price) {
+              updatedFoods.push({
+                category: food.category,
+                comment,
+                desc: food.desc,
+                foodImage: food.image,
+                name: food.name,
+                pricePerQuantity: food.price,
+                quantity,
+              });
+            }
           }
           const orderStructure: OrderType = {
             hotel: {

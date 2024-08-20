@@ -43,7 +43,7 @@ const OrderItemCard: React.FC<OrderItemCardPropsType> = ({
       )}
       <View style={screenStyles.view2}>
         <Text style={commonStyles.boldText}>{food.name}</Text>
-        <Text>Protein: replace this text</Text>
+        {food.protein && <Text>Protein: {food.protein.type}</Text>}
         <Text>Comments: {food.comment}</Text>
         <Text>Quantity: {food.quantity}</Text>
         <Text>PricePerQuantity: ${food.pricePerQuantity}</Text>
