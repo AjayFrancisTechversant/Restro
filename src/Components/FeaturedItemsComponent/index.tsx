@@ -9,6 +9,8 @@ import StaticVariables from '../../Preferences/StaticVariables';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import FoodItemCard from '../FoodItemCard';
 
+export type ProteinType = 'Chicken' | 'Beef' | 'Shrimp';
+
 export type FoodType = {
   category: string;
   desc: string;
@@ -16,7 +18,7 @@ export type FoodType = {
   hotelId: string;
   image: string;
   price: number;
-  protein?: 'Chicken' | 'Beef' | 'Shrimp';
+  protein?: ProteinType;
 };
 
 type FeaturedItemsComponentPropsType = {

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
+  Pressable,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
@@ -15,7 +16,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import {HotelType} from '../../Components/HotelsContainer';
-import {FoodType} from '../../Components/FeaturedItemsComponent';
+import {FoodType, ProteinType} from '../../Components/FeaturedItemsComponent';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
@@ -27,11 +28,13 @@ import {removeFoodFromCart} from '../../Services/API/removeFoodFromCart';
 import styles from './style';
 import {MessageOptions, showMessage} from 'react-native-flash-message';
 import ViewMyOrderButton from '../../Components/ViewMyOrderButton';
+import PreferenceRadioCard from '../../Components/Onboarding/PreferenceRadioCard';
 
 const FoodItemScreen = ({route}: any) => {
   const currentUserId = auth().currentUser?.uid;
   const hotel: HotelType = route.params.hotel;
   const food: FoodType = route.params.food;
+  const [protein, setProtein] = useState<ProteinType>('Chicken');
   const navigation: any = useNavigation();
   const [comment, setComment] = useState(StaticVariables.EMPTY_STRING);
   const [quantity, setQuantity] = useState(0);
@@ -201,7 +204,32 @@ const FoodItemScreen = ({route}: any) => {
             $ {food.price}
           </Text>
           <Text style={commonStyles.boldText}>{food.desc}</Text>
-          
+          {food.protein && (
+            <View style={screenStyles.proteinContainer}>
+              <View style={screenStyles.proteinContainerHeader}>
+                <Text style={commonStyles.boldText}>PROTEIN</Text>
+                <Text style={commonStyles.redText}>*Required</Text>
+              </View>
+              <Pressable onPress={() => setProtein('Chicken')}>
+                <PreferenceRadioCard
+                  isSelected={protein == 'Chicken' ? true : false}
+                  text={`Chicken`}
+                />
+              </Pressable>
+              <Pressable onPress={() => setProtein('Beef')}>
+                <PreferenceRadioCard
+                  isSelected={protein == 'Beef' ? true : false}
+                  text={`Beef ( $ ${0} )`}
+                />
+              </Pressable>
+              <Pressable onPress={() => setProtein('Shrimp')}>
+                <PreferenceRadioCard
+                  isSelected={protein == 'Shrimp' ? true : false}
+                  text={`Shrimp ( $ ${0} )`}
+                />
+              </Pressable>
+            </View>
+          )}
           <MyTextInput
             label="Add comment..."
             multiline

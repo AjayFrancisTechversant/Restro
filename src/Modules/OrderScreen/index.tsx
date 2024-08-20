@@ -10,8 +10,9 @@ import MySegmentedButtons from '../../Components/MySegmentedButtons';
 import MyButton from '../../Components/MyButton';
 import {useAppSelector} from '../../hooks/hooks';
 import OrderDetailsComponent from '../OrderDetailsComponent';
-import styles from './style';
 import {HotelType} from '../../Components/HotelsContainer';
+import {ProteinType} from '../../Components/FeaturedItemsComponent';
+import styles from './style';
 
 export type FoodInTheOrderType = {
   category: string;
@@ -21,7 +22,7 @@ export type FoodInTheOrderType = {
   pricePerQuantity: number;
   comment: string;
   quantity: number;
-  protein?: 'Chicken' | 'Beef' | 'Shrimp';
+  protein?: ProteinType;
 };
 
 export type OrderType = {
