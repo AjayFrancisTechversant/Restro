@@ -45,6 +45,8 @@ const FoodItemScreen = ({route}: any) => {
   const [currentHotelIdinOrder, setCurrentHotelIdinOrder] = useState(
     StaticVariables.EMPTY_STRING,
   );
+  // console.log(p);
+
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -88,6 +90,9 @@ const FoodItemScreen = ({route}: any) => {
           if (existingFoodIndex > -1) {
             updatedFoods[existingFoodIndex].quantity = quantity;
             updatedFoods[existingFoodIndex].comment = comment;
+            if (updatedFoods[existingFoodIndex].protein) {
+              updatedFoods[existingFoodIndex].protein = selectedProtein;
+            }
           } else {
             if (food.proteins && selectedProtein) {
               updatedFoods.push({
@@ -200,12 +205,17 @@ const FoodItemScreen = ({route}: any) => {
       const samefood = existingFoodsArray?.find(i => i.name == food.name);
       if (samefood) {
         setQuantity(samefood.quantity);
+        if (samefood.protein) {
+          setSelectedProtein(samefood.protein);
+        }
       }
     } catch (error) {
       Alert.alert((error as Error).message);
     }
     setQuantityLoading(false);
   };
+
+  console.log(selectedProtein);
 
   const calculateAddOrderAmount = () => {
     if (food.price) {
@@ -238,12 +248,13 @@ const FoodItemScreen = ({route}: any) => {
                 <Text style={commonStyles.boldText}>PROTEIN</Text>
                 <Text style={commonStyles.redText}>*Required</Text>
               </View>
-              {food.proteins?.map((i: ProteinType) => (
+              {food.proteins?.map((i: ProteinType, index) => (
                 <Pressable
+                  key={index}
                   style={screenStyles.proteinRadioButton}
                   onPress={() => setSelectedProtein(i)}>
                   <PreferenceRadioCard
-                    isSelected={selectedProtein == i ? true : false}
+                    isSelected={selectedProtein?.type == i.type ? true : false}
                     text={`${i.type}  $ ${i.price}`}
                   />
                 </Pressable>
