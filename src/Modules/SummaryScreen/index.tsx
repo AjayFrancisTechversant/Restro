@@ -1,5 +1,5 @@
 import {View, Text, ScrollView, Pressable, FlatList} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
@@ -29,6 +29,7 @@ const SummaryScreen = () => {
     state => state.userDetails.preference,
   );
   const [tip, setTip] = useState<TipType>('0%');
+  const [totalAmount, setTotalAmount] = useState(0);
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -67,6 +68,7 @@ const SummaryScreen = () => {
       });
     }
   };
+
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
@@ -83,7 +85,12 @@ const SummaryScreen = () => {
         </>
       }
       data={['']}
-      renderItem={() => <OrderDetailsComponent inSummaryScreen />}
+      renderItem={() => (
+        <OrderDetailsComponent
+        setTotalAmount={setTotalAmount}
+          inSummaryScreen
+        />
+      )}
       ListFooterComponent={
         <>
           <Text style={commonStyles.boldText}>Add Tip </Text>
@@ -96,13 +103,13 @@ const SummaryScreen = () => {
           <Pressable onPress={() => setTip('10%')}>
             <PreferenceRadioCard
               isSelected={tip == '10%' ? true : false}
-              text={`10% ( $ ${0} )`}
+              text={`10% ( $ ${(totalAmount * 0.1).toPrecision(2)} )`}
             />
           </Pressable>
           <Pressable onPress={() => setTip('15%')}>
             <PreferenceRadioCard
               isSelected={tip == '15%' ? true : false}
-              text={`15% ( $ ${0} )`}
+              text={`15% ( $ ${(totalAmount * 0.15).toPrecision(2)} )`}
             />
           </Pressable>
           {preferenceFromRedux == 'carry-out' ? (
