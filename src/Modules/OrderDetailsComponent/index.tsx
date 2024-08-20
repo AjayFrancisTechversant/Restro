@@ -20,6 +20,7 @@ import styles from './style';
 type OrderDetailsComponentPropsType = {
   inSummaryScreen?: boolean;
   setIsCheckoutDisabled?: SetStateType<boolean>;
+  setTotalAmount?: SetStateType<number>;
 };
 type Prices = {
   subTotal: number;
@@ -30,6 +31,7 @@ type Prices = {
 const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
   inSummaryScreen,
   setIsCheckoutDisabled,
+  setTotalAmount,
 }) => {
   const navigation: any = useNavigation();
   const currentUserId = auth().currentUser?.uid;
@@ -64,6 +66,7 @@ const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
         const tax = subTotal * 0.1;
         const delivery = 2;
         const total = tax + delivery + subTotal;
+        setTotalAmount && setTotalAmount(total);
         setPrices({delivery, total, subTotal, tax});
       }
     }
