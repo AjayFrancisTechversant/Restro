@@ -1,4 +1,4 @@
-import {FlatList} from 'react-native';
+import {FlatList, Text} from 'react-native';
 import React, {FC} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import HeaderComponent from '../../Components/HeaderComponent';
@@ -7,7 +7,6 @@ import MySegmentedButtons from '../../Components/MySegmentedButtons';
 import ZipcodeDisplayComponent from '../../Components/ZipcodeDisplayComponent';
 import HotelsContainer from '../../Components/HotelsContainer';
 import styles from './style';
-
 
 const HomeScreen: FC = () => {
   const screenContext = useScreenContext();
@@ -24,6 +23,7 @@ const HomeScreen: FC = () => {
       ListHeaderComponent={
         <>
           <HeaderComponent color={ColorPalette.gray} />
+          <Text style={screenStyles.title}>RESTRO</Text>
           <MySegmentedButtons />
           <ZipcodeDisplayComponent />
         </>

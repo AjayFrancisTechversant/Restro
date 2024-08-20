@@ -16,6 +16,12 @@ const styles = (
       backgroundColor: ColorPalette.white,
     },
     contentContainerStyle: {paddingBottom: height * 0.03},
+    title: {
+      fontSize: 30,
+      fontWeight: 'bold',
+      color: ColorPalette.red,
+      alignSelf: 'center',
+    },
   });
 
 export default styles;
