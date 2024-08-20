@@ -1,5 +1,5 @@
 import {View, Text, KeyboardAvoidingView, ScrollView} from 'react-native';
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import validate from '../../Validation/Validation';
@@ -30,7 +30,7 @@ type ErrorType = {
   categoryError: boolean;
 };
 
-const VehicleScreen = () => {
+const VehicleScreen:FC = () => {
   const dispatch = useAppDispatch();
   const {make, model, number, category} = useAppSelector(
     state => state.vehicleDetails,

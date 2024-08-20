@@ -6,7 +6,7 @@ import {
   Image,
   KeyboardAvoidingView,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -44,7 +44,7 @@ type ErrorType = {
   nameError: boolean;
 };
 
-const PaymentInfoScreen = () => {
+const PaymentInfoScreen:FC = () => {
   const navigation: any = useNavigation();
   const dispatch = useAppDispatch();
   //calculate total order price global fn

@@ -1,5 +1,5 @@
 import {View, Text, ScrollView, Alert} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import firestore from '@react-native-firebase/firestore';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -16,7 +16,7 @@ import {OrderType} from '../OrderScreen';
 
 type ProgressType = 'justPlacedOrder' | 'customerOutside' | 'handedOver';
 
-const SuccessScreenCarryOut = () => {
+const SuccessScreenCarryOut:FC = () => {
   const [order, setOrder] = useState<OrderType>();
   const [orderId, setOrderId] = useState<string>();
   const [progress, setProgress] = useState<ProgressType>('justPlacedOrder');

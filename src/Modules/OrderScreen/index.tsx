@@ -1,5 +1,5 @@
 import {View, Text, FlatList} from 'react-native';
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
@@ -30,7 +30,7 @@ export type OrderType = {
   hotel: HotelType;
 };
 
-const OrderScreen = () => {
+const OrderScreen:FC = () => {
   const preferenceFromRedux = useAppSelector(
     state => state.userDetails.preference,
   );

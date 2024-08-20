@@ -1,5 +1,5 @@
-import {FlatList, View} from 'react-native';
-import React from 'react';
+import {FlatList} from 'react-native';
+import React, {FC} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
@@ -8,7 +8,8 @@ import ZipcodeDisplayComponent from '../../Components/ZipcodeDisplayComponent';
 import HotelsContainer from '../../Components/HotelsContainer';
 import styles from './style';
 
-const HomeScreen = () => {
+
+const HomeScreen: FC = () => {
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,

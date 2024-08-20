@@ -17,8 +17,30 @@ import SuccessScreenDineIn from '../../Modules/SuccessScreenDineIn';
 import TrackingScreen from '../../Modules/TrackingScreen';
 import ReviewsScreen from '../../Modules/ReviewsScreen';
 import AddReviewScreen from '../../Modules/AddReviewScreen';
+import {HotelType} from '../../Components/HotelsContainer';
+import {FoodType} from '../../Components/FeaturedItemsComponent';
 
-const Stack = createNativeStackNavigator();
+export type HomeStackParamsList = {
+  HomeScreen: undefined;
+  ProfileScreen: undefined;
+  EditZipcodeScreen: undefined;
+  HotelScreen: {hotel: HotelType};
+  ReviewsScreen: {hotel: HotelType};
+  AddReviewScreen: {hotel: HotelType};
+  MenuScreen: {hotel: HotelType};
+  FoodItemScreen: {hotel: HotelType; food: FoodType};
+  OrderScreen: undefined;
+  AddressScreen: undefined;
+  VehicleScreen: undefined;
+  PaymentInfoScreen: undefined;
+  SummaryScreen: undefined;
+  SuccessScreenDineIn: undefined;
+  SuccessScreenCarryOut: undefined;
+  SuccessScreenDelivery: undefined;
+  TrackingScreen: undefined;
+};
+const Stack = createNativeStackNavigator<HomeStackParamsList>();
+
 const HomeStack = () => {
   return (
     <Stack.Navigator

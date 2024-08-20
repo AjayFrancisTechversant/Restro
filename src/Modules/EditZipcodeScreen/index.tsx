@@ -1,5 +1,5 @@
 import {View, Text} from 'react-native';
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import {isLength} from 'validator';
 import {TextInput} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
@@ -24,7 +24,7 @@ type LocationDetailsType = {
   region: string;
   country: string;
 };
-const EditZipcodeScreen = () => {
+const EditZipcodeScreen: FC = () => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const [locationDetails, setLocationDetails] = useState<LocationDetailsType>({

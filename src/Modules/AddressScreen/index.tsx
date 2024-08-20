@@ -1,5 +1,5 @@
 import {View, Text, KeyboardAvoidingView, ScrollView} from 'react-native';
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
@@ -29,7 +29,7 @@ type ErrorType = {
   zipcodeError: boolean;
 };
 
-const AddressScreen = () => {
+const AddressScreen:FC = () => {
   const dispatch = useAppDispatch();
   const {address, city, state, zipcode} = useAppSelector(
     state => state.addressDetails,

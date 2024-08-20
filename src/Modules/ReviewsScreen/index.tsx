@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -23,6 +23,8 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import HeaderComponent from '../../Components/HeaderComponent';
 import StaticVariables from '../../Preferences/StaticVariables';
 import ReviewCard from '../../Components/ReviewCard';
+import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
+import {HomeStackParamsList} from '../../Services/Navigation/HomeStack';
 
 export type ReviewType = {
   name: string;
@@ -31,10 +33,15 @@ export type ReviewType = {
   rating: string;
 };
 
-const ReviewsScreen = ({route}: any) => {
+type ReviewsScreenPropsType = NativeStackScreenProps<
+  HomeStackParamsList,
+  'ReviewsScreen'
+>;
+
+const ReviewsScreen: FC<ReviewsScreenPropsType> = ({route}) => {
   const currentUserId = auth().currentUser?.uid;
   const navigation: any = useNavigation();
-  const hotel: HotelType = route.params.hotel;
+  const {hotel} = route.params;
   const [reviews, setReviews] = useState<ReviewType[]>(
     StaticVariables.EMPTY_ARRAY,
   );

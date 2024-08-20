@@ -1,8 +1,9 @@
 import {View, Text, Image, TouchableOpacity, FlatList} from 'react-native';
-import React from 'react';
+import React, {FC} from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {Chip} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
+import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import HeaderComponent from '../../Components/HeaderComponent';
@@ -10,13 +11,18 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import MyButton from '../../Components/MyButton';
 import FeaturedItemsComponent from '../../Components/FeaturedItemsComponent';
-import {HotelType} from '../../Components/HotelsContainer';
 import StaticVariables from '../../Preferences/StaticVariables';
+import {HomeStackParamsList} from '../../Services/Navigation/HomeStack';
 import styles from './style';
 
-const HotelScreen = ({route}: any) => {
+type HotelScreenPropstype = NativeStackScreenProps<
+  HomeStackParamsList,
+  'HotelScreen'
+>;
+
+const HotelScreen: FC<HotelScreenPropstype> = ({route}) => {
   const navigation: any = useNavigation();
-  const hotel: HotelType = route.params.hotel;
+  const {hotel} = route.params;
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,

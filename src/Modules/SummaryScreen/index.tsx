@@ -1,5 +1,5 @@
 import {View, Text, ScrollView, Pressable, FlatList} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
@@ -22,7 +22,7 @@ import OrderDetailsComponent from '../OrderDetailsComponent';
 
 type TipType = '0%' | '10%' | '15%';
 
-const SummaryScreen = () => {
+const SummaryScreen:FC = () => {
   const navigation: any = useNavigation();
   const dispatch = useAppDispatch();
   const preferenceFromRedux = useAppSelector(

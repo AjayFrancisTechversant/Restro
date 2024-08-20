@@ -1,5 +1,5 @@
 import {View, Text, Alert} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -17,7 +17,7 @@ import styles from './style';
 
 type ProgressType = 'inProgress' | 'handedOver';
 
-const SuccessScreenDelivery = () => {
+const SuccessScreenDelivery:FC = () => {
   const [order, setOrder] = useState<OrderType>();
   const [orderId, setOrderId] = useState<string>();
   const [progress, setProgress] = useState<ProgressType>('inProgress');

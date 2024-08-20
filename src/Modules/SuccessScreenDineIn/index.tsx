@@ -1,5 +1,5 @@
 import {View, Text, Alert} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -14,7 +14,7 @@ import StaticVariables from '../../Preferences/StaticVariables';
 import {OrderType} from '../OrderScreen';
 import styles from './style';
 
-const SuccessScreenDineIn = () => {
+const SuccessScreenDineIn:FC = () => {
   const [order, setOrder] = useState<OrderType>();
   const [orderId, setOrderId] = useState<string>();
   const currentUserId = auth().currentUser?.uid;

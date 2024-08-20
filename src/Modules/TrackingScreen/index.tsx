@@ -1,9 +1,9 @@
 import {View, Text} from 'react-native';
-import React from 'react';
+import React, { FC } from 'react';
 import { useScreenContext } from '../../Contexts/ScreenContext';
 import styles from './style';
 
-const TrackingScreen = () => {
+const TrackingScreen:FC = () => {
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,

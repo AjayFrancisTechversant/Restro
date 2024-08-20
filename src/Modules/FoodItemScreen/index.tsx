@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
   Pressable,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -23,17 +23,23 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import MyTextInput from '../../Components/MyTextInput';
 import StaticVariables from '../../Preferences/StaticVariables';
 import MyButton from '../../Components/MyButton';
+import { NativeStackScreenProps } from 'react-native-screens/lib/typescript/native-stack/types';
 import {FoodInTheOrderType, OrderType} from '../OrderScreen';
 import {removeFoodFromCart} from '../../Services/API/removeFoodFromCart';
-import styles from './style';
 import {MessageOptions, showMessage} from 'react-native-flash-message';
 import ViewMyOrderButton from '../../Components/ViewMyOrderButton';
 import PreferenceRadioCard from '../../Components/Onboarding/PreferenceRadioCard';
+import { HomeStackParamsList } from '../../Services/Navigation/HomeStack';
+import styles from './style';
 
-const FoodItemScreen = ({route}: any) => {
+type FoodItemScreenPropsType = NativeStackScreenProps<
+  HomeStackParamsList,
+  'FoodItemScreen'
+>;
+
+const FoodItemScreen:FC<FoodItemScreenPropsType> = ({route}) => {
   const currentUserId = auth().currentUser?.uid;
-  const hotel: HotelType = route.params.hotel;
-  const food: FoodType = route.params.food;
+  const {food,hotel} = route.params;
   const [selectedProtein, setSelectedProtein] = useState<ProteinType>();
   const navigation: any = useNavigation();
   const [comment, setComment] = useState(StaticVariables.EMPTY_STRING);
@@ -45,7 +51,6 @@ const FoodItemScreen = ({route}: any) => {
   const [currentHotelIdinOrder, setCurrentHotelIdinOrder] = useState(
     StaticVariables.EMPTY_STRING,
   );
-  // console.log(p);
 
   const screenContext = useScreenContext();
   const screenStyles = styles(

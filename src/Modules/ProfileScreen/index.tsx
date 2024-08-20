@@ -1,5 +1,5 @@
 import {View, Text, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, { FC } from 'react';
 import auth from '@react-native-firebase/auth';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
@@ -8,7 +8,7 @@ import {commonStyles} from '../../CommonStyles/CommonStyles';
 import LogoutComponent from '../../Components/LogoutComponent';
 import styles from './style';
 
-const ProfileScreen = () => {
+const ProfileScreen:FC = () => {
   const navigation = useNavigation();
   const CurrentUserDetails = auth().currentUser;
   const screenContext = useScreenContext();

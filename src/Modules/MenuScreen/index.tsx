@@ -1,10 +1,10 @@
 import {View, Text, FlatList, ActivityIndicator} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {HomeStackParamsList} from '../../Services/Navigation/HomeStack';
+import React, {FC, useEffect, useState} from 'react';
 import firestore, {Filter} from '@react-native-firebase/firestore';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import {HotelType} from '../../Components/HotelsContainer';
 import SelectInitialCategoryCard from '../../Components/SelectInitialCategoryCard';
 import CategoryHorizontalCard from '../../Components/CategoryHorizontalCard';
 import StaticVariables from '../../Preferences/StaticVariables';
@@ -12,8 +12,9 @@ import {FoodType} from '../../Components/FeaturedItemsComponent';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import FoodItemCard from '../../Components/FoodItemCard';
 import SearchFoodComponent from '../../Components/SearchFoodComponent';
-import styles from './style';
 import ViewMyOrderButton from '../../Components/ViewMyOrderButton';
+import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
+import styles from './style';
 
 export type CategoryType =
   | 'All'
@@ -25,8 +26,13 @@ export type CategoryType =
   | 'Deserts'
   | undefined;
 
-const MenuScreen = ({route}: any) => {
-  const hotel: HotelType = route.params.hotel;
+type MenuScreenPropsType = NativeStackScreenProps<
+  HomeStackParamsList,
+  'MenuScreen'
+>;
+
+const MenuScreen: FC<MenuScreenPropsType> = ({route}) => {
+  const {hotel} = route.params;
   const [loading, setLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] =
     useState<CategoryType>(undefined);
@@ -156,7 +162,7 @@ const MenuScreen = ({route}: any) => {
           }
         />
       )}
-      <ViewMyOrderButton/>
+      <ViewMyOrderButton />
     </View>
   );
 };
