@@ -5,11 +5,6 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import HomeStack from './HomeStack';
 import ContactUsScreen from '../../Modules/ContactUsScreen';
 
-// type AuthorizedStackParamList = {
-//   HomeStack: undefined;
-//   ContactUsScreen: undefined;
-// };
-
 const Drawer = createDrawerNavigator();
 
 const AuthorizedStack = () => {
