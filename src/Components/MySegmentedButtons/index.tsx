@@ -1,12 +1,12 @@
 import {View, Text, TouchableOpacity, Alert} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './style';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import {updatePreference} from '../../Redux/Slices/UserDetailsSlice';
-import {useNavigation} from '@react-navigation/native';
+import styles from './style';
 
 type MySegmentedButtonsPropsType = {
   nonEditable?: boolean;

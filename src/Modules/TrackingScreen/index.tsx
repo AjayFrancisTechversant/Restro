@@ -88,10 +88,7 @@ const TrackingScreen: FC<TrackingScreenPropsType> = ({route}) => {
           style={commonStyles.flexOne}
           provider={PROVIDER_GOOGLE}
           showsUserLocation>
-          <Marker
-            image={scooterImage}
-            coordinate={markerPosition}
-          />
+          <Marker image={scooterImage} coordinate={markerPosition} />
         </MapView>
       </View>
     </View>
