@@ -68,7 +68,6 @@ const TrackingScreen: FC<TrackingScreenPropsType> = ({route}) => {
           ref={mapRef}
           region={markerPosition}
           style={commonStyles.flexOne}
-          onRegionChangeComplete={e => console.log(e)}
           provider={PROVIDER_GOOGLE}
           showsUserLocation>
           <Marker image={scooterImage} coordinate={markerPosition} />
