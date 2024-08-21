@@ -3,9 +3,8 @@ import React from 'react';
 import auth from '@react-native-firebase/auth';
 import {MessageType} from '../../Modules/ContactUsScreen';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import {commonStyles} from '../../CommonStyles/CommonStyles';
-import styles from './style';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import styles from './style';
 
 type EachMessageComponentPropsType = {
   message: MessageType;

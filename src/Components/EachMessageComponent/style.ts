@@ -12,7 +12,9 @@ const styles = (
   StyleSheet.create({
     bubble: {
       padding: height * 0.01,
+      paddingHorizontal: height * 0.02,
       borderRadius: 20,
+      marginBottom: 2,
     },
   });
 
