@@ -79,7 +79,8 @@ const AdminChatBox: React.FC<AdminChatBoxPropsType> = ({
   );
   return (
     <View style={screenStyles.container}>
-      <TouchableOpacity style={screenStyles.backButton}
+      <TouchableOpacity
+        style={screenStyles.backButton}
         onPress={() => setSelectedEmail(StaticVariables.EMPTY_STRING)}>
         <AntDesign name="arrowleft" size={30} />
       </TouchableOpacity>
