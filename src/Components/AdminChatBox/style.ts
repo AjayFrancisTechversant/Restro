@@ -15,6 +15,8 @@ const styles = (
       borderRadius: 10,
     },
     textInput: {borderWidth: 0.5},
+    backButton: {position: 'absolute'},
+    heading: {alignSelf: 'center', fontWeight: 'bold',marginBottom:height*0.01},
   });
 
 export default styles;

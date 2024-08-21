@@ -1,4 +1,4 @@
-import {View, TouchableOpacity, FlatList, Alert} from 'react-native';
+import {View, TouchableOpacity, FlatList, Alert, Text} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import firestore, {Filter} from '@react-native-firebase/firestore';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -79,10 +79,11 @@ const AdminChatBox: React.FC<AdminChatBoxPropsType> = ({
   );
   return (
     <View style={screenStyles.container}>
-      <TouchableOpacity
+      <TouchableOpacity style={screenStyles.backButton}
         onPress={() => setSelectedEmail(StaticVariables.EMPTY_STRING)}>
         <AntDesign name="arrowleft" size={30} />
       </TouchableOpacity>
+      <Text style={screenStyles.heading}>{selectedEmail}</Text>
       <FlatList
         showsVerticalScrollIndicator={false}
         data={messages}
