@@ -1,15 +1,15 @@
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import React, {FC, useEffect, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MapView, {Marker, PROVIDER_GOOGLE, Region} from 'react-native-maps';
+import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import scooterImage from '../../Assets/Images/scooterImage.png';
-import styles from './style';
-import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
 import {HomeStackParamsList} from '../../Services/Navigation/HomeStack';
+import styles from './style';
 
 type TrackingScreenPropsType = NativeStackScreenProps<
   HomeStackParamsList,
@@ -17,37 +17,126 @@ type TrackingScreenPropsType = NativeStackScreenProps<
 >;
 
 const TrackingScreen: FC<TrackingScreenPropsType> = ({route}) => {
-  const {setProgress} = route.params;
+  const {setProgress, order} = route.params;
+  const hotelId = order.hotel.id;
   const navigation = useNavigation();
-  const regions: Region[] = [
-    {
-      latitude: 10.011314861360566,
-      latitudeDelta: 0.001211397491797328,
-      longitude: 76.36576479300857,
-      longitudeDelta: 0.0006601586937904358,
-    },
-    {
-      latitude: 10.010903798173786,
-      latitudeDelta: 0.001211399025995874,
-      longitude: 76.36594651266932,
-      longitudeDelta: 0.0006601586937904358,
-    },
-    {
-      latitude: 10.010559099003807,
-      latitudeDelta: 0.0012114003124796824,
-      longitude: 76.36551400646567,
-      longitudeDelta: 0.0006601586937904358,
-    },
-    {
-      latitude: 10.010340855374562,
-      latitudeDelta: 0.001211401126967715,
-      longitude: 76.36563705280423,
-      longitudeDelta: 0.0006601586937904358,
-    },
-  ];
-  const mapRef = useRef<MapView>();
-  const [markerPosition, setMarkerPosition] = useState(regions[0]);
 
+  const getRoute = () => {
+    switch (hotelId) {
+      case 'HGSupplyCo':
+        return [
+          {
+            latitude: 10.011314861360566,
+            latitudeDelta: 0.001211397491797328,
+            longitude: 76.36576479300857,
+            longitudeDelta: 0.0006601586937904358,
+          },
+          {
+            latitude: 10.010903798173786,
+            latitudeDelta: 0.001211399025995874,
+            longitude: 76.36594651266932,
+            longitudeDelta: 0.0006601586937904358,
+          },
+          {
+            latitude: 10.010559099003807,
+            latitudeDelta: 0.0012114003124796824,
+            longitude: 76.36551400646567,
+            longitudeDelta: 0.0006601586937904358,
+          },
+          {
+            latitude: 10.010340855374562,
+            latitudeDelta: 0.001211401126967715,
+            longitude: 76.36563705280423,
+            longitudeDelta: 0.0006601586937904358,
+          },
+        ];
+      case 'Hero':
+        return [
+          {
+            latitude: 10.011314861360566,
+            latitudeDelta: 0.001211397491797328,
+            longitude: 76.36576479300857,
+            longitudeDelta: 0.0006601586937904358,
+          },
+          {
+            latitude: 10.010903798173786,
+            latitudeDelta: 0.001211399025995874,
+            longitude: 76.36594651266932,
+            longitudeDelta: 0.0006601586937904358,
+          },
+          {
+            latitude: 10.010559099003807,
+            latitudeDelta: 0.0012114003124796824,
+            longitude: 76.36551400646567,
+            longitudeDelta: 0.0006601586937904358,
+          },
+          {
+            latitude: 10.010340855374562,
+            latitudeDelta: 0.001211401126967715,
+            longitude: 76.36563705280423,
+            longitudeDelta: 0.0006601586937904358,
+          },
+        ];
+      case 'StandardService':
+        return [
+          {
+            latitude: 10.011314861360566,
+            latitudeDelta: 0.001211397491797328,
+            longitude: 76.36576479300857,
+            longitudeDelta: 0.0006601586937904358,
+          },
+          {
+            latitude: 10.010903798173786,
+            latitudeDelta: 0.001211399025995874,
+            longitude: 76.36594651266932,
+            longitudeDelta: 0.0006601586937904358,
+          },
+          {
+            latitude: 10.010559099003807,
+            latitudeDelta: 0.0012114003124796824,
+            longitude: 76.36551400646567,
+            longitudeDelta: 0.0006601586937904358,
+          },
+          {
+            latitude: 10.010340855374562,
+            latitudeDelta: 0.001211401126967715,
+            longitude: 76.36563705280423,
+            longitudeDelta: 0.0006601586937904358,
+          },
+        ];
+      default:
+        return [
+          {
+            latitude: 10.011314861360566,
+            latitudeDelta: 0.001211397491797328,
+            longitude: 76.36576479300857,
+            longitudeDelta: 0.0006601586937904358,
+          },
+          {
+            latitude: 10.010903798173786,
+            latitudeDelta: 0.001211399025995874,
+            longitude: 76.36594651266932,
+            longitudeDelta: 0.0006601586937904358,
+          },
+          {
+            latitude: 10.010559099003807,
+            latitudeDelta: 0.0012114003124796824,
+            longitude: 76.36551400646567,
+            longitudeDelta: 0.0006601586937904358,
+          },
+          {
+            latitude: 10.010340855374562,
+            latitudeDelta: 0.001211401126967715,
+            longitude: 76.36563705280423,
+            longitudeDelta: 0.0006601586937904358,
+          },
+        ];
+    }
+  };
+
+  const mapRef = useRef<MapView>(null);
+  const regions: Region[] = getRoute();
+  const [markerPosition, setMarkerPosition] = useState(regions[0]);
   useEffect(() => {
     changePositions();
   }, []);

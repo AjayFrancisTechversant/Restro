@@ -181,16 +181,18 @@ const SuccessScreenDelivery: FC = () => {
               </Text>
             </MyButton>
             <MyButton
+              disabled={loading}
               onPress={() =>
                 navigation.navigate(StaticVariables.TrackingScreen, {
                   setProgress,
+                  order,
                 })
               }
               style={[
                 screenStyles.bottomButton,
                 {backgroundColor: ColorPalette.red},
               ]}>
-              <Text
+              {!loading?<Text
                 style={[commonStyles.boldText, {color: ColorPalette.white}]}>
                 <MaterialCommunityIcons
                   name="map-marker-question-outline"
@@ -199,6 +201,9 @@ const SuccessScreenDelivery: FC = () => {
                 />{' '}
                 Track your Order!
               </Text>
+              :
+              <ActivityIndicator size={20} color={ColorPalette.white}/>
+              }
             </MyButton>
             <MyButton
               onPress={() => {

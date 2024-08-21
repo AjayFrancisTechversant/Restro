@@ -6,7 +6,7 @@ import HotelScreen from '../../Modules/HotelScreen';
 import ProfileScreen from '../../Modules/ProfileScreen';
 import MenuScreen from '../../Modules/MenuScreen';
 import FoodItemScreen from '../../Modules/FoodItemScreen';
-import OrderScreen from '../../Modules/OrderScreen';
+import OrderScreen, {OrderType} from '../../Modules/OrderScreen';
 import PaymentInfoScreen from '../../Modules/PaymentInfoScreen';
 import SummaryScreen from '../../Modules/SummaryScreen';
 import AddressScreen from '../../Modules/AddressScreen';
@@ -40,14 +40,14 @@ export type HomeStackParamsList = {
   SuccessScreenDineIn: undefined;
   SuccessScreenCarryOut: undefined;
   SuccessScreenDelivery: undefined;
-  TrackingScreen: {setProgress: SetStateType<ProgressType>};
+  TrackingScreen: {setProgress: SetStateType<ProgressType>; order: OrderType};
 };
 const Stack = createNativeStackNavigator<HomeStackParamsList>();
 
 const HomeStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="HomeScreen"
+      initialRouteName="SuccessScreenDelivery"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
