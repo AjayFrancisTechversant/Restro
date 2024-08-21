@@ -1,12 +1,11 @@
-import {View, Text, TouchableOpacity, ColorValue} from 'react-native';
+import {View, TouchableOpacity, ColorValue} from 'react-native';
 import React from 'react';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './style';
-import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {useNavigation} from '@react-navigation/native';
+import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
+import styles from './style';
 
 type HeaderComponentPropsType = {
   color: ColorValue;
@@ -31,7 +30,7 @@ const HeaderComponent: React.FC<HeaderComponentPropsType> = ({color}) => {
         onPress={() =>
           navigation.navigate(StaticVariables.ProfileScreen as never)
         }>
-        <EvilIcons name="user" color={color} size={50} />
+        <FontAwesome name="user" color={color} size={40} />
       </TouchableOpacity>
     </View>
   );
