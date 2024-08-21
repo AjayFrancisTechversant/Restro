@@ -2,14 +2,19 @@ import {Text, TouchableOpacity, View} from 'react-native';
 import React, {FC, useEffect, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import MapView, {Marker, PROVIDER_GOOGLE, Region} from 'react-native-maps';
+import MapView, {
+  Callout,
+  Marker,
+  PROVIDER_GOOGLE,
+  Region,
+} from 'react-native-maps';
 import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import scooterImage from '../../Assets/Images/scooterImage.png';
 import {HomeStackParamsList} from '../../Services/Navigation/HomeStack';
-import { getRoute } from '../../Services/API/getRoute';
+import {gethotelLatLng, getRoute} from '../../Services/API/getRoute';
 import styles from './style';
 
 type TrackingScreenPropsType = NativeStackScreenProps<
@@ -22,7 +27,6 @@ const TrackingScreen: FC<TrackingScreenPropsType> = ({route}) => {
   const hotelId = order.hotel.id;
   const navigation = useNavigation();
 
- 
   const mapRef = useRef<MapView>(null);
   const regions: Region[] = getRoute(hotelId);
   const [markerPosition, setMarkerPosition] = useState(regions[0]);
@@ -32,14 +36,14 @@ const TrackingScreen: FC<TrackingScreenPropsType> = ({route}) => {
   const changePositions = () => {
     var count = 0;
     const inte = setInterval(() => {
-      setMarkerPosition(regions[count]);
-      mapRef.current?.animateToRegion(markerPosition, 500);
-      count += 1;
-      if (count > regions.length - 1) {
+      if (count >= regions.length ) {
         clearInterval(inte);
         setProgress('handedOver');
         navigation.goBack();
       }
+      setMarkerPosition(regions[count]);
+      mapRef.current?.animateToRegion(markerPosition, 500);
+      count += 1;
     }, 2000);
   };
 
@@ -64,9 +68,15 @@ const TrackingScreen: FC<TrackingScreenPropsType> = ({route}) => {
           ref={mapRef}
           region={markerPosition}
           style={commonStyles.flexOne}
+          onRegionChangeComplete={e => console.log(e)}
           provider={PROVIDER_GOOGLE}
           showsUserLocation>
           <Marker image={scooterImage} coordinate={markerPosition} />
+          <Marker  coordinate={gethotelLatLng(hotelId)}>
+            <Callout>
+              <Text>{hotelId}</Text>
+            </Callout>
+          </Marker>
         </MapView>
       </View>
     </View>
