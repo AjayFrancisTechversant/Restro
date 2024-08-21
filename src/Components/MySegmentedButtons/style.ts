@@ -13,8 +13,10 @@ const styles = (
     MySegmentedButtonsContainer: {
       margin: height * 0.04,
       justifyContent: 'center',
+      padding: 1.5,
     },
     container: {
+      alignSelf: 'center',
       borderRadius: 12,
       borderWidth: 1.5,
       borderColor: ColorPalette.gray,
