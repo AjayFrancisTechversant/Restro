@@ -1,6 +1,5 @@
 import {View, Text, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
@@ -10,7 +9,6 @@ import AdminChatBox from '../AdminChatBox';
 import styles from './style';
 
 const AdminChat = () => {
-  const currentUserId = auth().currentUser?.uid;
   const [fromEmailIds, setFromEmailIds] = useState<string[]>(
     StaticVariables.EMPTY_ARRAY,
   );
@@ -33,7 +31,7 @@ const AdminChat = () => {
         setFromEmailIds(tempArrOfFromEmailIds);
       });
     return () => subscriber();
-  }, [currentUserId]);
+  }, []);
 
   const screenContext = useScreenContext();
   const screenStyles = styles(

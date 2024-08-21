@@ -21,7 +21,6 @@ const AdminChatBox: React.FC<AdminChatBoxPropsType> = ({
   setSelectedEmail,
   selectedEmail,
 }) => {
-  const currentUserId = auth().currentUser?.uid;
   const currentUserEmail = auth().currentUser?.email;
   const [messages, setMessages] = useState<MessageType[]>(
     StaticVariables.EMPTY_ARRAY,
@@ -43,16 +42,14 @@ const AdminChatBox: React.FC<AdminChatBoxPropsType> = ({
           Filter('toEmail', '==', selectedEmail),
         ),
       )
-      // .orderBy('createdAt', 'asc')
       .onSnapshot(querrySnapshot => {
-        // console.log(documentSnapshot);
         const sortedMessages: any = querrySnapshot?.docs
           .map(i => i.data())
           .sort((a, b) => a.createdAt - b.createdAt);
         setMessages(sortedMessages);
       });
     return () => subscriber();
-  }, [currentUserId]);
+  }, []);
 
   const handleSendMessage = () => {
     setNewMessage({
@@ -83,7 +80,6 @@ const AdminChatBox: React.FC<AdminChatBoxPropsType> = ({
   return (
     <View style={screenStyles.container}>
       <TouchableOpacity
-        style={screenStyles.backButton}
         onPress={() => setSelectedEmail(StaticVariables.EMPTY_STRING)}>
         <AntDesign name="arrowleft" size={30} />
       </TouchableOpacity>

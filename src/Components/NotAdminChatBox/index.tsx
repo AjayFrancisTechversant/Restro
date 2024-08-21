@@ -1,4 +1,4 @@
-import {View, Text, FlatList, Alert} from 'react-native';
+import {View, FlatList, Alert} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import firestore, {Filter} from '@react-native-firebase/firestore';
 import {TextInput} from 'react-native-paper';
@@ -12,7 +12,6 @@ import EachMessageComponent from '../EachMessageComponent';
 import styles from './style';
 
 const NotAdminChatBox = () => {
-  const currentUserId = auth().currentUser?.uid;
   const currentUserEmail = auth().currentUser?.email;
   const [newMessage, setNewMessage] = useState<MessageType>({
     createdAt: firestore.FieldValue.serverTimestamp(),
@@ -41,16 +40,14 @@ const NotAdminChatBox = () => {
           Filter('toEmail', '==', currentUserEmail),
         ),
       )
-      // .orderBy('createdAt', 'asc')
       .onSnapshot(querrySnapshot => {
-        // console.log(documentSnapshot);
         const sortedMessages: any = querrySnapshot?.docs
           .map(i => i.data())
           .sort((a, b) => a.createdAt - b.createdAt);
         setMessages(sortedMessages);
       });
     return () => subscriber();
-  }, [currentUserId]);
+  }, []);
 
   const handleSendMessage = () => {
     setNewMessage({

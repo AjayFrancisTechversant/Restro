@@ -8,12 +8,10 @@ import {
 } from 'react-native';
 import React, {FC, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import auth from '@react-native-firebase/auth';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import firestore from '@react-native-firebase/firestore';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {HotelType} from '../../Components/HotelsContainer';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import MyButton from '../../Components/MyButton';
@@ -39,7 +37,6 @@ type ReviewsScreenPropsType = NativeStackScreenProps<
 >;
 
 const ReviewsScreen: FC<ReviewsScreenPropsType> = ({route}) => {
-  const currentUserId = auth().currentUser?.uid;
   const navigation: any = useNavigation();
   const {hotel} = route.params;
   const [reviews, setReviews] = useState<ReviewType[]>(
@@ -62,7 +59,7 @@ const ReviewsScreen: FC<ReviewsScreenPropsType> = ({route}) => {
       });
 
     return () => subscriber();
-  }, [currentUserId]);
+  }, []);
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
