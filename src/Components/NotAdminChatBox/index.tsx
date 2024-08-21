@@ -2,7 +2,7 @@ import {View, FlatList, Alert} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import firestore, {Filter} from '@react-native-firebase/firestore';
 import {TextInput} from 'react-native-paper';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import MyTextInput from '../MyTextInput';
 import StaticVariables from '../../Preferences/StaticVariables';
@@ -22,6 +22,7 @@ const NotAdminChatBox = () => {
   const [messages, setMessages] = useState<MessageType[]>(
     StaticVariables.EMPTY_ARRAY,
   );
+  const flatlisRef = useRef<FlatList>(null);
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -49,6 +50,12 @@ const NotAdminChatBox = () => {
     return () => subscriber();
   }, []);
 
+  useEffect(() => {
+    if (messages.length != 0) {
+      flatlisRef.current?.scrollToEnd({animated: true});
+    }
+  }, [messages]);
+
   const handleSendMessage = () => {
     setNewMessage({
       ...newMessage,
@@ -63,12 +70,14 @@ const NotAdminChatBox = () => {
           text: StaticVariables.EMPTY_STRING,
           createdAt: firestore.FieldValue.serverTimestamp(),
         });
+        flatlisRef.current?.scrollToEnd({animated: true});
       })
       .catch(error => Alert.alert(error));
   };
   return (
     <View style={screenStyles.container}>
       <FlatList
+        ref={flatlisRef}
         showsVerticalScrollIndicator={false}
         data={messages}
         renderItem={({item}) => <EachMessageComponent message={item} />}
@@ -80,6 +89,7 @@ const NotAdminChatBox = () => {
         onChangeText={txt => setNewMessage({...newMessage, text: txt})}
         right={
           <TextInput.Icon
+            forceTextInputFocus={false}
             disabled={!newMessage.text}
             icon="send"
             color={ColorPalette.blue}

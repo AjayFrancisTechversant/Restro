@@ -1,5 +1,5 @@
 import {View, TouchableOpacity, FlatList, Alert, Text} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import firestore, {Filter} from '@react-native-firebase/firestore';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import auth from '@react-native-firebase/auth';
@@ -25,7 +25,7 @@ const AdminChatBox: React.FC<AdminChatBoxPropsType> = ({
   const [messages, setMessages] = useState<MessageType[]>(
     StaticVariables.EMPTY_ARRAY,
   );
-
+  const flatlisRef = useRef<FlatList>(null);
   const [newMessage, setNewMessage] = useState<MessageType>({
     createdAt: firestore.FieldValue.serverTimestamp(),
     text: StaticVariables.EMPTY_STRING,
@@ -51,6 +51,12 @@ const AdminChatBox: React.FC<AdminChatBoxPropsType> = ({
     return () => subscriber();
   }, []);
 
+  useEffect(() => {
+    if (messages.length != 0) {
+      flatlisRef.current?.scrollToEnd({animated: true});
+    }
+  }, [messages]);
+
   const handleSendMessage = () => {
     setNewMessage({
       ...newMessage,
@@ -65,6 +71,7 @@ const AdminChatBox: React.FC<AdminChatBoxPropsType> = ({
           text: StaticVariables.EMPTY_STRING,
           createdAt: firestore.FieldValue.serverTimestamp(),
         });
+        flatlisRef.current?.scrollToEnd({animated: true});
       })
       .catch(error => Alert.alert(error));
   };
@@ -86,6 +93,7 @@ const AdminChatBox: React.FC<AdminChatBoxPropsType> = ({
       </TouchableOpacity>
       <Text style={screenStyles.heading}>{selectedEmail}</Text>
       <FlatList
+        ref={flatlisRef}
         showsVerticalScrollIndicator={false}
         data={messages}
         renderItem={({item}) => <EachMessageComponent message={item} />}
