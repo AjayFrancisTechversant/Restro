@@ -1,4 +1,4 @@
-import {View, Text, ScrollView, Alert} from 'react-native';
+import {View, Text, ScrollView, Alert, ActivityIndicator} from 'react-native';
 import React, {FC, useEffect, useState} from 'react';
 import firestore from '@react-native-firebase/firestore';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -16,9 +16,10 @@ import {OrderType} from '../OrderScreen';
 
 type ProgressType = 'justPlacedOrder' | 'customerOutside' | 'handedOver';
 
-const SuccessScreenCarryOut:FC = () => {
+const SuccessScreenCarryOut: FC = () => {
   const [order, setOrder] = useState<OrderType>();
   const [orderId, setOrderId] = useState<string>();
+  const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState<ProgressType>('justPlacedOrder');
   const currentUserId = auth().currentUser?.uid;
   const navigation: any = useNavigation();
@@ -44,6 +45,8 @@ const SuccessScreenCarryOut:FC = () => {
       setOrderId(docSnapshot.id);
     } catch (error) {
       Alert.alert((error as Error).message);
+    } finally {
+      setLoading(false);
     }
   };
   const handleFinish = () => {
@@ -126,51 +129,64 @@ const SuccessScreenCarryOut:FC = () => {
           </Text>
         )}
 
-        <Text
-          style={[
-            screenStyles.hotelNameText,
-            {
-              color:
-                progress == 'justPlacedOrder'
-                  ? ColorPalette.red
-                  : ColorPalette.white,
-            },
-          ]}>
-          {order?.hotel.name}
-        </Text>
-        <Text
-          style={[
-            screenStyles.text,
-            {
-              color:
-                progress == 'justPlacedOrder'
-                  ? ColorPalette.red
-                  : ColorPalette.white,
-            },
-          ]}>
-          <Entypo
-            name="location-pin"
-            size={20}
+        {!loading ? (
+          <>
+            <Text
+              style={[
+                screenStyles.hotelNameText,
+                {
+                  color:
+                    progress == 'justPlacedOrder'
+                      ? ColorPalette.red
+                      : ColorPalette.white,
+                },
+              ]}>
+              {order?.hotel.name}
+            </Text>
+            <Text
+              style={[
+                screenStyles.text,
+                {
+                  color:
+                    progress == 'justPlacedOrder'
+                      ? ColorPalette.red
+                      : ColorPalette.white,
+                },
+              ]}>
+              <Entypo
+                name="location-pin"
+                size={20}
+                color={
+                  progress == 'justPlacedOrder'
+                    ? ColorPalette.red
+                    : ColorPalette.white
+                }
+              />
+              {order?.hotel.location}
+            </Text>
+            <Text
+              style={[
+                screenStyles.orderNumberText,
+                {
+                  color:
+                    progress == 'justPlacedOrder'
+                      ? ColorPalette.red
+                      : ColorPalette.white,
+                },
+              ]}>
+              Order #{orderId}
+            </Text>
+          </>
+        ) : (
+          <ActivityIndicator
             color={
               progress == 'justPlacedOrder'
                 ? ColorPalette.red
                 : ColorPalette.white
             }
+            size={20}
           />
-          {order?.hotel.location}
-        </Text>
-        <Text
-          style={[
-            screenStyles.orderNumberText,
-            {
-              color:
-                progress == 'justPlacedOrder'
-                  ? ColorPalette.red
-                  : ColorPalette.white,
-            },
-          ]}>
-          Order #{orderId}
-        </Text>
+        )}
       </View>
       <View>
         {progress == 'justPlacedOrder' ? (

@@ -89,7 +89,6 @@ const TrackingScreen: FC<TrackingScreenPropsType> = ({route}) => {
           provider={PROVIDER_GOOGLE}
           showsUserLocation>
           <Marker
-            // icon={smallScooter}
             image={scooterImage}
             coordinate={markerPosition}
           />

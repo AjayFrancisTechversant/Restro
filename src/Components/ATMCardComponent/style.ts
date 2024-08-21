@@ -16,6 +16,7 @@ const styles = (
       borderRadius: 10,
       alignSelf: 'center',
       width: width * 0.9,
+      height:width*0.6,
       marginVertical: height * 0.02,
       elevation: 5,
     },

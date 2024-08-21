@@ -10,7 +10,7 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
-    buttonStyle: {backgroundColor: ColorPalette.red, alignSelf: 'center'},
+    buttonStyle: {backgroundColor: ColorPalette.red, alignSelf: 'center',marginBottom:height*0.01},
   });
 
 export default styles;

@@ -1,4 +1,4 @@
-import {View, Text, Alert} from 'react-native';
+import {View, Text, Alert, ActivityIndicator} from 'react-native';
 import React, {FC, useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -14,8 +14,9 @@ import StaticVariables from '../../Preferences/StaticVariables';
 import {OrderType} from '../OrderScreen';
 import styles from './style';
 
-const SuccessScreenDineIn:FC = () => {
+const SuccessScreenDineIn: FC = () => {
   const [order, setOrder] = useState<OrderType>();
+  const [loading, setLoading] = useState(true);
   const [orderId, setOrderId] = useState<string>();
   const currentUserId = auth().currentUser?.uid;
   const navigation: any = useNavigation();
@@ -41,6 +42,8 @@ const SuccessScreenDineIn:FC = () => {
       setOrderId(docSnapshot.id);
     } catch (error) {
       Alert.alert((error as Error).message);
+    } finally {
+      setLoading(false);
     }
   };
   const handleFinish = () => {
@@ -67,12 +70,22 @@ const SuccessScreenDineIn:FC = () => {
         <Text style={screenStyles.text}>
           Your order has been received and is being prepared.
         </Text>
-        <Text style={screenStyles.hotelNameText}>{order?.hotel.name}</Text>
-        <Text style={screenStyles.text}>
-          <Entypo name="location-pin" size={20} color={ColorPalette.white} />
-          {order?.hotel.location}
-        </Text>
-        <Text style={screenStyles.orderNumberText}>Order #{orderId}</Text>
+        {!loading ? (
+          <>
+            <Text style={screenStyles.hotelNameText}>{order?.hotel.name}</Text>
+            <Text style={screenStyles.text}>
+              <Entypo
+                name="location-pin"
+                size={20}
+                color={ColorPalette.white}
+              />
+              {order?.hotel.location}
+            </Text>
+            <Text style={screenStyles.orderNumberText}>Order #{orderId}</Text>
+          </>
+        ) : (
+          <ActivityIndicator size={20} color={ColorPalette.white}/>
+        )}
       </View>
       <View>
         <Text style={screenStyles.text}>
