@@ -3,8 +3,10 @@ import {
   Text,
   ScrollView,
   KeyboardAvoidingView,
+  Alert,
+  BackHandler,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {isLength} from 'validator';
 import {useNavigation} from '@react-navigation/native';
@@ -34,6 +36,27 @@ const WelcomeScreen = () => {
   const [isZipcodeValid, setIsZipcodeValid] = useState(
     isLength(zipcodeFromRedux, {min: 6, max: 6}),
   );
+  useEffect(() => {
+    const backAction = () => {
+      if (!navigation.canGoBack()) {
+        Alert.alert('Hold on!', 'Are you sure you want to Exit?', [
+          {
+            text: 'Cancel',
+            onPress: () => null,
+            style: 'cancel',
+          },
+          {text: 'YES', onPress: () => BackHandler.exitApp()},
+        ]);
+        return true;
+      }
+    };
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+    return () => backHandler.remove();
+  }, []);
+
   const handleOnChangeText = (text: string) => {
     dispatch(updateZipcode(text));
     setIsZipcodeValid(isLength(text, {min: 6, max: 6}));
