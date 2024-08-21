@@ -90,6 +90,7 @@ const AdminChatBox: React.FC<AdminChatBoxPropsType> = ({
       />
       <MyTextInput
         value={newMessage.text}
+        multiline
         style={screenStyles.textInput}
         onChangeText={txt => setNewMessage({...newMessage, text: txt})}
         right={

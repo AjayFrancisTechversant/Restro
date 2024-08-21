@@ -1,9 +1,8 @@
 import {View, Text, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import firestore from '@react-native-firebase/firestore';
+import firestore, { onSnapshot } from '@react-native-firebase/firestore';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
-import {MessageType} from '../../Modules/ContactUsScreen';
 import AdminChatCard from '../AdminChatCard';
 import AdminChatBox from '../AdminChatBox';
 import styles from './style';
@@ -18,19 +17,22 @@ const AdminChat = () => {
   useEffect(() => {
     const subscriber = firestore()
       .collection('messages')
-      .where('toEmail', '==', StaticVariables.ADMIN_Email)
       .onSnapshot(querrySnapshot => {
+        const messages = querrySnapshot.docs.map(docSnapshot =>
+          docSnapshot.data(),
+        );
+        const toAdminMessages = messages.filter(
+          i => i.toEmail == StaticVariables.ADMIN_Email,
+        );
         var tempArrOfFromEmailIds = StaticVariables.EMPTY_ARRAY;
-        querrySnapshot.docs
-          .map((i: any) => i.data())
-          .map((i: MessageType) => {
-            if (!tempArrOfFromEmailIds.includes(i.fromEmail)) {
-              tempArrOfFromEmailIds.push(i.fromEmail);
-            }
-          });
-        setFromEmailIds(tempArrOfFromEmailIds);
-      });
-    return () => subscriber();
+        toAdminMessages.map(i => {
+          if (!tempArrOfFromEmailIds.includes(i.fromEmail)) {
+            tempArrOfFromEmailIds.push(i.fromEmail);
+          }
+        });
+        setFromEmailIds([...tempArrOfFromEmailIds]);
+      })
+    return () => subscriber()
   }, []);
 
   const screenContext = useScreenContext();
