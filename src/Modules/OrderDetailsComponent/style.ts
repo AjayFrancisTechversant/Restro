@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {ScreenContextType} from '../../Contexts/ScreenContext';
+import ColorPalette from '../../Assets/Themes/ColorPalette';
 
 const styles = (
   height: number,
@@ -22,6 +23,7 @@ const styles = (
       borderWidth: 0.5,
       alignSelf: 'center',
       marginVertical: height * 0.01,
+      backgroundColor: ColorPalette.black,
     },
     footerStyle: {
       marginVertical: height * 0.03,
