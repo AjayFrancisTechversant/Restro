@@ -64,10 +64,12 @@ const WelcomeScreen = () => {
   const handleFetchZipcode = async () => {
     setIsZipCodeFetching(true);
     const locationDetails = await getLocationDetails();
-    dispatch(updateZipcode(locationDetails?.fetchedZipcode));
-    dispatch(updateRegion(locationDetails?.fetchedRegion));
-    dispatch(updateCountry(locationDetails?.fetchedCountry));
-    setIsZipcodeValid(true);
+    if (locationDetails) {
+      dispatch(updateZipcode(locationDetails?.fetchedZipcode));
+      dispatch(updateRegion(locationDetails?.fetchedRegion));
+      dispatch(updateCountry(locationDetails?.fetchedCountry));
+      setIsZipcodeValid(true);
+    }
     setIsZipCodeFetching(false);
   };
   const handleSubmit = () => {
