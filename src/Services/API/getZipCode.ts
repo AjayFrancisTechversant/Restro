@@ -21,6 +21,6 @@ export const getLocationDetails = async () => {
     };
     return locationDetails;
   } catch (error) {
-    Alert.alert('Permission Denied');
+    Alert.alert('Permission Denied', 'Please Enable Location permission');
   }
 };
