@@ -1,13 +1,13 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 import auth from '@react-native-firebase/auth';
+import {ADMIN_UID} from '@env';
 import {FieldValue} from '@react-native-firebase/firestore';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import NotAdminChatBox from '../../Components/NotAdminChatBox';
-import StaticVariables from '../../Preferences/StaticVariables';
 import AdminChat from '../../Components/AdminChat';
 import styles from './style';
 
@@ -19,7 +19,7 @@ export type MessageType = {
 };
 const ContactUsScreen = () => {
   const currentUserId = auth().currentUser?.uid;
-  const isAdmin = currentUserId == StaticVariables.ADMIN_UID;
+  const isAdmin = currentUserId == ADMIN_UID;
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,

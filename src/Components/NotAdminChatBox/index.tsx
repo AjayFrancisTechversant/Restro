@@ -10,6 +10,7 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {MessageType} from '../../Modules/ContactUsScreen';
 import EachMessageComponent from '../EachMessageComponent';
 import styles from './style';
+import { ADMIN_EMAIL } from '@env';
 
 const NotAdminChatBox = () => {
   const currentUserEmail = auth().currentUser?.email;
@@ -17,7 +18,7 @@ const NotAdminChatBox = () => {
     createdAt: firestore.FieldValue.serverTimestamp(),
     text: StaticVariables.EMPTY_STRING,
     fromEmail: currentUserEmail,
-    toEmail: StaticVariables.ADMIN_Email,
+    toEmail: ADMIN_EMAIL,
   });
   const [messages, setMessages] = useState<MessageType[]>(
     StaticVariables.EMPTY_ARRAY,
@@ -51,9 +52,7 @@ const NotAdminChatBox = () => {
   }, []);
 
   useEffect(() => {
-    if (messages.length != 0) {
-      flatlisRef.current?.scrollToEnd({animated: true});
-    }
+      flatlisRef.current?.scrollToEnd();
   }, [messages]);
 
   const handleSendMessage = () => {
@@ -70,7 +69,6 @@ const NotAdminChatBox = () => {
           text: StaticVariables.EMPTY_STRING,
           createdAt: firestore.FieldValue.serverTimestamp(),
         });
-        flatlisRef.current?.scrollToEnd({animated: true});
       })
       .catch(error => Alert.alert(error));
   };

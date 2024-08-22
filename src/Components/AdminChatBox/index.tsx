@@ -52,9 +52,7 @@ const AdminChatBox: React.FC<AdminChatBoxPropsType> = ({
   }, []);
 
   useEffect(() => {
-    if (messages.length != 0) {
-      flatlisRef.current?.scrollToEnd({animated: true});
-    }
+    flatlisRef.current?.scrollToEnd();
   }, [messages]);
 
   const handleSendMessage = () => {
@@ -71,7 +69,6 @@ const AdminChatBox: React.FC<AdminChatBoxPropsType> = ({
           text: StaticVariables.EMPTY_STRING,
           createdAt: firestore.FieldValue.serverTimestamp(),
         });
-        flatlisRef.current?.scrollToEnd({animated: true});
       })
       .catch(error => Alert.alert(error));
   };

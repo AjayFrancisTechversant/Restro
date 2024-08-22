@@ -1,6 +1,7 @@
 import {View, Text, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import firestore, { onSnapshot } from '@react-native-firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
+import { ADMIN_EMAIL } from '@env';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
 import AdminChatCard from '../AdminChatCard';
@@ -14,6 +15,7 @@ const AdminChat = () => {
   const [selectedEmail, setSelectedEmail] = useState(
     StaticVariables.EMPTY_STRING,
   );
+  
   useEffect(() => {
     const subscriber = firestore()
       .collection('messages')
@@ -22,7 +24,7 @@ const AdminChat = () => {
           docSnapshot.data(),
         );
         const toAdminMessages = messages.filter(
-          i => i.toEmail == StaticVariables.ADMIN_Email,
+          i => i.toEmail == ADMIN_EMAIL,
         );
         var tempArrOfFromEmailIds = StaticVariables.EMPTY_ARRAY;
         toAdminMessages.map(i => {

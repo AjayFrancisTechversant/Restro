@@ -19,3 +19,7 @@ declare module '*.svg' {
   const content: React.FC<SvgProps>;
   export default content;
 }
+declare module '@env' {
+  export const ADMIN_UID: string;
+  export const ADMIN_EMAIL: string;
+}

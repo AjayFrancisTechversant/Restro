@@ -14,7 +14,7 @@ const styles = (
       padding: height * 0.01,
       paddingHorizontal: height * 0.02,
       borderRadius: 20,
-      marginBottom: 2,
+      marginBottom: 2,elevation:2,marginHorizontal:2
     },
   });
 
