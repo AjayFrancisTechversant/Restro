@@ -21,6 +21,8 @@ import {
 } from '../../Redux/Slices/AddressDetailsSlice';
 import validate from '../../Validation/Validation';
 import styles from './style';
+import {TextInput} from 'react-native-paper';
+import {getLocationDetails} from '../../Services/API/getZipCode';
 
 type ErrorType = {
   addressError: boolean;
@@ -29,11 +31,12 @@ type ErrorType = {
   zipcodeError: boolean;
 };
 
-const AddressScreen:FC = () => {
+const AddressScreen: FC = () => {
   const dispatch = useAppDispatch();
   const {address, city, state, zipcode} = useAppSelector(
     state => state.addressDetails,
   );
+  const [isZipCodeFetching, setIsZipCodeFetching] = useState(false);
   const [error, setError] = useState<ErrorType>({
     addressError: !validate(address),
     cityError: !validate(city),
@@ -74,7 +77,18 @@ const AddressScreen:FC = () => {
         break;
     }
   };
-
+  const handleFetchZipcode = async () => {
+    setIsZipCodeFetching(true);
+    const locationDetails = await getLocationDetails();
+    if (locationDetails) {
+      dispatch(updateZipCode(locationDetails.fetchedZipcode));
+      setError({
+        ...error,
+        zipcodeError: !validate(locationDetails.fetchedZipcode, 'zipcode'),
+      });
+    }
+    setIsZipCodeFetching(false);
+  };
   return (
     <KeyboardAvoidingView behavior="position">
       <ScrollView>
@@ -127,8 +141,18 @@ const AddressScreen:FC = () => {
             keyboardType="numeric"
             errorText={error.zipcodeError && zipcode ? '*Invalid' : undefined}
             onChangeText={text => HandleOnChangeText(text, 'zipcode')}
-            label="ZipCode"
+            label={!isZipCodeFetching ? 'ZIPCODE' : 'Fetching Zipcode...'}
+            editable={!isZipCodeFetching ? true : false}
             style={screenStyles.textInput}
+            right={
+              !isZipCodeFetching ? (
+                <TextInput.Icon
+                  onPress={handleFetchZipcode}
+                  icon="crosshairs-gps"
+                  forceTextInputFocus={false}
+                />
+              ) : null
+            }
           />
           <MyButton
             disabled={

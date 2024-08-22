@@ -65,9 +65,9 @@ const WelcomeScreen = () => {
     setIsZipCodeFetching(true);
     const locationDetails = await getLocationDetails();
     if (locationDetails) {
-      dispatch(updateZipcode(locationDetails?.fetchedZipcode));
-      dispatch(updateRegion(locationDetails?.fetchedRegion));
-      dispatch(updateCountry(locationDetails?.fetchedCountry));
+      dispatch(updateZipcode(locationDetails.fetchedZipcode));
+      dispatch(updateRegion(locationDetails.fetchedRegion));
+      dispatch(updateCountry(locationDetails.fetchedCountry));
       setIsZipcodeValid(true);
     }
     setIsZipCodeFetching(false);
@@ -105,7 +105,7 @@ const WelcomeScreen = () => {
             <MyTextInput
               errorText={
                 !isZipcodeValid && zipcodeFromRedux && !isZipCodeFetching
-                  ? 'invalid!'
+                  ? '*invalid!'
                   : undefined
               }
               value={zipcodeFromRedux}
