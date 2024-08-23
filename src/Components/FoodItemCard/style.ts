@@ -20,7 +20,17 @@ const styles = (
       gap: width * 0.05,
     },
     imageStyle: {height: width * 0.3, width: width * 0.3, borderRadius: 10},
-    hotelDetailsContainer: {padding: height * 0.01, gap: height * 0.01,flexShrink:1},
+    imageLoadingindicator: {
+      height: width * 0.3,
+      width: width * 0.3,
+      borderRadius: 10,
+      position: 'absolute',
+    },
+    hotelDetailsContainer: {
+      padding: height * 0.01,
+      gap: height * 0.01,
+      flexShrink: 1,
+    },
   });
 
 export default styles;

@@ -1,4 +1,10 @@
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
 import React, {useState} from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -16,7 +22,7 @@ type HotelCardPropsType = {
 
 const HotelCard: React.FC<HotelCardPropsType> = ({hotel}) => {
   const navigation: any = useNavigation();
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isImageLoading, setIsImageLoading] = useState(true);
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -30,12 +36,22 @@ const HotelCard: React.FC<HotelCardPropsType> = ({hotel}) => {
     <TouchableOpacity
       onPress={() => navigation.navigate(StaticVariables.HotelScreen, {hotel})}
       style={screenStyles.card}>
-      <Image
-        style={screenStyles.imageStyle}
-        source={{
-          uri: hotel.image,
-        }}
-      />
+      <View>
+        <Image
+          style={screenStyles.imageStyle}
+          source={{
+            uri: hotel.image,
+          }}
+          onLoadEnd={() => setIsImageLoading(false)}
+        />
+        {isImageLoading && (
+          <ActivityIndicator
+            color={ColorPalette.red}
+            size={40}
+            style={screenStyles.imageLoadingindicator}
+          />
+        )}
+      </View>
       <View style={screenStyles.hotelDetailsContainer}>
         <Text style={commonStyles.bigBoldText}>{hotel.name}</Text>
         <Text>
