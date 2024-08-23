@@ -14,11 +14,11 @@ const styles = (
       padding: height * 0.02,
       flex: 1
     },
-    headerComponentContainer: {width: width * 0.9},
+    headerComponentContainer: {width:isPortrait? width * 0.9:height*0.9,alignSelf:'center'},
     bgImage: {
       position: 'absolute',
-      height: height * 0.4,
-      width,
+      height:isPortrait? height * 0.4:width*0.6,
+      width:isPortrait?width:height,
       borderBottomLeftRadius: 20,
       borderBottomRightRadius: 20,
     },
