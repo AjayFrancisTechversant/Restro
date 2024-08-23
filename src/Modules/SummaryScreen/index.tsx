@@ -1,5 +1,5 @@
-import {View, Text, ScrollView, Pressable, FlatList} from 'react-native';
-import React, {FC, useEffect, useState} from 'react';
+import {View, Text, Pressable, FlatList} from 'react-native';
+import React, {FC, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
@@ -14,11 +14,11 @@ import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import VehicleDetailsComponent from '../../Components/VehicleDetailsComponent';
 import AddressDetailsComponent from '../../Components/AddressDetailsComponent';
 import ATMCardComponent from '../../Components/ATMCardComponent';
-import styles from './style';
 import {clearAddressDetails} from '../../Redux/Slices/AddressDetailsSlice';
 import {clearCardDetails} from '../../Redux/Slices/CardDetailsSlice';
 import {clearVehicleDetails} from '../../Redux/Slices/vehicleDetailsSlice';
 import OrderDetailsComponent from '../OrderDetailsComponent';
+import styles from './style';
 
 type TipType = '0%' | '10%' | '15%';
 

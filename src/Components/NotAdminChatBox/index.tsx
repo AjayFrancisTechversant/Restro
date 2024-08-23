@@ -2,6 +2,7 @@ import {View, FlatList, Alert} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import firestore, {Filter} from '@react-native-firebase/firestore';
 import {TextInput} from 'react-native-paper';
+import {ADMIN_EMAIL} from '@env';
 import React, {useEffect, useRef, useState} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import MyTextInput from '../MyTextInput';
@@ -10,7 +11,6 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {MessageType} from '../../Modules/ContactUsScreen';
 import EachMessageComponent from '../EachMessageComponent';
 import styles from './style';
-import { ADMIN_EMAIL } from '@env';
 
 const NotAdminChatBox = () => {
   const currentUserEmail = auth().currentUser?.email;
@@ -52,7 +52,7 @@ const NotAdminChatBox = () => {
   }, []);
 
   useEffect(() => {
-      flatlisRef.current?.scrollToEnd();
+    flatlisRef.current?.scrollToEnd();
   }, [messages]);
 
   const handleSendMessage = () => {
