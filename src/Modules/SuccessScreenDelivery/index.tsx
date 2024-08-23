@@ -1,4 +1,4 @@
-import {View, Text, Alert, ActivityIndicator} from 'react-native';
+import {View, Text, Alert, ActivityIndicator, ScrollView} from 'react-native';
 import React, {FC, useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -61,178 +61,180 @@ const SuccessScreenDelivery: FC = () => {
       .catch(error => Alert.alert((error as Error).message));
   };
   return (
-    <View
-      style={[
-        screenStyles.container,
-        {
-          backgroundColor:
-            progress == 'inProgress' ? ColorPalette.white : ColorPalette.red,
-        },
-      ]}>
-      <View>
-        <HeaderComponent
-          color={
-            progress == 'inProgress' ? ColorPalette.red : ColorPalette.white
-          }
-        />
-        {progress == 'inProgress' ? (
-          <MaterialCommunityIcons
-            name="bike-fast"
-            size={100}
-            color={ColorPalette.red}
-            style={screenStyles.checkIconStyle}
-          />
-        ) : (
-          <Ionicons
-            name="checkmark-circle-outline"
-            size={100}
-            color={ColorPalette.white}
-            style={screenStyles.checkIconStyle}
-          />
-        )}
-        {progress == 'inProgress' ? (
-          <Text style={[screenStyles.heading, {color: ColorPalette.red}]}>
-            On our way!
-          </Text>
-        ) : (
-          <Text style={[screenStyles.heading, {color: ColorPalette.white}]}>
-            Success!
-          </Text>
-        )}
-        {progress == 'inProgress' ? (
-          <Text style={[screenStyles.text, {color: ColorPalette.red}]}>
-            Your order has been received and is being delivered to you
-          </Text>
-        ) : (
-          <Text style={[screenStyles.text, {color: ColorPalette.white}]}>
-            You have recieved your order!
-          </Text>
-        )}
-        {!loading ? (
-          <>
-            <Text
-              style={[
-                screenStyles.hotelNameText,
-                {
-                  color:
-                    progress == 'inProgress'
-                      ? ColorPalette.red
-                      : ColorPalette.white,
-                },
-              ]}>
-              {order?.hotel.name}
-            </Text>
-            <Text
-              style={[
-                screenStyles.text,
-                {
-                  color:
-                    progress == 'inProgress'
-                      ? ColorPalette.red
-                      : ColorPalette.white,
-                },
-              ]}>
-              <Entypo
-                name="location-pin"
-                size={20}
-                color={
-                  progress == 'inProgress'
-                    ? ColorPalette.red
-                    : ColorPalette.white
-                }
-              />
-              {order?.hotel.location}
-            </Text>
-            <Text
-              style={[
-                screenStyles.orderNumberText,
-                {
-                  color:
-                    progress == 'inProgress'
-                      ? ColorPalette.red
-                      : ColorPalette.white,
-                },
-              ]}>
-              Order #{orderId}
-            </Text>
-          </>
-        ) : (
-          <ActivityIndicator
-            size={20}
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <View
+        style={[
+          screenStyles.container,
+          {
+            backgroundColor:
+              progress == 'inProgress' ? ColorPalette.white : ColorPalette.red,
+          },
+        ]}>
+        <View>
+          <HeaderComponent
             color={
               progress == 'inProgress' ? ColorPalette.red : ColorPalette.white
             }
           />
-        )}
-      </View>
-      <View>
-        {progress == 'inProgress' ? (
-          <>
+          {progress == 'inProgress' ? (
+            <MaterialCommunityIcons
+              name="bike-fast"
+              size={100}
+              color={ColorPalette.red}
+              style={screenStyles.checkIconStyle}
+            />
+          ) : (
+            <Ionicons
+              name="checkmark-circle-outline"
+              size={100}
+              color={ColorPalette.white}
+              style={screenStyles.checkIconStyle}
+            />
+          )}
+          {progress == 'inProgress' ? (
+            <Text style={[screenStyles.heading, {color: ColorPalette.red}]}>
+              On our way!
+            </Text>
+          ) : (
+            <Text style={[screenStyles.heading, {color: ColorPalette.white}]}>
+              Success!
+            </Text>
+          )}
+          {progress == 'inProgress' ? (
             <Text style={[screenStyles.text, {color: ColorPalette.red}]}>
-              For more Information about your order, Contact us!
+              Your order has been received and is being delivered to you
             </Text>
-            <MyButton
-              onPress={() =>
-                navigation.navigate(StaticVariables.ContactUsScreen)
-              }
-              style={screenStyles.contactUsButton}>
-              <Text style={[commonStyles.boldText, {color: ColorPalette.red}]}>
-                Contact Us
-              </Text>
-            </MyButton>
-            <MyButton
-              disabled={loading}
-              onPress={() =>
-                navigation.navigate(StaticVariables.TrackingScreen, {
-                  setProgress,
-                  order,
-                })
-              }
-              style={[
-                screenStyles.bottomButton,
-                {backgroundColor: ColorPalette.red},
-              ]}>
-              {!loading?<Text
-                style={[commonStyles.boldText, {color: ColorPalette.white}]}>
-                <MaterialCommunityIcons
-                  name="map-marker-question-outline"
-                  size={15}
-                  color={ColorPalette.white}
-                />{' '}
-                Track your Order!
-              </Text>
-              :
-              <ActivityIndicator size={20} color={ColorPalette.white}/>
-              }
-            </MyButton>
-            <MyButton
-              onPress={() => {
-                setProgress('handedOver');
-              }}
-              style={[
-                screenStyles.bottomButton,
-                {backgroundColor: ColorPalette.red},
-              ]}>
+          ) : (
+            <Text style={[screenStyles.text, {color: ColorPalette.white}]}>
+              You have recieved your order!
+            </Text>
+          )}
+          {!loading ? (
+            <>
               <Text
-                style={[commonStyles.boldText, {color: ColorPalette.white}]}>
-                Collect Order
+                style={[
+                  screenStyles.hotelNameText,
+                  {
+                    color:
+                      progress == 'inProgress'
+                        ? ColorPalette.red
+                        : ColorPalette.white,
+                  },
+                ]}>
+                {order?.hotel.name}
+              </Text>
+              <Text
+                style={[
+                  screenStyles.text,
+                  {
+                    color:
+                      progress == 'inProgress'
+                        ? ColorPalette.red
+                        : ColorPalette.white,
+                  },
+                ]}>
+                <Entypo
+                  name="location-pin"
+                  size={20}
+                  color={
+                    progress == 'inProgress'
+                      ? ColorPalette.red
+                      : ColorPalette.white
+                  }
+                />
+                {order?.hotel.location}
+              </Text>
+              <Text
+                style={[
+                  screenStyles.orderNumberText,
+                  {
+                    color:
+                      progress == 'inProgress'
+                        ? ColorPalette.red
+                        : ColorPalette.white,
+                  },
+                ]}>
+                Order #{orderId}
+              </Text>
+            </>
+          ) : (
+            <ActivityIndicator
+              size={20}
+              color={
+                progress == 'inProgress' ? ColorPalette.red : ColorPalette.white
+              }
+            />
+          )}
+        </View>
+        <View>
+          {progress == 'inProgress' ? (
+            <>
+              <Text style={[screenStyles.text, {color: ColorPalette.red}]}>
+                For more Information about your order, Contact us!
+              </Text>
+              <MyButton
+                onPress={() =>
+                  navigation.navigate(StaticVariables.ContactUsScreen)
+                }
+                style={screenStyles.contactUsButton}>
+                <Text style={[commonStyles.boldText, {color: ColorPalette.red}]}>
+                  Contact Us
+                </Text>
+              </MyButton>
+              <MyButton
+                disabled={loading}
+                onPress={() =>
+                  navigation.navigate(StaticVariables.TrackingScreen, {
+                    setProgress,
+                    order,
+                  })
+                }
+                style={[
+                  screenStyles.bottomButton,
+                  {backgroundColor: ColorPalette.red},
+                ]}>
+                {!loading?<Text
+                  style={[commonStyles.boldText, {color: ColorPalette.white}]}>
+                  <MaterialCommunityIcons
+                    name="map-marker-question-outline"
+                    size={15}
+                    color={ColorPalette.white}
+                  />{' '}
+                  Track your Order!
+                </Text>
+                :
+                <ActivityIndicator size={20} color={ColorPalette.white}/>
+                }
+              </MyButton>
+              <MyButton
+                onPress={() => {
+                  setProgress('handedOver');
+                }}
+                style={[
+                  screenStyles.bottomButton,
+                  {backgroundColor: ColorPalette.red},
+                ]}>
+                <Text
+                  style={[commonStyles.boldText, {color: ColorPalette.white}]}>
+                  Collect Order
+                </Text>
+              </MyButton>
+            </>
+          ) : (
+            <MyButton
+              onPress={handleFinish}
+              style={[
+                screenStyles.bottomButton,
+                {backgroundColor: ColorPalette.white},
+              ]}>
+              <Text style={[commonStyles.boldText, commonStyles.redText]}>
+                Go To Home
               </Text>
             </MyButton>
-          </>
-        ) : (
-          <MyButton
-            onPress={handleFinish}
-            style={[
-              screenStyles.bottomButton,
-              {backgroundColor: ColorPalette.white},
-            ]}>
-            <Text style={[commonStyles.boldText, commonStyles.redText]}>
-              Go To Home
-            </Text>
-          </MyButton>
-        )}
+          )}
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

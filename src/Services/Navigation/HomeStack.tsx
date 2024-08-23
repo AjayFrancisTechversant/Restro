@@ -47,7 +47,7 @@ const Stack = createNativeStackNavigator<HomeStackParamsList>();
 const HomeStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="SummaryScreen"
+      initialRouteName="SuccessScreenDelivery"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="ProfileScreen" component={ProfileScreen} />

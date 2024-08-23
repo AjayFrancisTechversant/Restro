@@ -11,7 +11,7 @@ const styles = (
 ) =>
   StyleSheet.create({
     container: {
-      flex: 1,
+      height:isPortrait?height:'auto',
       padding: height * 0.02,
       justifyContent: 'space-between',
     },
