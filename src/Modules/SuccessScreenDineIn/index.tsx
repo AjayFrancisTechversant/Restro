@@ -1,4 +1,4 @@
-import {View, Text, Alert, ActivityIndicator} from 'react-native';
+import {View, Text, Alert, ActivityIndicator, ScrollView} from 'react-native';
 import React, {FC, useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -57,54 +57,58 @@ const SuccessScreenDineIn: FC = () => {
       .catch(error => Alert.alert((error as Error).message));
   };
   return (
-    <View style={screenStyles.container}>
-      <View>
-        <HeaderComponent color={ColorPalette.white} />
-        <Ionicons
-          name="checkmark-circle-outline"
-          size={100}
-          color={ColorPalette.white}
-          style={screenStyles.checkIconStyle}
-        />
-        <Text style={screenStyles.heading}>Success!</Text>
-        <Text style={screenStyles.text}>
-          Your order has been received and is being prepared.
-        </Text>
-        {!loading ? (
-          <>
-            <Text style={screenStyles.hotelNameText}>{order?.hotel.name}</Text>
-            <Text style={screenStyles.text}>
-              <Entypo
-                name="location-pin"
-                size={20}
-                color={ColorPalette.white}
-              />
-              {order?.hotel.location}
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <View style={screenStyles.container}>
+        <View>
+          <HeaderComponent color={ColorPalette.white} />
+          <Ionicons
+            name="checkmark-circle-outline"
+            size={100}
+            color={ColorPalette.white}
+            style={screenStyles.checkIconStyle}
+          />
+          <Text style={screenStyles.heading}>Success!</Text>
+          <Text style={screenStyles.text}>
+            Your order has been received and is being prepared.
+          </Text>
+          {!loading ? (
+            <>
+              <Text style={screenStyles.hotelNameText}>
+                {order?.hotel.name}
+              </Text>
+              <Text style={screenStyles.text}>
+                <Entypo
+                  name="location-pin"
+                  size={20}
+                  color={ColorPalette.white}
+                />
+                {order?.hotel.location}
+              </Text>
+              <Text style={screenStyles.orderNumberText}>Order #{orderId}</Text>
+            </>
+          ) : (
+            <ActivityIndicator size={20} color={ColorPalette.white} />
+          )}
+        </View>
+        <View>
+          <Text style={screenStyles.text}>
+            For more Information about your order, Contact us!
+          </Text>
+          <MyButton
+            onPress={() => navigation.navigate(StaticVariables.ContactUsScreen)}
+            style={screenStyles.bottomButton}>
+            <Text style={[commonStyles.boldText, commonStyles.redText]}>
+              Contact Us
             </Text>
-            <Text style={screenStyles.orderNumberText}>Order #{orderId}</Text>
-          </>
-        ) : (
-          <ActivityIndicator size={20} color={ColorPalette.white}/>
-        )}
+          </MyButton>
+          <MyButton onPress={handleFinish} style={screenStyles.bottomButton}>
+            <Text style={[commonStyles.boldText, commonStyles.redText]}>
+              Go To Home
+            </Text>
+          </MyButton>
+        </View>
       </View>
-      <View>
-        <Text style={screenStyles.text}>
-          For more Information about your order, Contact us!
-        </Text>
-        <MyButton
-          onPress={() => navigation.navigate(StaticVariables.ContactUsScreen)}
-          style={screenStyles.bottomButton}>
-          <Text style={[commonStyles.boldText, commonStyles.redText]}>
-            Contact Us
-          </Text>
-        </MyButton>
-        <MyButton onPress={handleFinish} style={screenStyles.bottomButton}>
-          <Text style={[commonStyles.boldText, commonStyles.redText]}>
-            Go To Home
-          </Text>
-        </MyButton>
-      </View>
-    </View>
+    </ScrollView>
   );
 };
 

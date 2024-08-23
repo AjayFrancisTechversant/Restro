@@ -6,13 +6,13 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './style';
 import MyButton from '../../Components/MyButton';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import HeaderComponent from '../../Components/HeaderComponent';
 import StaticVariables from '../../Preferences/StaticVariables';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import {OrderType} from '../OrderScreen';
+import styles from './style';
 
 type ProgressType = 'justPlacedOrder' | 'customerOutside' | 'handedOver';
 
@@ -60,233 +60,235 @@ const SuccessScreenCarryOut: FC = () => {
       .catch(error => Alert.alert((error as Error).message));
   };
   return (
-    <View
-      style={[
-        screenStyles.container,
-        {
-          backgroundColor:
-            progress == 'justPlacedOrder'
-              ? ColorPalette.white
-              : ColorPalette.red,
-        },
-      ]}>
-      <View>
-        <HeaderComponent
-          color={
-            progress == 'justPlacedOrder'
-              ? ColorPalette.red
-              : ColorPalette.white
-          }
-        />
-        {progress == 'justPlacedOrder' ? (
-          <Entypo
-            name="hour-glass"
-            size={100}
-            color={ColorPalette.red}
-            style={screenStyles.checkIconStyle}
-          />
-        ) : progress == 'customerOutside' ? (
-          <Entypo
-            name="bell"
-            size={100}
-            color={ColorPalette.white}
-            style={screenStyles.checkIconStyle}
-          />
-        ) : (
-          <Ionicons
-            name={'checkmark-circle-outline'}
-            size={100}
-            color={ColorPalette.white}
-            style={screenStyles.checkIconStyle}
-          />
-        )}
-        {progress == 'justPlacedOrder' ? (
-          <Text style={[screenStyles.heading, {color: ColorPalette.red}]}>
-            Preparing!
-          </Text>
-        ) : progress == 'customerOutside' ? (
-          <Text style={[screenStyles.heading, {color: ColorPalette.white}]}>
-            On our way!
-          </Text>
-        ) : (
-          <Text style={[screenStyles.heading, {color: ColorPalette.white}]}>
-            Success!
-          </Text>
-        )}
-
-        {progress == 'justPlacedOrder' ? (
-          <Text style={[screenStyles.text, {color: ColorPalette.red}]}>
-            Your order has been received will be ready to pick up soon.
-          </Text>
-        ) : progress == 'customerOutside' ? (
-          <Text style={[screenStyles.text, {color: ColorPalette.white}]}>
-            We have been notified that you are outside and ready to pick up your
-            order.
-          </Text>
-        ) : (
-          <Text style={[screenStyles.text, {color: ColorPalette.white}]}>
-            Your order has been successfully picked Up!
-          </Text>
-        )}
-
-        {!loading ? (
-          <>
-            <Text
-              style={[
-                screenStyles.hotelNameText,
-                {
-                  color:
-                    progress == 'justPlacedOrder'
-                      ? ColorPalette.red
-                      : ColorPalette.white,
-                },
-              ]}>
-              {order?.hotel.name}
-            </Text>
-            <Text
-              style={[
-                screenStyles.text,
-                {
-                  color:
-                    progress == 'justPlacedOrder'
-                      ? ColorPalette.red
-                      : ColorPalette.white,
-                },
-              ]}>
-              <Entypo
-                name="location-pin"
-                size={20}
-                color={
-                  progress == 'justPlacedOrder'
-                    ? ColorPalette.red
-                    : ColorPalette.white
-                }
-              />
-              {order?.hotel.location}
-            </Text>
-            <Text
-              style={[
-                screenStyles.orderNumberText,
-                {
-                  color:
-                    progress == 'justPlacedOrder'
-                      ? ColorPalette.red
-                      : ColorPalette.white,
-                },
-              ]}>
-              Order #{orderId}
-            </Text>
-          </>
-        ) : (
-          <ActivityIndicator
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <View
+        style={[
+          screenStyles.container,
+          {
+            backgroundColor:
+              progress == 'justPlacedOrder'
+                ? ColorPalette.white
+                : ColorPalette.red,
+          },
+        ]}>
+        <View>
+          <HeaderComponent
             color={
               progress == 'justPlacedOrder'
                 ? ColorPalette.red
                 : ColorPalette.white
             }
-            size={20}
           />
-        )}
-      </View>
-      <View>
-        {progress == 'justPlacedOrder' ? (
-          <>
-            <Text
-              style={[
-                screenStyles.text,
-                {
-                  color: ColorPalette.red,
-                },
-              ]}>
-              For more Information about your order, Contact us!
+          {progress == 'justPlacedOrder' ? (
+            <Entypo
+              name="hour-glass"
+              size={100}
+              color={ColorPalette.red}
+              style={screenStyles.checkIconStyle}
+            />
+          ) : progress == 'customerOutside' ? (
+            <Entypo
+              name="bell"
+              size={100}
+              color={ColorPalette.white}
+              style={screenStyles.checkIconStyle}
+            />
+          ) : (
+            <Ionicons
+              name={'checkmark-circle-outline'}
+              size={100}
+              color={ColorPalette.white}
+              style={screenStyles.checkIconStyle}
+            />
+          )}
+          {progress == 'justPlacedOrder' ? (
+            <Text style={[screenStyles.heading, {color: ColorPalette.red}]}>
+              Preparing!
             </Text>
-            <MyButton
-              onPress={() =>
-                navigation.navigate(StaticVariables.ContactUsScreen)
-              }
-              style={[
-                screenStyles.bottomButton,
-                {
-                  backgroundColor: ColorPalette.red,
-                },
-              ]}>
+          ) : progress == 'customerOutside' ? (
+            <Text style={[screenStyles.heading, {color: ColorPalette.white}]}>
+              On our way!
+            </Text>
+          ) : (
+            <Text style={[screenStyles.heading, {color: ColorPalette.white}]}>
+              Success!
+            </Text>
+          )}
+
+          {progress == 'justPlacedOrder' ? (
+            <Text style={[screenStyles.text, {color: ColorPalette.red}]}>
+              Your order has been received will be ready to pick up soon.
+            </Text>
+          ) : progress == 'customerOutside' ? (
+            <Text style={[screenStyles.text, {color: ColorPalette.white}]}>
+              We have been notified that you are outside and ready to pick up
+              your order.
+            </Text>
+          ) : (
+            <Text style={[screenStyles.text, {color: ColorPalette.white}]}>
+              Your order has been successfully picked Up!
+            </Text>
+          )}
+
+          {!loading ? (
+            <>
               <Text
                 style={[
-                  commonStyles.boldText,
+                  screenStyles.hotelNameText,
                   {
-                    color: ColorPalette.white,
+                    color:
+                      progress == 'justPlacedOrder'
+                        ? ColorPalette.red
+                        : ColorPalette.white,
                   },
                 ]}>
-                Contact Us
+                {order?.hotel.name}
               </Text>
-            </MyButton>
-            <MyButton
-              onPress={() => setProgress('customerOutside')}
-              style={[
-                screenStyles.bottomButton,
-                {backgroundColor: ColorPalette.red},
-              ]}>
-              <Text style={[commonStyles.boldText, commonStyles.whiteText]}>
-                I'm Outside!
-              </Text>
-            </MyButton>
-          </>
-        ) : progress == 'customerOutside' ? (
-          <>
-            <Text
-              style={[
-                screenStyles.text,
-                {
-                  color: ColorPalette.white,
-                },
-              ]}>
-              For more Information about your order, Contact us!
-            </Text>
-            <MyButton
-              onPress={() =>
-                navigation.navigate(StaticVariables.ContactUsScreen)
-              }
-              style={[
-                screenStyles.bottomButton,
-                {
-                  backgroundColor: ColorPalette.white,
-                },
-              ]}>
               <Text
                 style={[
-                  commonStyles.boldText,
+                  screenStyles.text,
+                  {
+                    color:
+                      progress == 'justPlacedOrder'
+                        ? ColorPalette.red
+                        : ColorPalette.white,
+                  },
+                ]}>
+                <Entypo
+                  name="location-pin"
+                  size={20}
+                  color={
+                    progress == 'justPlacedOrder'
+                      ? ColorPalette.red
+                      : ColorPalette.white
+                  }
+                />
+                {order?.hotel.location}
+              </Text>
+              <Text
+                style={[
+                  screenStyles.orderNumberText,
+                  {
+                    color:
+                      progress == 'justPlacedOrder'
+                        ? ColorPalette.red
+                        : ColorPalette.white,
+                  },
+                ]}>
+                Order #{orderId}
+              </Text>
+            </>
+          ) : (
+            <ActivityIndicator
+              color={
+                progress == 'justPlacedOrder'
+                  ? ColorPalette.red
+                  : ColorPalette.white
+              }
+              size={20}
+            />
+          )}
+        </View>
+        <View>
+          {progress == 'justPlacedOrder' ? (
+            <>
+              <Text
+                style={[
+                  screenStyles.text,
                   {
                     color: ColorPalette.red,
                   },
                 ]}>
-                Contact Us
+                For more Information about your order, Contact us!
               </Text>
-            </MyButton>
+              <MyButton
+                onPress={() =>
+                  navigation.navigate(StaticVariables.ContactUsScreen)
+                }
+                style={[
+                  screenStyles.bottomButton,
+                  {
+                    backgroundColor: ColorPalette.red,
+                  },
+                ]}>
+                <Text
+                  style={[
+                    commonStyles.boldText,
+                    {
+                      color: ColorPalette.white,
+                    },
+                  ]}>
+                  Contact Us
+                </Text>
+              </MyButton>
+              <MyButton
+                onPress={() => setProgress('customerOutside')}
+                style={[
+                  screenStyles.bottomButton,
+                  {backgroundColor: ColorPalette.red},
+                ]}>
+                <Text style={[commonStyles.boldText, commonStyles.whiteText]}>
+                  I'm Outside!
+                </Text>
+              </MyButton>
+            </>
+          ) : progress == 'customerOutside' ? (
+            <>
+              <Text
+                style={[
+                  screenStyles.text,
+                  {
+                    color: ColorPalette.white,
+                  },
+                ]}>
+                For more Information about your order, Contact us!
+              </Text>
+              <MyButton
+                onPress={() =>
+                  navigation.navigate(StaticVariables.ContactUsScreen)
+                }
+                style={[
+                  screenStyles.bottomButton,
+                  {
+                    backgroundColor: ColorPalette.white,
+                  },
+                ]}>
+                <Text
+                  style={[
+                    commonStyles.boldText,
+                    {
+                      color: ColorPalette.red,
+                    },
+                  ]}>
+                  Contact Us
+                </Text>
+              </MyButton>
+              <MyButton
+                onPress={() => setProgress('handedOver')}
+                style={[
+                  screenStyles.bottomButton,
+                  {backgroundColor: ColorPalette.white},
+                ]}>
+                <Text style={[commonStyles.boldText, commonStyles.redText]}>
+                  Collect Order!
+                </Text>
+              </MyButton>
+            </>
+          ) : (
             <MyButton
-              onPress={() => setProgress('handedOver')}
+              onPress={handleFinish}
               style={[
                 screenStyles.bottomButton,
                 {backgroundColor: ColorPalette.white},
               ]}>
               <Text style={[commonStyles.boldText, commonStyles.redText]}>
-                Collect Order!
+                Go To Home
               </Text>
             </MyButton>
-          </>
-        ) : (
-          <MyButton
-            onPress={handleFinish}
-            style={[
-              screenStyles.bottomButton,
-              {backgroundColor: ColorPalette.white},
-            ]}>
-            <Text style={[commonStyles.boldText, commonStyles.redText]}>
-              Go To Home
-            </Text>
-          </MyButton>
-        )}
+          )}
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
