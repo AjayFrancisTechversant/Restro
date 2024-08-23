@@ -1,9 +1,4 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  KeyboardAvoidingView,
-} from 'react-native';
+import {View, Text, ScrollView, KeyboardAvoidingView} from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -71,7 +66,7 @@ const ChangePasswordScreen = () => {
   };
   return (
     <KeyboardAvoidingView behavior="position">
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <FullScreenBGImageBlur>
           <View style={screenStyles.container}>
             {!isPasswordChanged ? (

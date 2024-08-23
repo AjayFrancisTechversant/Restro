@@ -17,8 +17,13 @@ const styles = (
       fontWeight: 'bold',
       marginHorizontal: height * 0.02,
     },
+    radiosContainer: {alignSelf: 'center'},
     subText: {margin: height * 0.03},
-    bottomButton:{position:'absolute',bottom:height*0.05,alignSelf:'center'}
+    bottomButton: {
+      position: 'absolute',
+      bottom: height * 0.05,
+      alignSelf: 'center',
+    },
   });
 
 export default styles;

@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import { ScreenContextType } from '../../../Contexts/ScreenContext';
+import {ScreenContextType} from '../../../Contexts/ScreenContext';
 
 const styles = (
   height: number,
@@ -9,7 +9,10 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
-    image:{height,width,}
+    image: {
+      height,
+      width: isPortrait ? width : height,
+    },
   });
 
 export default styles;

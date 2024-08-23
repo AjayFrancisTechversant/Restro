@@ -28,7 +28,6 @@ const styles = (
       alignSelf: 'center',
     },
     button1: {
-      width: width * 0.9,
       borderWidth: 2,
       borderColor: ColorPalette.white,
       flexDirection: 'row',

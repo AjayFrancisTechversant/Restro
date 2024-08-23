@@ -86,7 +86,7 @@ const RegisterScreen2 = () => {
   };
   return (
     <KeyboardAvoidingView behavior="position">
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <FullScreenBGImageBlur>
           <View style={screenStyles.container}>
             <View style={screenStyles.mainTextContainer}>

@@ -43,7 +43,7 @@ const PreferenceScreen = () => {
   };
   return (
     <KeyboardAvoidingView behavior="position">
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <FullScreenBGImageBlur>
           <View style={screenStyles.container}>
             <View style={screenStyles.mainTextContainer}>
@@ -57,24 +57,26 @@ const PreferenceScreen = () => {
             <Text style={[commonStyles.whiteText, screenStyles.subText]}>
               Choose an option below:
             </Text>
-            <Pressable onPress={() => dispatch(updatePreference('dine-in'))}>
-              <PreferenceRadioCard
-                isSelected={preferenceFromRedux == 'dine-in' ? true : false}
-                text={`I'm Dining in`}
-              />
-            </Pressable>
-            <Pressable onPress={() => dispatch(updatePreference('carry-out'))}>
-              <PreferenceRadioCard
-                isSelected={preferenceFromRedux == 'carry-out' ? true : false}
-                text={`Crry-out`}
-              />
-            </Pressable>
-            <Pressable onPress={() => dispatch(updatePreference('delivery'))}>
-              <PreferenceRadioCard
-                isSelected={preferenceFromRedux == 'delivery' ? true : false}
-                text={`Delivery`}
-              />
-            </Pressable>
+           <View style={screenStyles.radiosContainer}>
+              <Pressable onPress={() => dispatch(updatePreference('dine-in'))}>
+                <PreferenceRadioCard
+                  isSelected={preferenceFromRedux == 'dine-in' ? true : false}
+                  text={`I'm Dining in`}
+                />
+              </Pressable>
+              <Pressable onPress={() => dispatch(updatePreference('carry-out'))}>
+                <PreferenceRadioCard
+                  isSelected={preferenceFromRedux == 'carry-out' ? true : false}
+                  text={`Crry-out`}
+                />
+              </Pressable>
+              <Pressable onPress={() => dispatch(updatePreference('delivery'))}>
+                <PreferenceRadioCard
+                  isSelected={preferenceFromRedux == 'delivery' ? true : false}
+                  text={`Delivery`}
+                />
+              </Pressable>
+           </View>
             <ThreeLogosComponent />
             <View style={screenStyles.bottomButton}>
               <MyButton
