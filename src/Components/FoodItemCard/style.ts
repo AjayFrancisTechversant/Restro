@@ -14,7 +14,7 @@ const styles = (
       padding: height * 0.02,
       flex: 1,
       backgroundColor: ColorPalette.white,
-      marginTop: height * 0.01,
+      margin: height * 0.01,
       borderRadius: 20,
       flexDirection: 'row',
       gap: width * 0.05,

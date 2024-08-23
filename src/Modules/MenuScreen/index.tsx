@@ -92,7 +92,7 @@ const MenuScreen: FC<MenuScreenPropsType> = ({route}) => {
     <View style={{flex: 1}}>
       {!selectedCategory ? (
         <FlatList
-        showsVerticalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={[screenStyles.flatlist1contentContainerStyle]}
           style={screenStyles.container}
           ListHeaderComponent={
@@ -105,8 +105,8 @@ const MenuScreen: FC<MenuScreenPropsType> = ({route}) => {
             </>
           }
           data={allCategories}
-          numColumns={screenContext.isPortrait?2:4}
-          key={screenContext.isPortrait ? 'portrait' : 'landscape'}
+          numColumns={screenContext.isPortrait ? 2 : 4}
+          key={screenContext.isPortrait ? 'portrait1' : 'landscape1'}
           renderItem={({item}) => (
             <SelectInitialCategoryCard
               category={item}
@@ -116,7 +116,7 @@ const MenuScreen: FC<MenuScreenPropsType> = ({route}) => {
         />
       ) : (
         <FlatList
-        showsVerticalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={screenStyles.flatlist2contentContainerStyle}
           style={screenStyles.container}
           ListHeaderComponent={
@@ -143,6 +143,8 @@ const MenuScreen: FC<MenuScreenPropsType> = ({route}) => {
               )}
             </>
           }
+          numColumns={screenContext.isPortrait ? 1 : 2}
+          key={screenContext.isPortrait ? 'portrait2' : 'landscape2'}
           ListEmptyComponent={
             <Text style={[commonStyles.bigBoldText, screenStyles.noItemsText]}>
               No Items
