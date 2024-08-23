@@ -22,6 +22,7 @@ const MyButton: React.FC<MyButtonPropsType> = ({children, style, ...props}) => {
           alignItems: 'center',
           justifyContent: 'center',
           width: screenContext.width * 0.9,
+          alignSelf: 'center',
         },
         style,
       ]}

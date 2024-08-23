@@ -42,6 +42,7 @@ const HomeScreen: FC = () => {
 
   return (
     <FlatList
+    showsVerticalScrollIndicator={false}
       style={screenStyles.container}
       ListHeaderComponent={
         <>

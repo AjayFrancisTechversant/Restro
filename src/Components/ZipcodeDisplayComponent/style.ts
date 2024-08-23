@@ -11,11 +11,11 @@ const styles = (
 ) =>
   StyleSheet.create({
     container: {
-      alignSelf: 'center',
       flexDirection: 'row',
       width: width * 0.8,
       gap: height * 0.02,
       alignItems: 'center',
+      margin: height * 0.01,
     },
   });
 

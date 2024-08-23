@@ -11,9 +11,10 @@ const styles = (
 ) =>
   StyleSheet.create({
     container: {
+      height: isPortrait ? height : 'auto',
       padding: height * 0.02,
-      flex: 1,
       backgroundColor: ColorPalette.white,
+      justifyContent: 'space-between',
     },
     mainTextContainer: {marginTop: height * 0.1},
     bigText: {
@@ -29,9 +30,7 @@ const styles = (
     },
     coolTipContainer: {margin: height * 0.02},
     bottomButton: {
-      position: 'absolute',
-      bottom: height * 0.05,
-      alignSelf: 'center',
+      marginBottom: height * 0.01,
     },
   });
 

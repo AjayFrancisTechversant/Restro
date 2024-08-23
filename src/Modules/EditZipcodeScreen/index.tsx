@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View, Text, ScrollView, KeyboardAvoidingView} from 'react-native';
 import React, {FC, useState} from 'react';
 import {isLength} from 'validator';
 import {TextInput} from 'react-native-paper';
@@ -64,55 +64,62 @@ const EditZipcodeScreen: FC = () => {
     navigation.goBack();
   };
   return (
-    <View style={screenStyles.container}>
-      <HeaderComponent color={ColorPalette.gray} />
-      <View style={screenStyles.mainTextContainer}>
-        <Text style={[screenStyles.bigText]}>Ok, what's the</Text>
-        <Text style={[screenStyles.bigText]}>correct zip?</Text>
-      </View>
-      <MyTextInput
-        errorText={
-          !isZipcodeValid && locationDetails.zipCode && !isZipCodeFetching
-            ? 'invalid!'
-            : undefined
-        }
-        value={locationDetails.zipCode}
-        label={!isZipCodeFetching ? 'ZIPCODE' : 'Fetching Zipcode...'}
-        style={screenStyles.textInput}
-        onChangeText={handleOnChangeText}
-        editable={!isZipCodeFetching ? true : false}
-        right={
-          !isZipCodeFetching ? (
-            <TextInput.Icon
-              onPress={handleFetchZipcode}
-              icon="crosshairs-gps"
-              forceTextInputFocus={false}
+    <KeyboardAvoidingView behavior="position">
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={screenStyles.container}>
+          <View>
+            <HeaderComponent color={ColorPalette.gray} />
+            <View style={screenStyles.mainTextContainer}>
+              <Text style={[screenStyles.bigText]}>Ok, what's the</Text>
+              <Text style={[screenStyles.bigText]}>correct zip?</Text>
+            </View>
+            <MyTextInput
+              errorText={
+                !isZipcodeValid && locationDetails.zipCode && !isZipCodeFetching
+                  ? 'invalid!'
+                  : undefined
+              }
+              value={locationDetails.zipCode}
+              label={!isZipCodeFetching ? 'ZIPCODE' : 'Fetching Zipcode...'}
+              style={screenStyles.textInput}
+              onChangeText={handleOnChangeText}
+              editable={!isZipCodeFetching ? true : false}
+              right={
+                !isZipCodeFetching ? (
+                  <TextInput.Icon
+                    onPress={handleFetchZipcode}
+                    icon="crosshairs-gps"
+                    forceTextInputFocus={false}
+                  />
+                ) : null
+              }
+              keyboardType="numeric"
             />
-          ) : null
-        }
-        keyboardType="numeric"
-      />
-      <View style={screenStyles.coolTipContainer}>
-        <Text>
-          <Text style={commonStyles.boldText}>Cool Tip: </Text>Click on the icon
-          above to use your current location
-        </Text>
-      </View>
-      <View style={screenStyles.bottomButton}>
-        <MyButton
-          disabled={!isZipcodeValid ? true : false}
-          onPress={handleSubmit}
-          style={{
-            backgroundColor: isZipcodeValid
-              ? ColorPalette.red
-              : ColorPalette.lightRed,
-          }}>
-          <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-            Ok, Done
-          </Text>
-        </MyButton>
-      </View>
-    </View>
+            <View style={screenStyles.coolTipContainer}>
+              <Text>
+                <Text style={commonStyles.boldText}>Cool Tip: </Text>Click on
+                the icon above to use your current location
+              </Text>
+            </View>
+          </View>
+          <MyButton
+            disabled={!isZipcodeValid ? true : false}
+            onPress={handleSubmit}
+            style={[
+              screenStyles.bottomButton,
+              {
+                backgroundColor: isZipcodeValid
+                  ? ColorPalette.red
+                  : ColorPalette.lightRed,
+              },
+            ]}>
+            <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+              Ok, Done
+            </Text>
+          </MyButton>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

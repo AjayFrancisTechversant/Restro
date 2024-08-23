@@ -23,6 +23,7 @@ const styles = (
       height: height * 0.07,
       flexDirection: 'row',
       width: width * 0.8,
+      backgroundColor: ColorPalette.white,
     },
     eachButtonStyle: {
       flex: 1 / 3,
