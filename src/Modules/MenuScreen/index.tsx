@@ -92,6 +92,7 @@ const MenuScreen: FC<MenuScreenPropsType> = ({route}) => {
     <View style={{flex: 1}}>
       {!selectedCategory ? (
         <FlatList
+        showsVerticalScrollIndicator={false}
           contentContainerStyle={[screenStyles.flatlist1contentContainerStyle]}
           style={screenStyles.container}
           ListHeaderComponent={
@@ -104,7 +105,7 @@ const MenuScreen: FC<MenuScreenPropsType> = ({route}) => {
             </>
           }
           data={allCategories}
-          numColumns={2}
+          numColumns={screenContext.isPortrait?2:4}
           key={screenContext.isPortrait ? 'portrait' : 'landscape'}
           renderItem={({item}) => (
             <SelectInitialCategoryCard
@@ -115,6 +116,7 @@ const MenuScreen: FC<MenuScreenPropsType> = ({route}) => {
         />
       ) : (
         <FlatList
+        showsVerticalScrollIndicator={false}
           contentContainerStyle={screenStyles.flatlist2contentContainerStyle}
           style={screenStyles.container}
           ListHeaderComponent={
