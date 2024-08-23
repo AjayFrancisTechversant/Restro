@@ -15,14 +15,20 @@ const styles = (
       padding: height * 0.02,
     },
     backButton: {position: 'absolute', left: height * 0.04, top: height * 0.04},
-    heading: {alignSelf: 'center',margin:height*0.02},
+    heading: {alignSelf: 'center', margin: height * 0.02},
     logoutButton: {
       position: 'absolute',
       top: height * 0.02,
       right: height * 0.02,
-    },detailsContainer:{
-        backgroundColor:ColorPalette.lightGray,padding:height*0.02,borderRadius:20
-    }
+    },
+    detailsContainer: {
+      backgroundColor: ColorPalette.lightRed,
+      elevation: 5,
+      width: width * 0.8,
+      alignSelf: 'center',
+      padding: height * 0.02,
+      borderRadius: 20,
+    },
   });
 
 export default styles;
