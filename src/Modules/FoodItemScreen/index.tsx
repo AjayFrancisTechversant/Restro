@@ -23,13 +23,13 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import MyTextInput from '../../Components/MyTextInput';
 import StaticVariables from '../../Preferences/StaticVariables';
 import MyButton from '../../Components/MyButton';
-import { NativeStackScreenProps } from 'react-native-screens/lib/typescript/native-stack/types';
+import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
 import {FoodInTheOrderType, OrderType} from '../OrderScreen';
 import {removeFoodFromCart} from '../../Services/API/removeFoodFromCart';
 import {MessageOptions, showMessage} from 'react-native-flash-message';
 import ViewMyOrderButton from '../../Components/ViewMyOrderButton';
 import PreferenceRadioCard from '../../Components/Onboarding/PreferenceRadioCard';
-import { HomeStackParamsList } from '../../Services/Navigation/HomeStack';
+import {HomeStackParamsList} from '../../Services/Navigation/HomeStack';
 import styles from './style';
 
 type FoodItemScreenPropsType = NativeStackScreenProps<
@@ -37,9 +37,9 @@ type FoodItemScreenPropsType = NativeStackScreenProps<
   'FoodItemScreen'
 >;
 
-const FoodItemScreen:FC<FoodItemScreenPropsType> = ({route}) => {
+const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
   const currentUserId = auth().currentUser?.uid;
-  const {food,hotel} = route.params;
+  const {food, hotel} = route.params;
   const [selectedProtein, setSelectedProtein] = useState<ProteinType>();
   const navigation: any = useNavigation();
   const [comment, setComment] = useState(StaticVariables.EMPTY_STRING);
@@ -62,7 +62,6 @@ const FoodItemScreen:FC<FoodItemScreenPropsType> = ({route}) => {
   );
   const handleAddToOrder = () => {
     addOrder();
-    navigation.pop();
   };
 
   useEffect(() => {
@@ -144,74 +143,91 @@ const FoodItemScreen:FC<FoodItemScreenPropsType> = ({route}) => {
             showMessage(removeMessage);
           }
         }
+        navigation.pop();
       } else {
         //different hotel
-        if (quantity > 0) {
-          let updatedFoods: FoodInTheOrderType[];
-          if (food.proteins && selectedProtein) {
-            updatedFoods = [
-              {
-                category: food.category,
-                comment,
-                desc: food.desc,
-                foodImage: food.image,
-                name: food.name,
-                pricePerQuantity: selectedProtein?.price,
-                quantity,
-                protein: selectedProtein,
+        Alert.alert(
+          'Different Hotel!!!',
+          'Your cart contains items from different hotel. Do you want clear the current cart and add this item?',
+          [
+            {
+              text: 'Cancel',
+              style: 'cancel',
+            },
+            {
+              text: 'Proceed',
+              onPress: async () => {
+                if (quantity > 0) {
+                  let updatedFoods: FoodInTheOrderType[];
+                  if (food.proteins && selectedProtein) {
+                    updatedFoods = [
+                      {
+                        category: food.category,
+                        comment,
+                        desc: food.desc,
+                        foodImage: food.image,
+                        name: food.name,
+                        pricePerQuantity: selectedProtein?.price,
+                        quantity,
+                        protein: selectedProtein,
+                      },
+                    ];
+                    const orderStructure: OrderType = {
+                      hotel: {
+                        id: hotel.id,
+                        image: hotel.image,
+                        location: hotel.location,
+                        name: hotel.name,
+                        rating: hotel.rating,
+                        preferences: hotel.preferences,
+                      },
+                      foods: updatedFoods,
+                    };
+                    await firestore()
+                      .collection('orders')
+                      .doc(currentUserId)
+                      .set(orderStructure);
+                    showMessage(addMessage);
+                  } else if (food.price) {
+                    updatedFoods = [
+                      {
+                        category: food.category,
+                        comment,
+                        desc: food.desc,
+                        foodImage: food.image,
+                        name: food.name,
+                        pricePerQuantity: food.price,
+                        quantity,
+                      },
+                    ];
+                    const orderStructure: OrderType = {
+                      hotel: {
+                        id: hotel.id,
+                        image: hotel.image,
+                        location: hotel.location,
+                        name: hotel.name,
+                        rating: hotel.rating,
+                        preferences: hotel.preferences,
+                      },
+                      foods: updatedFoods,
+                    };
+                    await firestore()
+                      .collection('orders')
+                      .doc(currentUserId)
+                      .set(orderStructure);
+                    showMessage(addMessage);
+                  }
+                } else {
+                  if (currentUserId) {
+                    await removeFoodFromCart(food.name, currentUserId);
+                    showMessage(removeMessage);
+                  }
+                }
+                navigation.pop();
               },
-            ];
-            const orderStructure: OrderType = {
-              hotel: {
-                id: hotel.id,
-                image: hotel.image,
-                location: hotel.location,
-                name: hotel.name,
-                rating: hotel.rating,
-                preferences: hotel.preferences,
-              },
-              foods: updatedFoods,
-            };
-            await firestore()
-              .collection('orders')
-              .doc(currentUserId)
-              .set(orderStructure);
-            showMessage(addMessage);
-          } else if (food.price) {
-            updatedFoods = [
-              {
-                category: food.category,
-                comment,
-                desc: food.desc,
-                foodImage: food.image,
-                name: food.name,
-                pricePerQuantity: food.price,
-                quantity,
-              },
-            ];
-            const orderStructure: OrderType = {
-              hotel: {
-                id: hotel.id,
-                image: hotel.image,
-                location: hotel.location,
-                name: hotel.name,
-                rating: hotel.rating,
-                preferences: hotel.preferences,
-              },
-              foods: updatedFoods,
-            };
-            await firestore()
-              .collection('orders')
-              .doc(currentUserId)
-              .set(orderStructure);
-            showMessage(addMessage);
-          }
-        } else {
-          if (currentUserId) {
-            await removeFoodFromCart(food.name, currentUserId);
-            showMessage(removeMessage);
-          }
-        }
+            },
+          ],
+        );
       }
     } catch (error) {
       Alert.alert('Error', (error as Error).message);
