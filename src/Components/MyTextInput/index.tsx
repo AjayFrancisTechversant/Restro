@@ -26,7 +26,7 @@ const MyTextInput: React.FC<MyTextInputPropsType> = ({
     screenContext,
   );
   return (
-    <View>
+    <View style={screenStyles.container}>
       <TextInput
         onChangeText={onChangeText}
         selectionColor={color ? color : ColorPalette.gray}

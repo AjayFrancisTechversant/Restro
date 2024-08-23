@@ -10,11 +10,19 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
+    container: {alignSelf: 'center'},
     textInput: {
       backgroundColor: ColorPalette.white,
       borderRadius: 5,
       fontWeight: 'bold',
+      width: isPortrait ? width * 0.8 : height * 0.8,
     },
-    errorText:{position:'absolute',right:60,top:10,color:ColorPalette.red,fontWeight:'bold'}
+    errorText: {
+      position: 'absolute',
+      right: 60,
+      top: 10,
+      color: ColorPalette.red,
+      fontWeight: 'bold',
+    },
   });
 export default styles;
