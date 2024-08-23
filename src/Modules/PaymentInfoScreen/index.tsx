@@ -117,7 +117,7 @@ const PaymentInfoScreen:FC = () => {
 
   return (
     <KeyboardAvoidingView behavior="position">
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={screenStyles.container}>
           <HeaderComponent color={ColorPalette.gray} />
           <Text style={[commonStyles.bigBoldText, screenStyles.heading]}>

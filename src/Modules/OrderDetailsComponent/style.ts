@@ -19,7 +19,7 @@ const styles = (
     },
     amountContainer: {flexDirection: 'row', justifyContent: 'space-between'},
     lineBreak: {
-      width: width * 0.9,
+      width: isPortrait?width * 0.9:height*0.95,
       borderWidth: 0.5,
       alignSelf: 'center',
       marginVertical: height * 0.01,

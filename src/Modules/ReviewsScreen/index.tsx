@@ -16,13 +16,13 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import MyButton from '../../Components/MyButton';
 import {Chip} from 'react-native-paper';
-import styles from './style';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import HeaderComponent from '../../Components/HeaderComponent';
 import StaticVariables from '../../Preferences/StaticVariables';
 import ReviewCard from '../../Components/ReviewCard';
 import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
 import {HomeStackParamsList} from '../../Services/Navigation/HomeStack';
+import styles from './style';
 
 export type ReviewType = {
   name: string;

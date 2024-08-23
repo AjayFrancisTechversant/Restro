@@ -22,7 +22,7 @@ import styles from './style';
 
 type TipType = '0%' | '10%' | '15%';
 
-const SummaryScreen:FC = () => {
+const SummaryScreen: FC = () => {
   const navigation: any = useNavigation();
   const dispatch = useAppDispatch();
   const preferenceFromRedux = useAppSelector(
@@ -87,31 +87,33 @@ const SummaryScreen:FC = () => {
       data={['']}
       renderItem={() => (
         <OrderDetailsComponent
-        setTotalAmount={setTotalAmount}
+          setTotalAmount={setTotalAmount}
           inSummaryScreen
         />
       )}
       ListFooterComponent={
         <>
           <Text style={commonStyles.boldText}>Add Tip </Text>
-          <Pressable onPress={() => setTip('0%')}>
-            <PreferenceRadioCard
-              isSelected={tip == '0%' ? true : false}
-              text={`$ 0`}
-            />
-          </Pressable>
-          <Pressable onPress={() => setTip('10%')}>
-            <PreferenceRadioCard
-              isSelected={tip == '10%' ? true : false}
-              text={`10% ( $ ${(totalAmount * 0.1).toPrecision(2)} )`}
-            />
-          </Pressable>
-          <Pressable onPress={() => setTip('15%')}>
-            <PreferenceRadioCard
-              isSelected={tip == '15%' ? true : false}
-              text={`15% ( $ ${(totalAmount * 0.15).toPrecision(2)} )`}
-            />
-          </Pressable>
+          <View style={screenStyles.tipContainer}>
+            <Pressable onPress={() => setTip('0%')}>
+              <PreferenceRadioCard
+                isSelected={tip == '0%' ? true : false}
+                text={`$ 0`}
+              />
+            </Pressable>
+            <Pressable onPress={() => setTip('10%')}>
+              <PreferenceRadioCard
+                isSelected={tip == '10%' ? true : false}
+                text={`10% ( $ ${(totalAmount * 0.1).toPrecision(2)} )`}
+              />
+            </Pressable>
+            <Pressable onPress={() => setTip('15%')}>
+              <PreferenceRadioCard
+                isSelected={tip == '15%' ? true : false}
+                text={`15% ( $ ${(totalAmount * 0.15).toPrecision(2)} )`}
+              />
+            </Pressable>
+          </View>
           {preferenceFromRedux == 'carry-out' ? (
             <VehicleDetailsComponent />
           ) : preferenceFromRedux == 'delivery' ? (

@@ -14,7 +14,6 @@ import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native
 import firestore from '@react-native-firebase/firestore';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import {HotelType} from '../../Components/HotelsContainer';
 import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
@@ -89,7 +88,7 @@ const AddReviewScreen: FC<AddReviewScreenPropsType> = ({route}) => {
 
   return (
     <KeyboardAvoidingView behavior="position">
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <>
           <Image
             style={screenStyles.bgImage}

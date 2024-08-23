@@ -16,8 +16,8 @@ const styles = (
     },
     bgImage: {
       position: 'absolute',
-      height: height * 0.4,
-      width,
+      height:isPortrait? height * 0.4:width*0.6,
+      width:isPortrait?width:height,
       borderBottomLeftRadius: 20,
       borderBottomRightRadius: 20,
     },

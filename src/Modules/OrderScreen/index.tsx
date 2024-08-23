@@ -56,6 +56,7 @@ const OrderScreen:FC = () => {
   };
   return (
     <FlatList
+    showsVerticalScrollIndicator={false}
       ListHeaderComponent={
         <View style={screenStyles.container}>
           <HeaderComponent color={ColorPalette.gray} />

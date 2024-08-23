@@ -12,16 +12,19 @@ const styles = (
   StyleSheet.create({
     headerComponentStyle: {
       position: 'absolute',
-      width: width,
+      width: isPortrait ? width : height,
       alignSelf: 'center',
       margin: height * 0.02,
+      paddingHorizontal: width * 0.02,
     },
-    imageStyle: {height: height * 0.3, width},
-    container: {flex: 1, padding: height * 0.02},
+    imageStyle: {height: height * 0.3, width: isPortrait ? width : height},
+    container: {
+      flex: 1,
+      padding: height * 0.02,
+    },
     heading: {fontWeight: 'bold', fontSize: 30, marginVertical: height * 0.01},
     proteinContainer: {
       marginVertical: height * 0.02,
-   
     },
     proteinContainerHeader: {
       flexDirection: 'row',

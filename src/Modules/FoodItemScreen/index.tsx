@@ -271,7 +271,7 @@ const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
   };
   return (
     <KeyboardAvoidingView behavior="position">
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Image source={{uri: food.image}} style={screenStyles.imageStyle} />
         <View style={screenStyles.headerComponentStyle}>
           <HeaderComponent color={ColorPalette.white} />
