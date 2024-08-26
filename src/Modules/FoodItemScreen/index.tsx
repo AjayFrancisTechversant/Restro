@@ -43,6 +43,7 @@ const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
   const navigation: any = useNavigation();
   const [comment, setComment] = useState(StaticVariables.EMPTY_STRING);
   const [quantity, setQuantity] = useState(0);
+  const [isAddingloading, setIsAddingloading] = useState(false);
   const [quantityLoading, setQuantityLoading] = useState(false);
   const [existingFoods, setExistingFoods] = useState(
     StaticVariables.EMPTY_ARRAY,
@@ -75,6 +76,7 @@ const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
   };
 
   const addOrder = async () => {
+    setIsAddingloading(true);
     try {
       if (
         currentHotelIdinOrder == hotel.id ||
@@ -222,6 +224,8 @@ const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
       }
     } catch (error) {
       Alert.alert('Error', (error as Error).message);
+    } finally {
+      setIsAddingloading(false);
     }
   };
 
@@ -327,22 +331,31 @@ const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
           </View>
           <MyButton
             onPress={handleAddToOrder}
-            disabled={food.proteins && !selectedProtein}
+            disabled={
+              (food.proteins && !selectedProtein) ||
+              isAddingloading ||
+              quantityLoading
+            }
             style={[
               screenStyles.addToOrderButton,
               {
                 backgroundColor:
-                  food.proteins && !selectedProtein
+                  food.proteins && !selectedProtein||quantityLoading
                     ? ColorPalette.lightRed
                     : ColorPalette.red,
               },
             ]}>
-            <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-              Add to order {quantity != 0 && `($ ${calculateAddOrderAmount()})`}
-            </Text>
+            {!isAddingloading ? (
+              <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+                Add to order{' '}
+                {quantity != 0 && `($ ${calculateAddOrderAmount()})`}
+              </Text>
+            ) : (
+              <ActivityIndicator size={20} color={ColorPalette.white} />
+            )}
           </MyButton>
         </View>
-        <ViewMyOrderButton />
+        <ViewMyOrderButton disabled={isAddingloading ? true : false} />
       </ScrollView>
     </KeyboardAvoidingView>
   );
