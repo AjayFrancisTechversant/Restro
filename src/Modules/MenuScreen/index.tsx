@@ -105,7 +105,7 @@ const MenuScreen: FC<MenuScreenPropsType> = ({route}) => {
             </>
           }
           data={allCategories}
-          numColumns={screenContext.isPortrait ? 2 : 4}
+          numColumns={screenContext.isPortrait ? 2 : 3}
           key={screenContext.isPortrait ? 'portrait1' : 'landscape1'}
           renderItem={({item}) => (
             <SelectInitialCategoryCard
@@ -161,7 +161,7 @@ const MenuScreen: FC<MenuScreenPropsType> = ({route}) => {
             !loading && item ? (
               <FoodItemCard hotel={hotel} food={item} />
             ) : (
-              <ActivityIndicator size={50} color={ColorPalette.red} />
+              <ActivityIndicator size={50} color={ColorPalette.red} style={screenStyles.loaderStyle} />
             )
           }
         />

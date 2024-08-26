@@ -21,7 +21,7 @@ const styles = (
     },
     flatlist2contentContainerStyle: {
       paddingBottom: height * 0.05,
-    },
+    },loaderStyle:{width:'100%'},
     headerComponentStyle: {width: isPortrait?width * 0.9:height*0.9},
     heading: {alignSelf: 'center', fontWeight: 'bold', fontSize: 30},
     noItemsText: {alignSelf: 'center', margin: height * 0.1},
