@@ -51,10 +51,6 @@ const AdminChatBox: React.FC<AdminChatBoxPropsType> = ({
     return () => subscriber();
   }, []);
 
-  useEffect(() => {
-    flatlisRef.current?.scrollToEnd();
-  }, [messages]);
-
   const handleSendMessage = () => {
     setNewMessage({
       ...newMessage,
@@ -90,6 +86,7 @@ const AdminChatBox: React.FC<AdminChatBoxPropsType> = ({
       </TouchableOpacity>
       <Text style={screenStyles.heading}>{selectedEmail}</Text>
       <FlatList
+        onContentSizeChange={() => flatlisRef.current?.scrollToEnd()}
         ref={flatlisRef}
         showsVerticalScrollIndicator={false}
         data={messages}

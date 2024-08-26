@@ -50,11 +50,7 @@ const NotAdminChatBox = () => {
       });
     return () => subscriber();
   }, []);
-
-  useEffect(() => {
-    flatlisRef.current?.scrollToEnd();
-  }, [messages]);
-
+  
   const handleSendMessage = () => {
     setNewMessage({
       ...newMessage,
@@ -75,6 +71,7 @@ const NotAdminChatBox = () => {
   return (
     <View style={screenStyles.container}>
       <FlatList
+        onContentSizeChange={() => flatlisRef.current?.scrollToEnd()}
         ref={flatlisRef}
         showsVerticalScrollIndicator={false}
         data={messages}
