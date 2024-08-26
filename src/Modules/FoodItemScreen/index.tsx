@@ -15,7 +15,7 @@ import firestore from '@react-native-firebase/firestore';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import { ProteinType} from '../../Components/FeaturedItemsComponent';
+import {ProteinType} from '../../Components/FeaturedItemsComponent';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
@@ -47,9 +47,9 @@ const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
   const [existingFoods, setExistingFoods] = useState(
     StaticVariables.EMPTY_ARRAY,
   );
-  const [currentHotelIdinOrder, setCurrentHotelIdinOrder] = useState(
-    StaticVariables.EMPTY_STRING,
-  );
+  const [currentHotelIdinOrder, setCurrentHotelIdinOrder] = useState<
+    string | undefined
+  >();
 
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -67,13 +67,6 @@ const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
     getExistingFoods();
   }, []);
 
-  const removeMessage: MessageOptions = {
-    message: 'Item Removed',
-    type: 'danger',
-    floating: true,
-    titleStyle: {fontWeight: 'bold'},
-  };
-
   const addMessage: MessageOptions = {
     message: 'Item Added',
     type: 'success',
@@ -83,8 +76,11 @@ const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
 
   const addOrder = async () => {
     try {
-      if (currentHotelIdinOrder == hotel.id) {
-        //same hotel
+      if (
+        currentHotelIdinOrder == hotel.id ||
+        currentHotelIdinOrder == undefined
+      ) {
+        //same hotel or no hotel
         if (quantity > 0) {
           let updatedFoods: FoodInTheOrderType[] = [...existingFoods];
           const existingFoodIndex = updatedFoods.findIndex(
@@ -137,26 +133,25 @@ const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
             .set(orderStructure);
           showMessage(addMessage);
         } else {
-          if (currentUserId) {
+          if (currentUserId && currentHotelIdinOrder) {
             await removeFoodFromCart(food.name, currentUserId);
-            showMessage(removeMessage);
           }
         }
         navigation.pop();
       } else {
         //different hotel
-        Alert.alert(
-          'Different Hotel!!!',
-          'Your cart contains items from different hotel. Do you want clear the current cart and add this item?',
-          [
-            {
-              text: 'Cancel',
-              style: 'cancel',
-            },
-            {
-              text: 'Proceed',
-              onPress: async () => {
-                if (quantity > 0) {
+        if (quantity > 0) {
+          Alert.alert(
+            'Different Hotel!!!',
+            'Your cart contains items from different hotel. Do you want clear the current cart and add this item?',
+            [
+              {
+                text: 'Cancel',
+                style: 'cancel',
+              },
+              {
+                text: 'Proceed',
+                onPress: async () => {
                   let updatedFoods: FoodInTheOrderType[];
                   if (food.proteins && selectedProtein) {
                     updatedFoods = [
@@ -216,17 +211,14 @@ const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
                       .set(orderStructure);
                     showMessage(addMessage);
                   }
-                } else {
-                  if (currentUserId) {
-                    await removeFoodFromCart(food.name, currentUserId);
-                    showMessage(removeMessage);
-                  }
-                }
-                navigation.pop();
+                  navigation.pop();
+                },
               },
-            },
-          ],
-        );
+            ],
+          );
+        } else {
+          navigation.pop();
+        }
       }
     } catch (error) {
       Alert.alert('Error', (error as Error).message);

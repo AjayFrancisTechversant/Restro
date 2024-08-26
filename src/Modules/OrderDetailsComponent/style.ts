@@ -19,7 +19,7 @@ const styles = (
     },
     amountContainer: {flexDirection: 'row', justifyContent: 'space-between'},
     lineBreak: {
-      width: isPortrait?width * 0.9:height*0.95,
+      width: isPortrait ? width * 0.9 : height * 0.95,
       borderWidth: 0.5,
       alignSelf: 'center',
       marginVertical: height * 0.01,
@@ -28,7 +28,16 @@ const styles = (
     footerStyle: {
       marginVertical: height * 0.03,
     },
-    NoItemsText: {fontWeight: 'bold', fontSize: 20, alignSelf: 'center'},
+    emptyCartText: {
+      color: ColorPalette.lightRed,
+      fontWeight: 'bold',
+      alignSelf: 'center',marginVertical:height*0.05
+    },
+    bottomButton: {
+      borderWidth: 1,
+      borderColor: ColorPalette.red,
+      marginVertical: height*0.02,
+    },
   });
 
 export default styles;

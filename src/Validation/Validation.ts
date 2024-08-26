@@ -8,7 +8,6 @@ export type ValidationType =
   | 'rating'
   | 'cvv'
   | 'cardNumber'
-  // | 'vehicleNumber'
   | 'zipcode'
   | 'required';
 
@@ -25,9 +24,6 @@ const validate = (
     case 'password':
       return validPassword.test(value) ? true : false;
 
-    // case 'vehicleNumber':
-    //   return validVehicleNumber.test(value) ? true : false;
-
     case 'phone':
       return value.length == 10 ? true : false;
 
@@ -35,7 +31,7 @@ const validate = (
       return value.length == 3 ? true : false;
 
     case 'cardNumber':
-      return value.length == 12 ? true : false;
+      return value.length == 16 ? true : false;
 
     case 'zipcode':
       return value.length == 6 ? true : false;

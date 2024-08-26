@@ -16,6 +16,7 @@ import StaticVariables from '../../Preferences/StaticVariables';
 import {getTotalPrice} from '../../Services/API/getTotalPrice';
 import {SetStateType} from '../../Types/Types';
 import styles from './style';
+import MyButton from '../../Components/MyButton';
 
 type OrderDetailsComponentPropsType = {
   inSummaryScreen?: boolean;
@@ -48,13 +49,15 @@ const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
       .collection('orders')
       .doc(currentUserId)
       .onSnapshot((docSnapshot: any) => {
-        setOrder(docSnapshot.data());
-        if (setIsCheckoutDisabled) {
-          if (docSnapshot.data().foods.length == 0) {
-            setIsCheckoutDisabled(true);
-          } else setIsCheckoutDisabled(false);
+        if (docSnapshot.exists) {
+          setOrder(docSnapshot.data());
+          if (setIsCheckoutDisabled) {
+            if (docSnapshot.data().foods?.length == 0) {
+              setIsCheckoutDisabled(true);
+            } else setIsCheckoutDisabled(false);
+          }
+          calculatePrices();
         }
-        calculatePrices();
       });
     return () => subscriber();
   }, []);
@@ -82,7 +85,7 @@ const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
   );
   return (
     <>
-      {order?.foods.length != 0 ? (
+      {order ? (
         <FlatList
           style={screenStyles.container}
           ListHeaderComponent={
@@ -109,6 +112,9 @@ const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
           renderItem={({item}) => (
             <OrderItemCard inSummaryScreen={inSummaryScreen} food={item} />
           )}
+          ListEmptyComponent={
+            <Text style={screenStyles.emptyCartText}>Empty Cart!</Text>
+          }
           ListFooterComponentStyle={screenStyles.footerStyle}
           ListFooterComponent={
             <>
@@ -137,30 +143,47 @@ const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
                   />
                 </>
               )}
-              <View style={screenStyles.amountContainer}>
-                <Text style={commonStyles.boldText}>Subtotal</Text>
-                <Text style={commonStyles.boldText}>$ {prices.subTotal}</Text>
-              </View>
-              <View style={screenStyles.amountContainer}>
-                <Text style={commonStyles.boldText}>Taxes</Text>
-                <Text style={commonStyles.boldText}>
-                  $ {prices.tax.toPrecision(2)}
-                </Text>
-              </View>
-              <View style={screenStyles.amountContainer}>
-                <Text style={commonStyles.boldText}>Delivery</Text>
-                <Text style={commonStyles.boldText}>$ {prices.delivery}</Text>
-              </View>
-              <View style={screenStyles.lineBreak}></View>
-              <View style={screenStyles.amountContainer}>
-                <Text style={commonStyles.boldText}>TOTAL</Text>
-                <Text style={commonStyles.boldText}>$ {prices.total}</Text>
-              </View>
+              {order.foods.length != 0 && (
+                <>
+                  <View style={screenStyles.amountContainer}>
+                    <Text style={commonStyles.boldText}>Subtotal</Text>
+                    <Text style={commonStyles.boldText}>
+                      $ {prices.subTotal}
+                    </Text>
+                  </View>
+                  <View style={screenStyles.amountContainer}>
+                    <Text style={commonStyles.boldText}>Taxes</Text>
+                    <Text style={commonStyles.boldText}>
+                      $ {prices.tax.toPrecision(2)}
+                    </Text>
+                  </View>
+                  <View style={screenStyles.amountContainer}>
+                    <Text style={commonStyles.boldText}>Delivery</Text>
+                    <Text style={commonStyles.boldText}>
+                      $ {prices.delivery}
+                    </Text>
+                  </View>
+                  <View style={screenStyles.lineBreak}></View>
+                  <View style={screenStyles.amountContainer}>
+                    <Text style={commonStyles.boldText}>TOTAL</Text>
+                    <Text style={commonStyles.boldText}>$ {prices.total}</Text>
+                  </View>
+                </>
+              )}
             </>
           }
         />
       ) : (
-        <Text style={screenStyles.NoItemsText}>No items in your cart!</Text>
+        <>
+          <Text style={screenStyles.emptyCartText}>Empty Cart!</Text>
+          <MyButton
+            onPress={() => navigation.popToTop()}
+            style={screenStyles.bottomButton}>
+            <Text style={[commonStyles.redText, commonStyles.boldText]}>
+              Go to Home
+            </Text>
+          </MyButton>
+        </>
       )}
     </>
   );
