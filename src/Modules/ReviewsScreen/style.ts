@@ -16,8 +16,8 @@ const styles = (
     },
     bgImage: {
       position: 'absolute',
-      height:isPortrait? height * 0.4:width*0.6,
-      width:isPortrait?width:height,
+      height: isPortrait ? height * 0.4 : width * 0.6,
+      width: isPortrait ? width : height,
       borderBottomLeftRadius: 20,
       borderBottomRightRadius: 20,
     },
@@ -48,12 +48,14 @@ const styles = (
     },
     navigationButtonsContainer: {
       flexDirection: 'row',
-      justifyContent: 'space-between',marginTop:height*0.02
+      justifyContent: 'space-between',
+      marginTop: height * 0.02,
     },
     bottomButton: {
       alignSelf: 'center',
       marginBottom: height * 0.02,
     },
+    emptyComponentText: {fontWeight: 'bold', color: ColorPalette.red,alignSelf:'center',marginVertical:height*0.02},
   });
 
 export default styles;

@@ -4,7 +4,6 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
 import React, {FC, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -28,7 +27,7 @@ export type ReviewType = {
   name: string;
   comment: string;
   hotelId: string;
-  rating: string;
+  rating: number;
 };
 
 type ReviewsScreenPropsType = NativeStackScreenProps<
@@ -57,7 +56,6 @@ const ReviewsScreen: FC<ReviewsScreenPropsType> = ({route}) => {
       .onSnapshot(querrySnapshot => {
         setReviews(querrySnapshot.docs.map((i: any) => i.data()));
       });
-
     return () => subscriber();
   }, []);
   return (
@@ -131,7 +129,7 @@ const ReviewsScreen: FC<ReviewsScreenPropsType> = ({route}) => {
         </>
       }
       ListEmptyComponent={
-        <ActivityIndicator size={50} color={ColorPalette.gray} />
+        <Text style={screenStyles.emptyComponentText}>No reviews yet!</Text>
       }
       data={reviews}
       renderItem={({item}) => <ReviewCard review={item} />}
