@@ -10,6 +10,7 @@ import React, {FC, useState} from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import StarRating from 'react-native-star-rating-widget';
 import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
 import firestore from '@react-native-firebase/firestore';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -42,7 +43,7 @@ const AddReviewScreen: FC<AddReviewScreenPropsType> = ({route}) => {
   const [newReview, setNewReview] = useState<ReviewType>({
     name: StaticVariables.EMPTY_STRING,
     comment: StaticVariables.EMPTY_STRING,
-    rating: StaticVariables.EMPTY_STRING,
+    rating: 0,
     hotelId: hotel.id,
   });
   const [error, setError] = useState<ErrorType>({
@@ -50,18 +51,11 @@ const AddReviewScreen: FC<AddReviewScreenPropsType> = ({route}) => {
     nameError: true,
     ratingError: true,
   });
-  const HandleOnChangeText = (
-    text: string,
-    name: 'rating' | 'name' | 'comment',
-  ) => {
+  const HandleOnChangeText = (text: string, name: 'name' | 'comment') => {
     switch (name) {
       case 'name':
         setNewReview({...newReview, name: text});
         setError({...error, nameError: !validate(text)});
-        break;
-      case 'rating':
-        setNewReview({...newReview, rating: text});
-        setError({...error, ratingError: !validate(text, 'rating')});
         break;
       case 'comment':
         setNewReview({...newReview, comment: text});
@@ -71,12 +65,20 @@ const AddReviewScreen: FC<AddReviewScreenPropsType> = ({route}) => {
         break;
     }
   };
+  const onRatingChange = (rating: number) => {
+    setNewReview({...newReview, rating});
+    if (rating == 0) {
+      setError({...error, ratingError: true});
+    } else setError({...error, ratingError: false});
+  };
+
   const handleSubmitReview = (newReview: ReviewType) => {
     firestore()
       .collection('reviews')
       .add(newReview)
       .then(() => navigation.goBack());
   };
+
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -144,23 +146,24 @@ const AddReviewScreen: FC<AddReviewScreenPropsType> = ({route}) => {
                 </Text>
               </TouchableOpacity>
             </View>
+            <View style={screenStyles.addRatingContainer}>
+              <StarRating
+                rating={newReview.rating}
+                onChange={onRatingChange}
+                color={ColorPalette.red}
+                starSize={50}
+              />
+              <Text style={screenStyles.ratingText}>
+                {newReview.rating
+                  ? newReview.rating
+                  : 'Please provide your rating!'}
+              </Text>
+            </View>
             <MyTextInput
               label="Name"
               style={screenStyles.textInput}
               value={newReview.name}
               onChangeText={text => HandleOnChangeText(text, 'name')}
-            />
-            <MyTextInput
-              errorText={
-                error.ratingError && newReview.rating
-                  ? '*Must be between 1 to 5'
-                  : undefined
-              }
-              keyboardType="numeric"
-              label="Rating"
-              style={screenStyles.textInput}
-              value={newReview.rating}
-              onChangeText={text => HandleOnChangeText(text, 'rating')}
             />
             <MyTextInput
               label="Comments"

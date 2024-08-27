@@ -16,8 +16,8 @@ const styles = (
     },
     bgImage: {
       position: 'absolute',
-      height:isPortrait? height * 0.4:width*0.6,
-      width:isPortrait?width:height,
+      height: isPortrait ? height * 0.4 : width * 0.6,
+      width: isPortrait ? width : height,
       borderBottomLeftRadius: 20,
       borderBottomRightRadius: 20,
     },
@@ -50,6 +50,20 @@ const styles = (
       flexDirection: 'row',
       justifyContent: 'space-between',
       marginVertical: height * 0.02,
+    },
+    addRatingContainer: {
+      backgroundColor: ColorPalette.white,
+      padding: height * 0.02,
+      elevation: 5,
+      borderRadius: 10,
+      alignSelf: 'center',
+      alignItems: 'center',
+      marginVertical: height * 0.01,
+    },
+    ratingText: {
+      fontWeight: 'bold',
+      color: ColorPalette.red,
+      marginVertical: height * 0.01,
     },
     textInput: {margin: height * 0.01},
     bottomButton: {
