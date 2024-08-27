@@ -11,6 +11,7 @@ const styles = (
 ) =>
   StyleSheet.create({
     container: {
+      minHeight:width,
       height: isPortrait ? height : 'auto',
       padding: height * 0.02,
       backgroundColor: ColorPalette.white,
