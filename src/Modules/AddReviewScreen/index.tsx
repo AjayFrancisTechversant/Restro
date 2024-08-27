@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
   KeyboardAvoidingView,
+  ActivityIndicator,
 } from 'react-native';
 import React, {FC, useState} from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -13,7 +14,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import StarRating from 'react-native-star-rating-widget';
 import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
 import firestore from '@react-native-firebase/firestore';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
@@ -25,6 +25,7 @@ import {ReviewType} from '../ReviewsScreen';
 import MyTextInput from '../../Components/MyTextInput';
 import validate from '../../Validation/Validation';
 import {HomeStackParamsList} from '../../Services/Navigation/HomeStack';
+import ReviewsAvgComponent from '../../Components/ReviewsAvgComponent';
 import styles from './style';
 
 type ErrorType = {
@@ -51,6 +52,7 @@ const AddReviewScreen: FC<AddReviewScreenPropsType> = ({route}) => {
     nameError: true,
     ratingError: true,
   });
+  const [isSubmittingLoading, setIsSubmittingLoading] = useState(false);
   const HandleOnChangeText = (text: string, name: 'name' | 'comment') => {
     switch (name) {
       case 'name':
@@ -73,10 +75,12 @@ const AddReviewScreen: FC<AddReviewScreenPropsType> = ({route}) => {
   };
 
   const handleSubmitReview = (newReview: ReviewType) => {
+    setIsSubmittingLoading(true);
     firestore()
       .collection('reviews')
       .add(newReview)
-      .then(() => navigation.goBack());
+      .then(() => navigation.goBack())
+      .finally(() => setIsSubmittingLoading(false));
   };
 
   const screenContext = useScreenContext();
@@ -118,18 +122,7 @@ const AddReviewScreen: FC<AddReviewScreenPropsType> = ({route}) => {
                   </Chip>
                 ))}
               </View>
-              <TouchableOpacity style={screenStyles.ratingsContainerButton}>
-                <FontAwesome name="star" color={ColorPalette.red} size={20} />
-                <FontAwesome name="star" color={ColorPalette.red} size={20} />
-                <FontAwesome name="star" color={ColorPalette.red} size={20} />
-                <FontAwesome name="star" color={ColorPalette.red} size={20} />
-                <FontAwesome
-                  name="star-half-empty"
-                  color={ColorPalette.red}
-                  size={20}
-                />
-                <Text> {hotel.rating}</Text>
-              </TouchableOpacity>
+              <ReviewsAvgComponent hotelId={hotel.id} />
               <View style={screenStyles.reservationContainer}>
                 <Text style={commonStyles.redText}>
                   <Entypo name="plus" size={20} /> Make a reservation
@@ -175,7 +168,10 @@ const AddReviewScreen: FC<AddReviewScreenPropsType> = ({route}) => {
             />
             <MyButton
               disabled={
-                !error.nameError && !error.commentError && !error.ratingError
+                !error.nameError &&
+                !error.commentError &&
+                !error.ratingError &&
+                !isSubmittingLoading
                   ? false
                   : true
               }
@@ -193,9 +189,13 @@ const AddReviewScreen: FC<AddReviewScreenPropsType> = ({route}) => {
               onPress={() => {
                 handleSubmitReview(newReview);
               }}>
-              <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-                Submit Review
-              </Text>
+              {!isSubmittingLoading ? (
+                <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+                  Submit Review
+                </Text>
+              ) : (
+                <ActivityIndicator color={ColorPalette.white} size={20} />
+              )}
             </MyButton>
           </View>
         </>

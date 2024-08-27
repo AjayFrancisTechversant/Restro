@@ -4,7 +4,6 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {Chip} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
@@ -13,6 +12,7 @@ import MyButton from '../../Components/MyButton';
 import FeaturedItemsComponent from '../../Components/FeaturedItemsComponent';
 import StaticVariables from '../../Preferences/StaticVariables';
 import {HomeStackParamsList} from '../../Services/Navigation/HomeStack';
+import ReviewsAvgComponent from '../../Components/ReviewsAvgComponent';
 import styles from './style';
 
 type HotelScreenPropstype = NativeStackScreenProps<
@@ -67,18 +67,8 @@ const HotelScreen: FC<HotelScreenPropstype> = ({route}) => {
               <TouchableOpacity
                 onPress={() =>
                   navigation.navigate(StaticVariables.ReviewsScreen, {hotel})
-                }
-                style={screenStyles.ratingsContainerButton}>
-                <FontAwesome name="star" color={ColorPalette.red} size={20} />
-                <FontAwesome name="star" color={ColorPalette.red} size={20} />
-                <FontAwesome name="star" color={ColorPalette.red} size={20} />
-                <FontAwesome name="star" color={ColorPalette.red} size={20} />
-                <FontAwesome
-                  name="star-half-empty"
-                  color={ColorPalette.red}
-                  size={20}
-                />
-                <Text> {hotel.rating}</Text>
+                }>
+                <ReviewsAvgComponent hotelId={hotel.id}/>
               </TouchableOpacity>
               <View style={screenStyles.reservationContainer}>
                 <Text style={commonStyles.redText}>

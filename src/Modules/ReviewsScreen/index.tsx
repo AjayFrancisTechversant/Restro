@@ -1,15 +1,8 @@
-import {
-  View,
-  Text,
-  FlatList,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, FlatList, Image, TouchableOpacity} from 'react-native';
 import React, {FC, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import firestore from '@react-native-firebase/firestore';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
@@ -21,6 +14,7 @@ import StaticVariables from '../../Preferences/StaticVariables';
 import ReviewCard from '../../Components/ReviewCard';
 import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
 import {HomeStackParamsList} from '../../Services/Navigation/HomeStack';
+import ReviewsAvgComponent from '../../Components/ReviewsAvgComponent';
 import styles from './style';
 
 export type ReviewType = {
@@ -89,18 +83,7 @@ const ReviewsScreen: FC<ReviewsScreenPropsType> = ({route}) => {
                   </Chip>
                 ))}
               </View>
-              <TouchableOpacity style={screenStyles.ratingsContainerButton}>
-                <FontAwesome name="star" color={ColorPalette.red} size={20} />
-                <FontAwesome name="star" color={ColorPalette.red} size={20} />
-                <FontAwesome name="star" color={ColorPalette.red} size={20} />
-                <FontAwesome name="star" color={ColorPalette.red} size={20} />
-                <FontAwesome
-                  name="star-half-empty"
-                  color={ColorPalette.red}
-                  size={20}
-                />
-                <Text> {hotel.rating}</Text>
-              </TouchableOpacity>
+              <ReviewsAvgComponent hotelId={hotel.id}/>
               <View style={screenStyles.reservationContainer}>
                 <Text style={commonStyles.redText}>
                   <Entypo name="plus" size={20} /> Make a reservation

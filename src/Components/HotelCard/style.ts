@@ -23,7 +23,7 @@ const styles = (
     imageStyle: {height: width * 0.3, width: width * 0.3, borderRadius: 10},
     imageLoadingindicator:{height: width * 0.3, width: width * 0.3, borderRadius: 10,position:'absolute'},
     hotelDetailsContainer: {paddingVertical: height * 0.01, gap: height * 0.01},
-    ratingText: {position: 'absolute', bottom: 0},
+    ratingContainer: {position: 'absolute', bottom: 0},
   });
 
 export default styles;

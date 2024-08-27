@@ -7,13 +7,13 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import {HotelType} from '../HotelsContainer';
 import StaticVariables from '../../Preferences/StaticVariables';
+import ReviewsAvgComponent from '../ReviewsAvgComponent';
 import styles from './style';
 
 type HotelCardPropsType = {
@@ -58,10 +58,9 @@ const HotelCard: React.FC<HotelCardPropsType> = ({hotel}) => {
           <Entypo name="location-pin" color={ColorPalette.gray} size={20} />
           {hotel.location}
         </Text>
-        <Text style={screenStyles.ratingText}>
-          <AntDesign name="star" color={ColorPalette.gold} size={20} />
-          {hotel.rating}
-        </Text>
+        <View style={screenStyles.ratingContainer}>
+          <ReviewsAvgComponent inHotelCard hotelId={hotel.id} />
+        </View>
       </View>
     </TouchableOpacity>
   );

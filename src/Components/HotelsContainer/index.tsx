@@ -12,7 +12,6 @@ import {PrefenceType} from '../../Redux/Slices/UserDetailsSlice';
 export type HotelType = {
   name: string;
   location: string;
-  rating: string;
   image: string;
   id: string;
   preferences: PrefenceType[];
