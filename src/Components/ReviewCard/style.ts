@@ -18,6 +18,14 @@ const styles = (
       marginHorizontal: height * 0.02,
       elevation: 5,
     },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'flex-end',
+      gap: 10,
+      marginBottom: height * 0.01,
+    },
+    starStyle:{marginHorizontal: -1},
+    heading: {fontWeight: 'bold'},
   });
 
 export default styles;
