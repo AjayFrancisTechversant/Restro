@@ -4,9 +4,16 @@ import {
   TouchableOpacity,
   Image,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import auth from '@react-native-firebase/auth';
+import firestore, {
+  arrayRemove,
+  arrayUnion,
+} from '@react-native-firebase/firestore';
 import Entypo from 'react-native-vector-icons/Entypo';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
@@ -22,7 +29,62 @@ type HotelCardPropsType = {
 
 const HotelCard: React.FC<HotelCardPropsType> = ({hotel}) => {
   const navigation: any = useNavigation();
+  const currentUserId = auth().currentUser?.uid;
+  const [isBookmarked, setIsBookmarked] = useState(false);
   const [isImageLoading, setIsImageLoading] = useState(true);
+  const [isBookmarkLoading, setIsBookmarkLoading] = useState(false);
+
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('bookmarks')
+      .doc(currentUserId)
+      .onSnapshot(documentSnapshot => {
+        if (documentSnapshot.exists) {
+          const bookmarkedHotelIds: any[] =
+            documentSnapshot.data()?.bookmarkedHotelIds;
+          if (bookmarkedHotelIds.find(i => i == hotel.id)) {
+            setIsBookmarked(true);
+          } else setIsBookmarked(false);
+        }
+      });
+    return () => subscriber();
+  }, []);
+
+  const handleBookmark = async () => {
+    setIsBookmarkLoading(true);
+    try {
+      if (!isBookmarked) {
+        //add
+        const isDocExisting = (
+          await firestore().collection('bookmarks').doc(currentUserId).get()
+        ).exists;
+        if (!isDocExisting) {
+          //create a new array
+          await firestore()
+            .collection('bookmarks')
+            .doc(currentUserId)
+            .set({bookmarkedHotelIds: arrayUnion(hotel.id)});
+        } else {
+          //push into array
+          await firestore()
+            .collection('bookmarks')
+            .doc(currentUserId)
+            .update({bookmarkedHotelIds: arrayUnion(hotel.id)});
+        }
+      } else {
+        // remove
+        await firestore()
+          .collection('bookmarks')
+          .doc(currentUserId)
+          .update({bookmarkedHotelIds: arrayRemove(hotel.id)});
+      }
+    } catch (error) {
+      Alert.alert((error as Error).message);
+    } finally {
+      setIsBookmarkLoading(false);
+    }
+  };
+
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -34,6 +96,7 @@ const HotelCard: React.FC<HotelCardPropsType> = ({hotel}) => {
 
   return (
     <TouchableOpacity
+    disabled={isBookmarkLoading}
       onPress={() => navigation.navigate(StaticVariables.HotelScreen, {hotel})}
       style={screenStyles.card}>
       <View>
@@ -62,6 +125,24 @@ const HotelCard: React.FC<HotelCardPropsType> = ({hotel}) => {
           <ReviewsAvgComponent inHotelCard hotelId={hotel.id} />
         </View>
       </View>
+
+      {!isBookmarkLoading ? (
+        <TouchableOpacity
+          onPress={handleBookmark}
+          style={screenStyles.bookmarkButtonStyle}>
+          <Fontisto
+            color={ColorPalette.red}
+            size={30}
+            name={isBookmarked ? 'bookmark-alt' : 'bookmark'}
+          />
+        </TouchableOpacity>
+      ) : (
+        <ActivityIndicator
+          style={screenStyles.bookmarkButtonStyle}
+          size={20}
+          color={ColorPalette.red}
+        />
+      )}
     </TouchableOpacity>
   );
 };
