@@ -31,11 +31,11 @@ const HotelsContainer = () => {
   );
   useEffect(() => {
     const subscriber = firestore()
-      .collection('bookmarks')
-      .doc(currentUserId)
-      .onSnapshot(documentSnapshot => {
-        setBookmarkedHotelIds(documentSnapshot.data()?.bookmarkedHotelIds);
-      });
+    .collection('bookmarks')
+    .doc(currentUserId)
+    .onSnapshot(documentSnapshot => {
+      setBookmarkedHotelIds(documentSnapshot.data()?.bookmarkedHotelIds);
+    });
     return () => subscriber();
   }, []);
 
@@ -54,9 +54,16 @@ const HotelsContainer = () => {
         .collection('hotels')
         .where('preferences', 'array-contains', preferenceFromRedux)
         .get()
-        .then(querySnapshot =>
-          setHotels(querySnapshot.docs.map((i: any) => i.data())),
-        );
+        .then(querySnapshot => {
+          const hotels = querySnapshot.docs.map((i: any) => i.data());
+          const tempArr: HotelType[] = [];
+          hotels.map(hotel => {
+            if (bookmarkedHotelIds.find(i => i == hotel.id)) {
+              tempArr.unshift(hotel);
+            } else tempArr.push(hotel);
+            setHotels(tempArr);
+          });
+        });
     }
   };
 
@@ -64,11 +71,10 @@ const HotelsContainer = () => {
     const tempArr: HotelType[] = [];
     hotels.map(hotel => {
       if (bookmarkedHotelIds.find(i => i == hotel.id)) {
-        tempArr.unshift(hotel)
-      }else tempArr.push(hotel)
-      setHotels(tempArr)
+        tempArr.unshift(hotel);
+      } else tempArr.push(hotel);
+      setHotels(tempArr);
     });
-
   };
   const screenContext = useScreenContext();
   const screenStyles = styles(
