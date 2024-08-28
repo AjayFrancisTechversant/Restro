@@ -22,7 +22,10 @@ const HotelsContainer = () => {
   const preferenceFromRedux = useAppSelector(
     state => state.userDetails.preference,
   );
-  const [hotels, setHotels] = useState<HotelType[]>(
+  const [allHotels, setAllHotels] = useState<HotelType[]>(
+    StaticVariables.EMPTY_ARRAY,
+  );
+  const [availableHotels, setAvailableHotels] = useState<HotelType[]>(
     StaticVariables.EMPTY_ARRAY,
   );
   const currentUserId = auth().currentUser?.uid;
@@ -31,51 +34,53 @@ const HotelsContainer = () => {
   );
   useEffect(() => {
     const subscriber = firestore()
-    .collection('bookmarks')
-    .doc(currentUserId)
-    .onSnapshot(documentSnapshot => {
-      setBookmarkedHotelIds(documentSnapshot.data()?.bookmarkedHotelIds);
-    });
+      .collection('bookmarks')
+      .doc(currentUserId)
+      .onSnapshot(documentSnapshot => {
+        setBookmarkedHotelIds(documentSnapshot.data()?.bookmarkedHotelIds);
+      });
+    firestore()
+      .collection('hotels')
+      .get()
+      .then(querrySnapshot => {
+        setAllHotels(querrySnapshot.docs.map((i: any) => i.data()));
+      });
     return () => subscriber();
   }, []);
 
   useEffect(() => {
-    fecthHotels();
-  }, [preferenceFromRedux]);
+    getAvailableHotels();
+  }, [preferenceFromRedux, allHotels,bookmarkedHotelIds]);
 
-  useEffect(() => {
-    sortBasedOnBookmarks();
-  }, [bookmarkedHotelIds]);
+  // useEffect(() => {
+  //   sortBasedOnBookmarks();
+  // }, [bookmarkedHotelIds]);
 
-  const fecthHotels = () => {
+  const getAvailableHotels = () => {
     if (preferenceFromRedux) {
-      setHotels(StaticVariables.EMPTY_ARRAY);
-      firestore()
-        .collection('hotels')
-        .where('preferences', 'array-contains', preferenceFromRedux)
-        .get()
-        .then(querySnapshot => {
-          const hotels = querySnapshot.docs.map((i: any) => i.data());
-          const tempArr: HotelType[] = [];
-          hotels.map(hotel => {
-            if (bookmarkedHotelIds.find(i => i == hotel.id)) {
-              tempArr.unshift(hotel);
-            } else tempArr.push(hotel);
-            setHotels(tempArr);
-          });
-        });
+      const filteredHotels: HotelType[] = allHotels.filter(i =>
+        i.preferences.includes(preferenceFromRedux),
+      );
+      const tempArr: HotelType[] = [];
+      filteredHotels.map(hotel => {
+        if (bookmarkedHotelIds?.find(i => i == hotel.id)) {
+          tempArr.unshift(hotel);
+        } else tempArr.push(hotel);
+        setAvailableHotels(tempArr);
+      });
     }
   };
 
   const sortBasedOnBookmarks = () => {
     const tempArr: HotelType[] = [];
-    hotels.map(hotel => {
+    availableHotels.map(hotel => {
       if (bookmarkedHotelIds.find(i => i == hotel.id)) {
         tempArr.unshift(hotel);
       } else tempArr.push(hotel);
-      setHotels(tempArr);
+      setAvailableHotels(tempArr);
     });
   };
+
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -90,7 +95,7 @@ const HotelsContainer = () => {
       ListEmptyComponent={
         <ActivityIndicator size={50} color={ColorPalette.red} />
       }
-      data={hotels}
+      data={availableHotels}
       renderItem={({item}) => <HotelCard hotel={item} />}
     />
   );
