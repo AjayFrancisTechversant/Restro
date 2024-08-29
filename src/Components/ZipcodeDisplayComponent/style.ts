@@ -13,7 +13,7 @@ const styles = (
     container: {
       flexDirection: 'row',
       width: width * 0.8,
-      gap: height * 0.02,
+      gap: width * 0.02,
       alignItems: 'center',
       margin: height * 0.01,
     },

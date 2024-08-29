@@ -26,11 +26,11 @@ const ZipcodeDisplayComponent = () => {
         {region && `, ${region}`}
         {country && `, ${country}`}
       </Text>
-      <TouchableOpacity
+      <TouchableOpacity 
         onPress={() =>
           navigation.navigate(StaticVariables.EditZipcodeScreen as never)
         }>
-        <Feather size={20} name="edit" />
+        <Feather size={screenContext.isTypeTablet?25:20} name="edit" />
       </TouchableOpacity>
     </View>
   );
