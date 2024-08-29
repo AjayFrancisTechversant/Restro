@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, SafeAreaView} from 'react-native';
+import { SafeAreaView} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {Provider} from 'react-redux';
 import {PaperProvider} from 'react-native-paper';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {PersistGate} from 'redux-persist/integration/react';
 import FlashMessage from 'react-native-flash-message';
+import InitializingScreen from './src/Components/InitializingScreen'
 import {ScreenContextProvider} from './src/Contexts/ScreenContext';
 import UnauthorizedStack from './src/Services/Navigation/UnauthorizedStack';
 import AuthorizedStack from './src/Services/Navigation/AuthorizedStack';
 import {persistor, store} from './src/Redux/Store/Store';
-import ColorPalette from './src/Assets/Themes/ColorPalette';
 
 function App(): React.JSX.Element {
   const [initializing, setInitializing] = useState(true);
@@ -33,7 +33,7 @@ function App(): React.JSX.Element {
           {!user ? <UnauthorizedStack /> : <AuthorizedStack />}
         </NavigationContainer>
       ) : (
-        <ActivityIndicator size={50} color={ColorPalette.red} />
+        <InitializingScreen/>
       )}
       <FlashMessage position="top" />
     </SafeAreaView>
