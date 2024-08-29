@@ -6,8 +6,8 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import {FoodInTheOrderType} from '../../Modules/OrderScreen';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
-import styles from './style';
 import {removeFoodFromCart} from '../../Services/API/removeFoodFromCart';
+import styles from './style';
 
 type OrderItemCardPropsType = {
   food: FoodInTheOrderType;
@@ -44,7 +44,10 @@ const OrderItemCard: React.FC<OrderItemCardPropsType> = ({
       <View style={screenStyles.view2}>
         <Text style={commonStyles.boldText}>{food.name}</Text>
         {food.protein && <Text>Protein: {food.protein.type}</Text>}
-        <Text>Comments: {food.comment}</Text>
+        <View style={commonStyles.flexDirectionRow}>
+          <Text>Comments: </Text>
+          <Text>{food.comment}</Text>
+        </View>
         <Text>Quantity: {food.quantity}</Text>
         <Text>PricePerQuantity: ${food.pricePerQuantity}</Text>
       </View>

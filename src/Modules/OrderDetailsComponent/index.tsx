@@ -15,8 +15,8 @@ import {useNavigation} from '@react-navigation/native';
 import StaticVariables from '../../Preferences/StaticVariables';
 import {getTotalPrice} from '../../Services/API/getTotalPrice';
 import {SetStateType} from '../../Types/Types';
-import styles from './style';
 import MyButton from '../../Components/MyButton';
+import styles from './style';
 
 type OrderDetailsComponentPropsType = {
   inSummaryScreen?: boolean;
