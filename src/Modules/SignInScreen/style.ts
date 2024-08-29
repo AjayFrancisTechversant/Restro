@@ -18,6 +18,7 @@ const styles = (
       marginHorizontal: height * 0.02,
     },
     subText: {margin: height * 0.03},
+    centerContainer: {alignSelf: 'center'},
     textInput: {marginVertical: height * 0.01},
     rememberMeSuperContainer: {
       flexDirection: 'row',
@@ -35,7 +36,8 @@ const styles = (
       borderRadius: 10,
       padding: height * 0.02,
       justifyContent: 'center',
-      alignItems: 'center',width:width*0.5
+      alignItems: 'center',
+      width: width * 0.5,
     },
     bottomContainer: {
       position: 'absolute',

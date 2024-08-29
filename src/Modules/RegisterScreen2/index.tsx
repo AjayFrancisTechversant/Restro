@@ -100,66 +100,68 @@ const RegisterScreen2 = () => {
             <Text style={[commonStyles.whiteText, screenStyles.subText]}>
               Enter a password below
             </Text>
-            <MyTextInput
-              errorText={
-                error.passwordError && password ? '*Invalid Format' : undefined
-              }
-              value={password}
-              onChangeText={text => HandleOnChangeText(text, 'password')}
-              secureTextEntry={!isPasswordVisible ? true : false}
-              right={
-                <TextInput.Icon
-                  icon={isPasswordVisible ? 'eye' : 'eye-off'}
-                  forceTextInputFocus={false}
-                  onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+            <View style={screenStyles.centerContainer}>
+              <MyTextInput
+                errorText={
+                  error.passwordError && password ? '*Invalid Format' : undefined
+                }
+                value={password}
+                onChangeText={text => HandleOnChangeText(text, 'password')}
+                secureTextEntry={!isPasswordVisible ? true : false}
+                right={
+                  <TextInput.Icon
+                    icon={isPasswordVisible ? 'eye' : 'eye-off'}
+                    forceTextInputFocus={false}
+                    onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+                  />
+                }
+                style={screenStyles.textInput}
+                label="PASSWORD"
+              />
+              <MyTextInput
+                errorText={
+                  error.confirmPasswordError && confirmPassword
+                    ? `*Doesn't Match`
+                    : undefined
+                }
+                value={confirmPassword}
+                onChangeText={text => HandleOnChangeText(text, 'confirmPassword')}
+                secureTextEntry={true}
+                style={screenStyles.textInput}
+                label="CONFIRM PASSWORD"
+              />
+              <View style={screenStyles.checkBoxContainer}>
+                <Checkbox
+                  uncheckedColor={ColorPalette.white}
+                  color={ColorPalette.white}
+                  status={isUpdatesChecked ? 'checked' : 'unchecked'}
+                  onPress={() => setIsUpdatesChecked(!isUpdatesChecked)}
                 />
-              }
-              style={screenStyles.textInput}
-              label="PASSWORD"
-            />
-            <MyTextInput
-              errorText={
-                error.confirmPasswordError && confirmPassword
-                  ? `*Doesn't Match`
-                  : undefined
-              }
-              value={confirmPassword}
-              onChangeText={text => HandleOnChangeText(text, 'confirmPassword')}
-              secureTextEntry={true}
-              style={screenStyles.textInput}
-              label="CONFIRM PASSWORD"
-            />
-            <View style={screenStyles.checkBoxContainer}>
-              <Checkbox
-                uncheckedColor={ColorPalette.white}
-                color={ColorPalette.white}
-                status={isUpdatesChecked ? 'checked' : 'unchecked'}
-                onPress={() => setIsUpdatesChecked(!isUpdatesChecked)}
-              />
-              <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-                Keep me up-to-date with offers by email
-              </Text>
-            </View>
-            <View
-              style={[
-                screenStyles.checkBoxContainer,
-                {height: screenContext.height * 0.1},
-              ]}>
-              <Checkbox
-                uncheckedColor={ColorPalette.white}
-                color={ColorPalette.white}
-                status={isTandCChecked ? 'checked' : 'unchecked'}
-                onPress={() => setIsTandCChecked(!isTandCChecked)}
-              />
-              <Text
+                <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+                  Keep me up-to-date with offers by email
+                </Text>
+              </View>
+              <View
                 style={[
-                  commonStyles.whiteText,
-                  commonStyles.boldText,
-                  screenStyles.longText,
+                  screenStyles.checkBoxContainer,
+                  // {height: screenContext.height * 0.1},
                 ]}>
-                By Clicking Register,, you agree to the Terms & Conditions set
-                out by this site, including our cookie Use
-              </Text>
+                <Checkbox
+                  uncheckedColor={ColorPalette.white}
+                  color={ColorPalette.white}
+                  status={isTandCChecked ? 'checked' : 'unchecked'}
+                  onPress={() => setIsTandCChecked(!isTandCChecked)}
+                />
+                <Text
+                  style={[
+                    commonStyles.whiteText,
+                    commonStyles.boldText,
+                    screenStyles.longText,
+                  ]}>
+                  By Clicking Register,, you agree to the Terms & Conditions set
+                  out by this site, including our cookie Use
+                </Text>
+              </View>
             </View>
             <View style={screenStyles.bottomButton}>
               <MyButton

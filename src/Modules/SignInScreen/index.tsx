@@ -90,51 +90,52 @@ const SignInScreen = () => {
             <Text style={[commonStyles.whiteText, screenStyles.subText]}>
               Verify yourself below
             </Text>
-            <MyTextInput
-              value={rememberedEmail}
-              onChangeText={text => HandleOnChangeText(text, 'email')}
-              keyboardType="email-address"
-              style={screenStyles.textInput}
-              label="EMAIL ADDRESS"
-            />
-            <MyTextInput
-              value={rememberedPassword}
-              onChangeText={text => HandleOnChangeText(text, 'password')}
-              secureTextEntry={!isPasswordVisible ? true : false}
-              right={
-                <TextInput.Icon
-                  icon={isPasswordVisible ? 'eye' : 'eye-off'}
-                  forceTextInputFocus={false}
-                  onPress={() => setIsPasswordVisible(!isPasswordVisible)}
-                />
-              }
-              style={screenStyles.textInput}
-              label="PASSWORD"
-            />
-            <View style={screenStyles.rememberMeSuperContainer}>
-              <View style={screenStyles.rememberMeContainer}>
-                <Checkbox
-                  uncheckedColor={ColorPalette.white}
-                  color={ColorPalette.white}
-                  status={isRememberMeChecked ? 'checked' : 'unchecked'}
-                  onPress={() => setIsRememberMeChecked(!isRememberMeChecked)}
-                />
-                <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-                  Remember me
-                </Text>
+            <View style={screenStyles.centerContainer}>
+              <MyTextInput
+                value={rememberedEmail}
+                onChangeText={text => HandleOnChangeText(text, 'email')}
+                keyboardType="email-address"
+                style={screenStyles.textInput}
+                label="EMAIL ADDRESS"
+              />
+              <MyTextInput
+                value={rememberedPassword}
+                onChangeText={text => HandleOnChangeText(text, 'password')}
+                secureTextEntry={!isPasswordVisible ? true : false}
+                right={
+                  <TextInput.Icon
+                    icon={isPasswordVisible ? 'eye' : 'eye-off'}
+                    forceTextInputFocus={false}
+                    onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+                  />
+                }
+                style={screenStyles.textInput}
+                label="PASSWORD"
+              />
+              <View style={screenStyles.rememberMeSuperContainer}>
+                <View style={screenStyles.rememberMeContainer}>
+                  <Checkbox
+                    uncheckedColor={ColorPalette.white}
+                    color={ColorPalette.white}
+                    status={isRememberMeChecked ? 'checked' : 'unchecked'}
+                    onPress={() => setIsRememberMeChecked(!isRememberMeChecked)}
+                  />
+                  <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+                    Remember me
+                  </Text>
+                </View>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate(
+                      StaticVariables.ForgotPasswordScreen as never,
+                    )
+                  }>
+                  <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+                    Forgot your password?
+                  </Text>
+                </TouchableOpacity>
               </View>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate(
-                    StaticVariables.ForgotPasswordScreen as never,
-                  )
-                }>
-                <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-                  Forgot your password?
-                </Text>
-              </TouchableOpacity>
             </View>
-
             <View style={screenStyles.bottomContainer}>
               <View style={screenStyles.dontHaveAccountContainer}>
                 <Text style={commonStyles.whiteText}>

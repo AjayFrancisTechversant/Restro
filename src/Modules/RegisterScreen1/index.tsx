@@ -91,49 +91,53 @@ const RegisterScreen1 = () => {
             <Text style={[commonStyles.whiteText, screenStyles.subText]}>
               It'll only take a few seconds...
             </Text>
-            <MyTextInput
-              value={firstName}
-              onChangeText={text => HandleOnChangeText(text, 'firstName')}
-              style={screenStyles.textInput}
-              label="FIRST NAME"
-            />
-            <MyTextInput
-              value={lastName}
-              onChangeText={text => HandleOnChangeText(text, 'lastName')}
-              style={screenStyles.textInput}
-              label="LAST NAME"
-            />
-            <MyTextInput
-              errorText={
-                error.emailError && email ? '*Invalid email' : undefined
-              }
-              value={email}
-              keyboardType='email-address'
-              onChangeText={text => HandleOnChangeText(text, 'email')}
-              style={screenStyles.textInput}
-              label="EMAIL"
-            />
-            <MyTextInput
-              errorText={
-                error.mobileError && mobile ? '*Invalid number' : undefined
-              }
-              value={mobile}
-              onChangeText={text => HandleOnChangeText(text, 'mobile')}
-              keyboardType="numeric"
-              style={screenStyles.textInput}
-              label="Mobile"
-            />
-            <View style={screenStyles.alreadyHaveAccountContainer}>
-              <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-                already have an account?
-              </Text>
-              <MyButton
-                onPress={() => navigation.navigate(StaticVariables.SignInScreen as never)}
-                style={screenStyles.loginButton}>
+            <View style={screenStyles.centerContainer}>
+              <MyTextInput
+                value={firstName}
+                onChangeText={text => HandleOnChangeText(text, 'firstName')}
+                style={screenStyles.textInput}
+                label="FIRST NAME"
+              />
+              <MyTextInput
+                value={lastName}
+                onChangeText={text => HandleOnChangeText(text, 'lastName')}
+                style={screenStyles.textInput}
+                label="LAST NAME"
+              />
+              <MyTextInput
+                errorText={
+                  error.emailError && email ? '*Invalid email' : undefined
+                }
+                value={email}
+                keyboardType="email-address"
+                onChangeText={text => HandleOnChangeText(text, 'email')}
+                style={screenStyles.textInput}
+                label="EMAIL"
+              />
+              <MyTextInput
+                errorText={
+                  error.mobileError && mobile ? '*Invalid number' : undefined
+                }
+                value={mobile}
+                onChangeText={text => HandleOnChangeText(text, 'mobile')}
+                keyboardType="numeric"
+                style={screenStyles.textInput}
+                label="Mobile"
+              />
+              <View style={screenStyles.alreadyHaveAccountContainer}>
                 <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
-                  Login
+                  already have an account?
                 </Text>
-              </MyButton>
+                <MyButton
+                  onPress={() =>
+                    navigation.navigate(StaticVariables.SignInScreen as never)
+                  }
+                  style={screenStyles.loginButton}>
+                  <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
+                    Login
+                  </Text>
+                </MyButton>
+              </View>
             </View>
             <View style={screenStyles.bottomButton}>
               <MyButton

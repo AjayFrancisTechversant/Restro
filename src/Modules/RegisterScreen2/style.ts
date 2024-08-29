@@ -17,6 +17,10 @@ const styles = (
       marginHorizontal: height * 0.02,
     },
     subText: {margin: height * 0.03},
+    centerContainer: {
+      alignSelf: 'center',
+      width: isPortrait ? width * 0.8 : height * 0.8,
+    },
     textInput: {marginVertical: height * 0.01},
     checkBoxContainer: {
       flexDirection: 'row',
@@ -29,7 +33,7 @@ const styles = (
       bottom: height * 0.05,
       alignSelf: 'center',
     },
-    longText:{flexShrink: 1}
+    longText: {flexShrink: 1},
   });
 
 export default styles;

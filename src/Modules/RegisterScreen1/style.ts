@@ -23,9 +23,10 @@ const styles = (
       flexDirection: 'row',
       gap: height * 0.02,
       alignItems: 'center',
-      alignSelf: 'center',
+      alignSelf: 'flex-end',
       marginVertical: height * 0.01,
     },
+    centerContainer: {alignSelf: 'center'},
     loginButton: {
       borderWidth: 1,
       borderColor: ColorPalette.white,
