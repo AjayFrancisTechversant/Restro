@@ -68,7 +68,6 @@ const HotelsContainer = () => {
       });
     }
   };
-console.log(bookmarkedHotelIds);
 
   const screenContext = useScreenContext();
   const screenStyles = styles(
