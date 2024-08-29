@@ -233,9 +233,7 @@ const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
         .collection('orders')
         .doc(currentUserId)
         .get();
-
       const order = documentSnapshot.data();
-
       const existingFoodsArray: FoodInTheOrderType[] = order?.foods;
       if (order) {
         setExistingFoods(existingFoodsArray);
@@ -244,6 +242,7 @@ const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
       const samefood = existingFoodsArray?.find(i => i.name == food.name);
       if (samefood) {
         setQuantity(samefood.quantity);
+        setComment(samefood.comment)
         if (samefood.protein) {
           setSelectedProtein(samefood.protein);
         }
