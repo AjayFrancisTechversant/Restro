@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, { useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import firestore, {
   arrayRemove,
@@ -25,30 +25,18 @@ import styles from './style';
 
 type HotelCardPropsType = {
   hotel: HotelType;
+  bookmarkedHotelIds: string[];
 };
 
-const HotelCard: React.FC<HotelCardPropsType> = ({hotel}) => {
+const HotelCard: React.FC<HotelCardPropsType> = ({
+  hotel,
+  bookmarkedHotelIds,
+}) => {
   const navigation: any = useNavigation();
   const currentUserId = auth().currentUser?.uid;
-  const [isBookmarked, setIsBookmarked] = useState(false);
   const [isImageLoading, setIsImageLoading] = useState(true);
   const [isBookmarkLoading, setIsBookmarkLoading] = useState(false);
-
-  useEffect(() => {
-    const subscriber = firestore()
-      .collection('bookmarks')
-      .doc(currentUserId)
-      .onSnapshot(documentSnapshot => {
-        if (documentSnapshot.exists) {
-          const bookmarkedHotelIds: any[] =
-            documentSnapshot.data()?.bookmarkedHotelIds;
-          if (bookmarkedHotelIds.find(i => i == hotel.id)) {
-            setIsBookmarked(true);
-          } else setIsBookmarked(false);
-        }
-      });
-    return () => subscriber();
-  }, []);
+  const isBookmarked = bookmarkedHotelIds.find(i => i == hotel.id);
 
   const handleBookmark = async () => {
     setIsBookmarkLoading(true);
@@ -96,7 +84,7 @@ const HotelCard: React.FC<HotelCardPropsType> = ({hotel}) => {
 
   return (
     <TouchableOpacity
-    disabled={isBookmarkLoading}
+      disabled={isBookmarkLoading}
       onPress={() => navigation.navigate(StaticVariables.HotelScreen, {hotel})}
       style={screenStyles.card}>
       <View>
@@ -125,7 +113,6 @@ const HotelCard: React.FC<HotelCardPropsType> = ({hotel}) => {
           <ReviewsAvgComponent inHotelCard hotelId={hotel.id} />
         </View>
       </View>
-
       {!isBookmarkLoading ? (
         <TouchableOpacity
           onPress={handleBookmark}

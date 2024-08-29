@@ -40,7 +40,7 @@ const HotelsContainer = () => {
         setBookmarkedHotelIds(documentSnapshot.data()?.bookmarkedHotelIds);
       });
     firestore()
-      .collection('hotels')
+      .collection('hotels').orderBy('name','asc')
       .get()
       .then(querrySnapshot => {
         setAllHotels(querrySnapshot.docs.map((i: any) => i.data()));
@@ -51,10 +51,6 @@ const HotelsContainer = () => {
   useEffect(() => {
     getAvailableHotels();
   }, [preferenceFromRedux, allHotels,bookmarkedHotelIds]);
-
-  // useEffect(() => {
-  //   sortBasedOnBookmarks();
-  // }, [bookmarkedHotelIds]);
 
   const getAvailableHotels = () => {
     if (preferenceFromRedux) {
@@ -69,16 +65,6 @@ const HotelsContainer = () => {
         setAvailableHotels(tempArr);
       });
     }
-  };
-
-  const sortBasedOnBookmarks = () => {
-    const tempArr: HotelType[] = [];
-    availableHotels.map(hotel => {
-      if (bookmarkedHotelIds.find(i => i == hotel.id)) {
-        tempArr.unshift(hotel);
-      } else tempArr.push(hotel);
-      setAvailableHotels(tempArr);
-    });
   };
 
   const screenContext = useScreenContext();
@@ -96,7 +82,7 @@ const HotelsContainer = () => {
         <ActivityIndicator size={50} color={ColorPalette.red} />
       }
       data={availableHotels}
-      renderItem={({item}) => <HotelCard hotel={item} />}
+      renderItem={({item}) => <HotelCard bookmarkedHotelIds={bookmarkedHotelIds} hotel={item} />}
     />
   );
 };
