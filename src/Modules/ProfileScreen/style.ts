@@ -29,6 +29,12 @@ const styles = (
       padding: height * 0.02,
       borderRadius: 20,
     },
+    imageStyle: {
+      height: height * 0.1,
+      width: height * 0.1,
+      alignSelf: 'center',
+      borderRadius: height * 0.1,
+    },
   });
 
 export default styles;

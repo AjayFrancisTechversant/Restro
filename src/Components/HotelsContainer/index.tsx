@@ -37,7 +37,9 @@ const HotelsContainer = () => {
       .collection('bookmarks')
       .doc(currentUserId)
       .onSnapshot(documentSnapshot => {
-        setBookmarkedHotelIds(documentSnapshot.data()?.bookmarkedHotelIds);
+        if (documentSnapshot.exists) {
+          setBookmarkedHotelIds(documentSnapshot.data()?.bookmarkedHotelIds);
+        }
       });
     firestore()
       .collection('hotels').orderBy('name','asc')
@@ -66,6 +68,7 @@ const HotelsContainer = () => {
       });
     }
   };
+console.log(bookmarkedHotelIds);
 
   const screenContext = useScreenContext();
   const screenStyles = styles(

@@ -1,8 +1,9 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 import React, {FC} from 'react';
 import auth from '@react-native-firebase/auth';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
+import profilePicDummy from '../../Assets/Images/profilePicDummy.jpg'
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import LogoutComponent from '../../Components/LogoutComponent';
@@ -33,6 +34,7 @@ const ProfileScreen: FC = () => {
         <LogoutComponent />
       </View>
       <View style={screenStyles.detailsContainer}>
+        <Image source={profilePicDummy} style={screenStyles.imageStyle}/>
         <Text
           style={[
             commonStyles.bigBoldText,
