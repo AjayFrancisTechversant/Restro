@@ -10,6 +10,7 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
+    superContainer: {flex: 1, backgroundColor: ColorPalette.white},
     container: {
       padding: height * 0.02,
       flex: 1,
@@ -21,8 +22,9 @@ const styles = (
     },
     flatlist2contentContainerStyle: {
       paddingBottom: height * 0.05,
-    },loaderStyle:{width:'100%'},
-    headerComponentStyle: {width: isPortrait?width * 0.9:height*0.9},
+    },
+    loaderStyle: {width: '100%'},
+    headerComponentStyle: {width: isPortrait ? width * 0.9 : height * 0.9},
     heading: {alignSelf: 'center', fontWeight: 'bold', fontSize: 30},
     noItemsText: {alignSelf: 'center', margin: height * 0.1},
   });
