@@ -1,6 +1,6 @@
 import axios from 'axios';
-import {Alert} from 'react-native';
-import GetLocation from 'react-native-get-location';
+import {Alert, Linking} from 'react-native';
+import GetLocation, {LocationError} from 'react-native-get-location';
 
 const OPEN_CAGE_API_KEY = 'dea3c45cdb0e4a4ea8c1ee183cbe55d6';
 
@@ -21,6 +21,33 @@ export const getLocationDetails = async () => {
     };
     return locationDetails;
   } catch (error) {
-    Alert.alert('Permission Denied', 'Please Enable Location permission');
+    switch ((error as LocationError).code) {
+      case 'UNAVAILABLE':
+        Alert.alert('Location service is disabled or unavailable', undefined, [
+          {
+            text: 'Cancel',
+          },
+          {
+            text: 'Enable Location',
+            onPress: () =>
+              Linking.sendIntent('android.settings.LOCATION_SOURCE_SETTINGS'),
+          },
+        ]);
+        break;
+      case 'CANCELLED':
+        Alert.alert('Location cancelled by user or by another request');
+        break;
+      case 'TIMEOUT':
+        Alert.alert('	Location request timed out');
+        break;
+      case 'UNAUTHORIZED':
+        Alert.alert('Please enable Precise Location Permission in settings',undefined,[{
+          text:'Cancel'
+        },{text:'Open settings',onPress:()=>Linking.openSettings()}]);
+        break;
+      default:
+        Alert.alert((error as LocationError).message);
+        break;
+    }
   }
 };
