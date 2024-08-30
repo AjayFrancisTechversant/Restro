@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import { SafeAreaView} from 'react-native';
+import {Alert, BackHandler, SafeAreaView} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {Provider} from 'react-redux';
+import NetInfo from '@react-native-community/netinfo';
 import {PaperProvider} from 'react-native-paper';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {PersistGate} from 'redux-persist/integration/react';
 import FlashMessage from 'react-native-flash-message';
-import InitializingScreen from './src/Components/InitializingScreen'
+import InitializingScreen from './src/Components/InitializingScreen';
 import {ScreenContextProvider} from './src/Contexts/ScreenContext';
 import UnauthorizedStack from './src/Services/Navigation/UnauthorizedStack';
 import AuthorizedStack from './src/Services/Navigation/AuthorizedStack';
@@ -22,8 +23,30 @@ function App(): React.JSX.Element {
   }
 
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber;
+    const subscriber1 = auth().onAuthStateChanged(onAuthStateChanged);
+    const subscriber2 = NetInfo.addEventListener(state => {
+      if (!state.isConnected) {
+        Alert.alert(
+          'No Internet!',
+          'Uh Oh!. Looks like theres no internet connection.',
+          [
+            {
+              text: 'Exit',
+              onPress: () => {
+                BackHandler.exitApp();
+              },
+            },
+          ],
+          {
+            cancelable: false,
+          },
+        );
+      }
+    });
+    return () => {
+      subscriber1;
+      subscriber2;
+    };
   }, []);
 
   return (
@@ -33,7 +56,7 @@ function App(): React.JSX.Element {
           {!user ? <UnauthorizedStack /> : <AuthorizedStack />}
         </NavigationContainer>
       ) : (
-        <InitializingScreen/>
+        <InitializingScreen />
       )}
       <FlashMessage position="top" />
     </SafeAreaView>
