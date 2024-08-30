@@ -14,8 +14,6 @@ export const removeFoodFromCart = async (
     floating: true,
     titleStyle: {fontWeight: 'bold'},
   };
-
-  console.log('ssdsd');
   try {
     const documentSnapshot = await firestore()
       .collection('orders')
