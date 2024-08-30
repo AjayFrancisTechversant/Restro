@@ -62,7 +62,7 @@ const SearchFoodComponent: React.FC<SearchFoodComponentPropsType> = ({
   );
 
   return (
-    <View style={{}}>
+    <View>
       <Searchbar
         style={screenStyles.searchBarStyle}
         placeholder="Search for food"

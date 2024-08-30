@@ -33,37 +33,29 @@ const CategoryHorizontalCard: React.FC<CategoryHorizontalCardPropsType> = ({
 
   return (
     <TouchableOpacity
-      style={[
-        screenStyles.card,
-        {
-          backgroundColor:
-            category == selectedCategory
-              ? ColorPalette.red
-              : ColorPalette.white,
-        },
-      ]}
+      style={screenStyles.card}
       onPress={() => setSelectedCategory(category)}>
       {category == 'All' ? (
         <MaterialCommunityIcons
           color={
-            category == selectedCategory ? ColorPalette.white : ColorPalette.red
+            category == selectedCategory ? ColorPalette.red : ColorPalette.gray
           }
           name="dots-square"
           size={40}
         />
       ) : category == 'Soups' ? (
         <Entypo
-          color={
-            category == selectedCategory ? ColorPalette.white : ColorPalette.red
-          }
+        color={
+          category == selectedCategory ? ColorPalette.red : ColorPalette.gray
+        }
           name="bowl"
           size={40}
         />
       ) : category == 'Apetizers' ? (
         <MaterialCommunityIcons
-          color={
-            category == selectedCategory ? ColorPalette.white : ColorPalette.red
-          }
+        color={
+          category == selectedCategory ? ColorPalette.red : ColorPalette.gray
+        }
           name="food-outline"
           size={40}
         />
@@ -71,31 +63,31 @@ const CategoryHorizontalCard: React.FC<CategoryHorizontalCardPropsType> = ({
         <FontAwesome6
           name="bowl-food"
           color={
-            category == selectedCategory ? ColorPalette.white : ColorPalette.red
+            category == selectedCategory ? ColorPalette.red : ColorPalette.gray
           }
           size={40}
         />
       ) : category == 'Sandwiches' ? (
         <MaterialCommunityIcons
-          color={
-            category == selectedCategory ? ColorPalette.white : ColorPalette.red
-          }
+        color={
+          category == selectedCategory ? ColorPalette.red : ColorPalette.gray
+        }
           name="food-steak"
           size={40}
         />
       ) : category == 'Tacos' ? (
         <MaterialCommunityIcons
-          color={
-            category == selectedCategory ? ColorPalette.white : ColorPalette.red
-          }
+        color={
+          category == selectedCategory ? ColorPalette.red : ColorPalette.gray
+        }
           name="taco"
           size={40}
         />
       ) : category == 'Deserts' ? (
         <Ionicons
-          color={
-            category == selectedCategory ? ColorPalette.white : ColorPalette.red
-          }
+        color={
+          category == selectedCategory ? ColorPalette.red : ColorPalette.gray
+        }
           name="ice-cream-outline"
           size={40}
         />
@@ -106,8 +98,8 @@ const CategoryHorizontalCard: React.FC<CategoryHorizontalCardPropsType> = ({
           {
             color:
               selectedCategory == category
-                ? ColorPalette.white
-                : ColorPalette.red,
+                ? ColorPalette.red
+                : ColorPalette.gray,
           },
         ]}>
         {category}

@@ -89,7 +89,7 @@ const MenuScreen: FC<MenuScreenPropsType> = ({route}) => {
   );
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1,backgroundColor:'white'}}>
       {!selectedCategory ? (
         <FlatList
           showsVerticalScrollIndicator={false}

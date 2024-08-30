@@ -10,7 +10,12 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
-    searchBarStyle:{alignSelf:'center',margin:height*0.01,elevation:5,backgroundColor:ColorPalette.white}
+    searchBarStyle: {
+      alignSelf: 'center',
+      margin: height * 0.01,
+      backgroundColor: ColorPalette.offWhite,
+      borderRadius: 10,
+    },
   });
 
 export default styles;

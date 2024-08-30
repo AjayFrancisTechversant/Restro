@@ -17,7 +17,7 @@ const styles = (
       margin: height * 0.01,
       borderRadius: 20,
       flexDirection: 'row',
-      gap: width * 0.05,
+      gap: width * 0.05,elevation:5
     },
     imageStyle: {height: width * 0.3, width: width * 0.3, borderRadius: 10},
     imageLoadingindicator: {
