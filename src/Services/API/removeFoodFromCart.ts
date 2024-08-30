@@ -6,6 +6,7 @@ import {MessageOptions, showMessage} from 'react-native-flash-message';
 export const removeFoodFromCart = async (
   name: string,
   currentUserId: string,
+  navigation?: any,
 ) => {
   const removeMessage: MessageOptions = {
     message: 'Item Removed',
@@ -14,6 +15,7 @@ export const removeFoodFromCart = async (
     titleStyle: {fontWeight: 'bold'},
   };
 
+  console.log('ssdsd');
   try {
     const documentSnapshot = await firestore()
       .collection('orders')
@@ -24,6 +26,7 @@ export const removeFoodFromCart = async (
     const existingFoodIndex = existingFoodsArray.findIndex(
       item => item.name === name,
     );
+    
     if (existingFoodIndex > -1) {
       await firestore()
         .collection('orders')
@@ -32,7 +35,12 @@ export const removeFoodFromCart = async (
           foods: arrayRemove(existingFoodsArray[existingFoodIndex]),
         });
       showMessage(removeMessage);
-    }
+      navigation?.pop();
+    } else
+      Alert.alert(
+        'Please Select Quantity',
+        'The selected quantity is zero. Please select a valid quantity. ',
+      );
   } catch (error) {
     Alert.alert((error as Error).message);
   }

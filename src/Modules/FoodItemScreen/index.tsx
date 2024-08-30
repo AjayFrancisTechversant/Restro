@@ -133,12 +133,16 @@ const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
             .doc(currentUserId)
             .set(orderStructure);
           showMessage(addMessage);
+          navigation.pop();
         } else {
           if (currentUserId && currentHotelIdinOrder) {
-            await removeFoodFromCart(food.name, currentUserId);
-          }
+            await removeFoodFromCart(food.name, currentUserId, navigation);
+          } else
+            Alert.alert(
+              'Please Select Quantity',
+              'The selected quantity is zero. Please select a valid quantity. ',
+            );
         }
-        navigation.pop();
       } else {
         //different hotel
         if (quantity > 0) {
@@ -216,7 +220,10 @@ const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
             ],
           );
         } else {
-          navigation.pop();
+          Alert.alert(
+            'Please Select Quantity',
+            'The selected quantity is zero. Please select a valid quantity. ',
+          );
         }
       }
     } catch (error) {
@@ -242,7 +249,7 @@ const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
       const samefood = existingFoodsArray?.find(i => i.name == food.name);
       if (samefood) {
         setQuantity(samefood.quantity);
-        setComment(samefood.comment)
+        setComment(samefood.comment);
         if (samefood.protein) {
           setSelectedProtein(samefood.protein);
         }
@@ -336,7 +343,7 @@ const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
               screenStyles.addToOrderButton,
               {
                 backgroundColor:
-                  food.proteins && !selectedProtein||quantityLoading
+                  (food.proteins && !selectedProtein) || quantityLoading
                     ? ColorPalette.lightRed
                     : ColorPalette.red,
               },
