@@ -4,7 +4,8 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-  KeyboardAvoidingView,Alert
+  KeyboardAvoidingView,
+  Alert,
 } from 'react-native';
 import React, {FC, useEffect, useState} from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -97,8 +98,14 @@ const PaymentInfoScreen: FC = () => {
         setError({...error, numberError: !validate(text, 'cardNumber')});
         break;
       case 'expiry':
+        if (text.length > 5) {
+          return;
+        }
+        if (text.length === 2 && expiry.length === 1) {
+          text += '/';
+        }
         dispatch(updateExpiry(text));
-        setError({...error, expiryError: !validate(text,'cardExpiry')});
+        setError({...error, expiryError: !validate(text, 'cardExpiry')});
         break;
       case 'cvv':
         dispatch(updateCvv(text));
@@ -161,7 +168,7 @@ const PaymentInfoScreen: FC = () => {
               errorText={error.expiryError && expiry ? '*Invalid' : undefined}
               onChangeText={text => HandleOnChangeText(text, 'expiry')}
               label="EXPIRY"
-              keyboardType="name-phone-pad"
+              keyboardType="numeric"
               style={screenStyles.smallTextInput}
             />
             <MyTextInput
