@@ -98,8 +98,8 @@ const PaymentInfoScreen: FC = () => {
         setError({...error, numberError: !validate(text, 'cardNumber')});
         break;
       case 'expiry':
-        if (text.length > 5) {
-          return;
+        if (text.length>5) {
+          return
         }
         if (text.length === 2 && expiry.length === 1) {
           text += '/';
@@ -164,6 +164,7 @@ const PaymentInfoScreen: FC = () => {
           />
           <View style={screenStyles.expCvvContainer}>
             <MyTextInput
+              placeholder="mm/yy"
               value={expiry}
               errorText={error.expiryError && expiry ? '*Invalid' : undefined}
               onChangeText={text => HandleOnChangeText(text, 'expiry')}
