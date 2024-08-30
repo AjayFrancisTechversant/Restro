@@ -4,7 +4,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-  KeyboardAvoidingView,
+  KeyboardAvoidingView,Alert
 } from 'react-native';
 import React, {FC, useEffect, useState} from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -21,7 +21,6 @@ import visaCard from '../../Assets/Images/visaCard.png';
 import ThreeBitsComponent from '../../Components/ThreeBitsComponent';
 import StaticVariables from '../../Preferences/StaticVariables';
 import MySegmentedButtons from '../../Components/MySegmentedButtons';
-import styles from './style';
 import MyTextInput from '../../Components/MyTextInput';
 import validate from '../../Validation/Validation';
 import MyButton from '../../Components/MyButton';
@@ -34,8 +33,8 @@ import {
   updateNumber,
 } from '../../Redux/Slices/CardDetailsSlice';
 import {OrderType} from '../OrderScreen';
-import {Alert} from 'react-native';
 import {getTotalPrice} from '../../Services/API/getTotalPrice';
+import styles from './style';
 
 type ErrorType = {
   numberError: boolean;
@@ -44,10 +43,9 @@ type ErrorType = {
   nameError: boolean;
 };
 
-const PaymentInfoScreen:FC = () => {
+const PaymentInfoScreen: FC = () => {
   const navigation: any = useNavigation();
   const dispatch = useAppDispatch();
-  //calculate total order price global fn
   const {number, expiry, cvv, name} = useAppSelector(
     state => state.cardDetails,
   );
@@ -82,7 +80,7 @@ const PaymentInfoScreen:FC = () => {
       if (currentUserId) {
         const totalprice = await getTotalPrice(currentUserId);
         if (totalprice) {
-          setTotalPrice(totalprice+(totalprice*0.1)+2);
+          setTotalPrice(totalprice + totalprice * 0.1 + 2);
         }
       }
     } catch (error) {
@@ -100,7 +98,7 @@ const PaymentInfoScreen:FC = () => {
         break;
       case 'expiry':
         dispatch(updateExpiry(text));
-        setError({...error, expiryError: !validate(text)});
+        setError({...error, expiryError: !validate(text,'cardExpiry')});
         break;
       case 'cvv':
         dispatch(updateCvv(text));
@@ -134,7 +132,9 @@ const PaymentInfoScreen:FC = () => {
             {order?.hotel.location}
           </Text>
           <View style={screenStyles.orderCard}>
-            <Text style={[commonStyles.boldText]}>Order Total: $ {totalPrice}</Text>
+            <Text style={[commonStyles.boldText]}>
+              Order Total: $ {totalPrice}
+            </Text>
             <TouchableOpacity
               onPress={() => navigation.navigate(StaticVariables.OrderScreen)}>
               <Text style={[commonStyles.redText, commonStyles.boldText]}>
@@ -155,22 +155,24 @@ const PaymentInfoScreen:FC = () => {
             keyboardType="numeric"
             style={screenStyles.textInput}
           />
-          <MyTextInput
-            value={expiry}
-            errorText={error.expiryError && expiry ? '*Invalid' : undefined}
-            onChangeText={text => HandleOnChangeText(text, 'expiry')}
-            label="EXPIRY"
-            keyboardType="numeric"
-            style={screenStyles.textInput}
-          />
-          <MyTextInput
-            value={cvv}
-            errorText={error.cvvError && cvv ? '*Invalid' : undefined}
-            onChangeText={text => HandleOnChangeText(text, 'cvv')}
-            keyboardType="numeric"
-            label="CVV"
-            style={screenStyles.textInput}
-          />
+          <View style={screenStyles.expCvvContainer}>
+            <MyTextInput
+              value={expiry}
+              errorText={error.expiryError && expiry ? '*Invalid' : undefined}
+              onChangeText={text => HandleOnChangeText(text, 'expiry')}
+              label="EXPIRY"
+              keyboardType="name-phone-pad"
+              style={screenStyles.smallTextInput}
+            />
+            <MyTextInput
+              value={cvv}
+              errorText={error.cvvError && cvv ? '*Invalid' : undefined}
+              onChangeText={text => HandleOnChangeText(text, 'cvv')}
+              keyboardType="numeric"
+              label="CVV"
+              style={screenStyles.smallTextInput}
+            />
+          </View>
           <MyTextInput
             value={name}
             errorText={error.nameError && name ? '*Invalid' : undefined}

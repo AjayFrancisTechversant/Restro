@@ -34,7 +34,17 @@ const styles = (
       margin: height * 0.02,
     },
     textInput: {marginVertical: height * 0.01},
-    bottomButton:{alignSelf:'center'}
+    smallTextInput: {
+      marginVertical: height * 0.01,
+      width: isPortrait ? width * 0.38 : height * 0.38,
+    },
+    expCvvContainer: {
+      flexDirection: 'row',
+      alignSelf: 'center',
+      justifyContent: 'space-between',
+      width: isPortrait ? width * 0.8 : height * 0.8,
+    },
+    bottomButton: {alignSelf: 'center'},
   });
 
 export default styles;

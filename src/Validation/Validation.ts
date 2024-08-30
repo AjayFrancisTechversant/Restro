@@ -1,4 +1,4 @@
-import {validEmail, validPassword, validVehicleNumber} from '../RegExp/RegExp';
+import {validCardExpiry, validEmail, validPassword} from '../RegExp/RegExp';
 
 // Define possible validation types
 export type ValidationType =
@@ -9,7 +9,8 @@ export type ValidationType =
   | 'cvv'
   | 'cardNumber'
   | 'zipcode'
-  | 'required';
+  | 'required'
+  | 'cardExpiry';
 
 const validate = (
   value: string | undefined | null,
@@ -38,6 +39,9 @@ const validate = (
 
     case 'rating':
       return Number(value) <= 5 && Number(value) > 0 ? true : false;
+
+    case 'cardExpiry':
+      return validCardExpiry.test(value) ? true : false;
 
     case 'required':
       return value.trim() !== '' ? true : false;
