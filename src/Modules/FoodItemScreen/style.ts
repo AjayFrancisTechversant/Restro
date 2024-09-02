@@ -40,8 +40,26 @@ const styles = (
       flexDirection: 'row',
       justifyContent: 'space-between',
       margin: height * 0.02,
+      alignItems: 'center',
     },
-    counterContainer: {flexDirection: 'row', gap: height * 0.01},
+    counterContainer: {
+      flexDirection: 'row',
+      gap: height * 0.01,
+      borderWidth: 2,
+      borderColor: ColorPalette.red,
+      borderRadius: 20,
+      overflow: 'hidden',
+      alignItems: 'center',
+    },
+    minusButton: {
+      paddingHorizontal:width * 0.01,
+      borderRightWidth: 2,
+      borderRightColor: ColorPalette.red,
+    },
+    plusButton: {
+      paddingHorizontal:width * 0.01,
+      backgroundColor: ColorPalette.red,
+    },
     addToOrderButton: {
       backgroundColor: ColorPalette.red,
       width: width * 0.7,

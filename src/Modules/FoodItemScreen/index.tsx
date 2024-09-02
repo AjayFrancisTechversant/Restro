@@ -265,7 +265,7 @@ const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
       return quantity * food.price;
     } else if (selectedProtein) {
       return quantity * selectedProtein?.price;
-    } else return null;
+    } else return false;
   };
   return (
     <KeyboardAvoidingView behavior="position">
@@ -317,18 +317,19 @@ const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
             <View style={screenStyles.counterContainer}>
               <TouchableOpacity
                 onPress={() => setQuantity(quantity - 1)}
+                style={screenStyles.minusButton}
                 disabled={quantity > 0 ? false : true}>
-                <Entypo name="minus" size={30} />
+                <Entypo name="minus" size={30} color={ColorPalette.red} />
               </TouchableOpacity>
-              <Text style={commonStyles.bigBoldText}>
-                {!quantityLoading ? (
-                  quantity
-                ) : (
-                  <ActivityIndicator size={20} color={ColorPalette.gray} />
-                )}
-              </Text>
-              <TouchableOpacity onPress={() => setQuantity(quantity + 1)}>
-                <Entypo name="plus" size={30} />
+              {!quantityLoading ? (
+                <Text style={commonStyles.bigBoldText}>{quantity}</Text>
+              ) : (
+                <ActivityIndicator size={20} color={ColorPalette.gray} />
+              )}
+              <TouchableOpacity
+                style={screenStyles.plusButton}
+                onPress={() => setQuantity(quantity + 1)}>
+                <Entypo name="plus" size={30} color={ColorPalette.white} />
               </TouchableOpacity>
             </View>
           </View>
@@ -351,7 +352,9 @@ const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
             {!isAddingloading ? (
               <Text style={[commonStyles.whiteText, commonStyles.boldText]}>
                 Add to order{' '}
-                {quantity != 0 && `($ ${calculateAddOrderAmount()})`}
+                {quantity != 0 &&
+                  calculateAddOrderAmount() &&
+                  `($ ${calculateAddOrderAmount()})`}
               </Text>
             ) : (
               <ActivityIndicator size={20} color={ColorPalette.white} />
