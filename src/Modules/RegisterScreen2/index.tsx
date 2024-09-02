@@ -144,7 +144,6 @@ const RegisterScreen2 = () => {
               <View
                 style={[
                   screenStyles.checkBoxContainer,
-                  // {height: screenContext.height * 0.1},
                 ]}>
                 <Checkbox
                   uncheckedColor={ColorPalette.white}

@@ -1,6 +1,5 @@
 import {validCardExpiry, validEmail, validPassword} from '../RegExp/RegExp';
 
-// Define possible validation types
 export type ValidationType =
   | 'email'
   | 'phone'
