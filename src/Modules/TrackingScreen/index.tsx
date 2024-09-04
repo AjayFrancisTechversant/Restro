@@ -13,12 +13,12 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import scooterImageSmall from '../../Assets/Images/scooterImageSmall.png';
-import {HomeStackParamsList} from '../../Services/Navigation/HomeStack';
 import {gethotelLatLng, getRoute} from '../../Services/API/getRoute';
+import { OrderStackParamsList } from '../../Services/Navigation/OrderStack';
 import styles from './style';
 
 type TrackingScreenPropsType = NativeStackScreenProps<
-  HomeStackParamsList,
+  OrderStackParamsList,
   'TrackingScreen'
 >;
 

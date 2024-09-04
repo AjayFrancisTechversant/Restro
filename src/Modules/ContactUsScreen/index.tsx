@@ -1,5 +1,5 @@
-import {View, Text} from 'react-native';
-import React from 'react';
+import {View, Text, BackHandler, Alert} from 'react-native';
+import React, {useEffect} from 'react';
 import auth from '@react-native-firebase/auth';
 import {ADMIN_UID} from '@env';
 import {FieldValue} from '@react-native-firebase/firestore';
@@ -20,6 +20,24 @@ export type MessageType = {
 const ContactUsScreen = () => {
   const currentUserId = auth().currentUser?.uid;
   const isAdmin = currentUserId == ADMIN_UID;
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert('Hold on!', 'Are you sure you want to Exit?', [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        {text: 'YES', onPress: () => BackHandler.exitApp()},
+      ]);
+      return true;
+    };
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+    return () => backHandler.remove();
+  }, []);
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,

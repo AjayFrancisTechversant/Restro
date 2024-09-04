@@ -18,6 +18,7 @@ const StaticVariables = {
   AddReviewScreen: 'AddReviewScreen',
   MenuScreen: 'MenuScreen',
   FoodItemScreen: 'FoodItemScreen',
+  OrderStack: 'OrderStack',
   OrderScreen: 'OrderScreen',
   VehicleScreen: 'VehicleScreen',
   AddressScreen: 'AddressScreen',
