@@ -1,6 +1,6 @@
 import {Alert, BackHandler, FlatList, Text} from 'react-native';
-import React, {FC, useEffect} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import React, {FC} from 'react';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
@@ -10,7 +10,6 @@ import HotelsContainer from '../../Components/HotelsContainer';
 import styles from './style';
 
 const HomeScreen: FC = () => {
-  const navigation = useNavigation();
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -19,9 +18,9 @@ const HomeScreen: FC = () => {
     screenContext.isTypeTablet,
     screenContext,
   );
-  useEffect(() => {
-    const backAction = () => {
-      if (!navigation.canGoBack()) {
+  useFocusEffect(
+    React.useCallback(() => {
+      const backAction = () => {
         Alert.alert('Hold on!', 'Are you sure you want to Exit?', [
           {
             text: 'Cancel',
@@ -31,15 +30,14 @@ const HomeScreen: FC = () => {
           {text: 'YES', onPress: () => BackHandler.exitApp()},
         ]);
         return true;
-      }
-    };
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
-    return () => backHandler.remove();
-  }, []);
-
+      };
+      const backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        backAction,
+      );
+      return () => backHandler.remove();
+    }, []),
+  );
   return (
     <FlatList
     showsVerticalScrollIndicator={false}
