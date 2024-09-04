@@ -46,7 +46,7 @@ const ViewMyOrderButton: FC<ViewMyOrderButtonPropsType> = ({disabled}) => {
   return (
     <MyButton
       disabled={disabled}
-      onPress={() => navigation.navigate(StaticVariables.OrderScreen)}
+      onPress={() => navigation.navigate(StaticVariables.OrderStack)}
       style={screenStyles.buttonStyle}>
       <Text style={[commonStyles.boldText, commonStyles.whiteText]}>
         View My Orders{' '}
