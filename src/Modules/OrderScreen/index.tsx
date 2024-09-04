@@ -1,6 +1,6 @@
-import {View, Text, FlatList} from 'react-native';
+import {View, Text, FlatList, Alert, BackHandler} from 'react-native';
 import React, {FC, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
 import HeaderComponent from '../../Components/HeaderComponent';
@@ -30,12 +30,34 @@ export type OrderType = {
   hotel: HotelType;
 };
 
-const OrderScreen:FC = () => {
+const OrderScreen: FC = () => {
   const preferenceFromRedux = useAppSelector(
     state => state.userDetails.preference,
   );
   const navigation: any = useNavigation();
   const [isCheckoutDisabled, setIsCheckoutDisabled] = useState(true);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const backAction = () => {
+        Alert.alert('Hold on!', 'Are you sure you want to Exit?', [
+          {
+            text: 'Cancel',
+            onPress: () => null,
+            style: 'cancel',
+          },
+          {text: 'YES', onPress: () => BackHandler.exitApp()},
+        ]);
+        return true;
+      };
+      const backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        backAction,
+      );
+      return () => backHandler.remove();
+    }, []),
+  );
+
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -56,7 +78,7 @@ const OrderScreen:FC = () => {
   };
   return (
     <FlatList
-    showsVerticalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
       ListHeaderComponent={
         <View style={screenStyles.container}>
           <HeaderComponent color={ColorPalette.gray} />
