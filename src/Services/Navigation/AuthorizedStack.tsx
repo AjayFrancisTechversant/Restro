@@ -19,6 +19,7 @@ const AuthorizedStack = () => {
       <Drawer.Screen
         options={{
           title: 'Home',
+          unmountOnBlur: true,
           drawerIcon: () => (
             <Entypo name="home" color={ColorPalette.red} size={20} />
           ),
