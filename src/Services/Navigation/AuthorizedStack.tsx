@@ -3,15 +3,18 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {useNavigation} from '@react-navigation/native';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import HomeStack from './HomeStack';
 import ContactUsScreen from '../../Modules/ContactUsScreen';
 import OrderStack from './OrderStack';
 import ProfileScreen from '../../Modules/ProfileScreen';
+import StaticVariables from '../../Preferences/StaticVariables';
 
 const Drawer = createDrawerNavigator();
 
 const AuthorizedStack = () => {
+  const navigation = useNavigation();
   return (
     <Drawer.Navigator
       initialRouteName="HomeStack"
@@ -21,9 +24,15 @@ const AuthorizedStack = () => {
         drawerActiveTintColor: ColorPalette.red,
       }}>
       <Drawer.Screen
+        listeners={{
+          drawerItemPress: () => {
+            navigation.reset({
+              routes: [{name: StaticVariables.HomeScreen as never}],
+            });
+          },
+        }}
         options={{
           title: 'Home',
-          unmountOnBlur: true,
           drawerIcon: () => (
             <Entypo name="home" color={ColorPalette.red} size={20} />
           ),
@@ -32,9 +41,15 @@ const AuthorizedStack = () => {
         component={HomeStack}
       />
       <Drawer.Screen
+        listeners={{
+          drawerItemPress: () => {
+            navigation.reset({
+              routes: [{name: StaticVariables.OrderScreen as never}],
+            });
+          },
+        }}
         options={{
           title: 'My order',
-          unmountOnBlur: true,
           drawerIcon: () => (
             <FontAwesome6
               name="cart-shopping"
@@ -49,7 +64,6 @@ const AuthorizedStack = () => {
       <Drawer.Screen
         options={{
           title: 'Contact Us',
-          unmountOnBlur: true,
           drawerIcon: () => (
             <Entypo name="chat" color={ColorPalette.red} size={20} />
           ),
@@ -60,7 +74,6 @@ const AuthorizedStack = () => {
       <Drawer.Screen
         options={{
           title: 'My profile',
-          unmountOnBlur: true,
           drawerIcon: () => (
             <FontAwesome name="user" color={ColorPalette.red} size={20} />
           ),
