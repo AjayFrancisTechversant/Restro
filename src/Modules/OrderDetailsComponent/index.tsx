@@ -122,8 +122,25 @@ const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
                 <>
                   <TouchableOpacity
                     onPress={() =>
-                      navigation.navigate(StaticVariables.MenuScreen, {
-                        hotel: order?.hotel,
+                      navigation.reset({
+                        routes: [
+                          {
+                            name: StaticVariables.HomeStack,
+                            state: {
+                              routes: [
+                                {
+                                  name: StaticVariables.HomeScreen,
+                                },
+                                {
+                                  name: StaticVariables.MenuScreen,
+                                  params: {
+                                    hotel: order?.hotel,
+                                  },
+                                },
+                              ],
+                            },
+                          },
+                        ],
                       })
                     }
                     style={screenStyles.addMoreItemsButton}>

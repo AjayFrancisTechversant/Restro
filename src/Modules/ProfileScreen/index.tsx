@@ -1,17 +1,42 @@
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  Alert,
+  BackHandler,
+} from 'react-native';
 import React, {FC} from 'react';
 import auth from '@react-native-firebase/auth';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import {useNavigation} from '@react-navigation/native';
-import profilePicDummy from '../../Assets/Images/profilePicDummy.jpg'
+import {useFocusEffect} from '@react-navigation/native';
+import profilePicDummy from '../../Assets/Images/profilePicDummy.jpg';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
-import LogoutComponent from '../../Components/LogoutComponent';
+import ColorPalette from '../../Assets/Themes/ColorPalette';
+import HeaderComponent from '../../Components/HeaderComponent';
 import styles from './style';
 
 const ProfileScreen: FC = () => {
-  const navigation = useNavigation();
   const CurrentUserDetails = auth().currentUser;
+  useFocusEffect(
+    React.useCallback(() => {
+      const backAction = () => {
+        Alert.alert('Hold on!', 'Are you sure you want to Exit?', [
+          {
+            text: 'Cancel',
+            onPress: () => null,
+            style: 'cancel',
+          },
+          {text: 'YES', onPress: () => BackHandler.exitApp()},
+        ]);
+        return true;
+      };
+      const backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        backAction,
+      );
+      return () => backHandler.remove();
+    }, []),
+  );
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -22,19 +47,12 @@ const ProfileScreen: FC = () => {
   );
   return (
     <View style={screenStyles.container}>
-      <TouchableOpacity
-        style={screenStyles.backButton}
-        onPress={() => navigation.goBack()}>
-        <AntDesign name="arrowleft" size={30} />
-      </TouchableOpacity>
+      <HeaderComponent color={ColorPalette.gray} inProfileScreen/>
       <Text style={[commonStyles.bigBoldText, screenStyles.heading]}>
         Profile
       </Text>
-      <View style={screenStyles.logoutButton}>
-        <LogoutComponent />
-      </View>
       <View style={screenStyles.detailsContainer}>
-        <Image source={profilePicDummy} style={screenStyles.imageStyle}/>
+        <Image source={profilePicDummy} style={screenStyles.imageStyle} />
         <Text
           style={[
             commonStyles.bigBoldText,
@@ -43,8 +61,12 @@ const ProfileScreen: FC = () => {
           ]}>
           Details
         </Text>
-        <Text style={commonStyles.whiteText}>Email: {CurrentUserDetails?.email}</Text>
-        <Text style={commonStyles.whiteText}>Uid: {CurrentUserDetails?.uid}</Text>
+        <Text style={commonStyles.whiteText}>
+          Email: {CurrentUserDetails?.email}
+        </Text>
+        <Text style={commonStyles.whiteText}>
+          Uid: {CurrentUserDetails?.uid}
+        </Text>
       </View>
     </View>
   );
