@@ -7,7 +7,7 @@ import HotelCard from '../HotelCard';
 import StaticVariables from '../../Preferences/StaticVariables';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {useAppSelector} from '../../hooks/hooks';
-import {PrefenceType} from '../../Redux/Slices/UserDetailsSlice';
+import {PreferenceType} from '../../Redux/Slices/UserDetailsSlice';
 import styles from './style';
 
 export type HotelType = {
@@ -15,7 +15,7 @@ export type HotelType = {
   location: string;
   image: string;
   id: string;
-  preferences: PrefenceType[];
+  preferences: PreferenceType[];
 };
 
 const HotelsContainer = () => {

@@ -12,6 +12,7 @@ import {useAppSelector} from '../../hooks/hooks';
 import OrderDetailsComponent from '../OrderDetailsComponent';
 import {HotelType} from '../../Components/HotelsContainer';
 import {ProteinType} from '../../Components/FeaturedItemsComponent';
+import { PreferenceType } from '../../Redux/Slices/UserDetailsSlice';
 import styles from './style';
 
 export type FoodInTheOrderType = {
@@ -28,6 +29,7 @@ export type FoodInTheOrderType = {
 export type OrderType = {
   foods: FoodInTheOrderType[];
   hotel: HotelType;
+  userPreference: PreferenceType
 };
 
 const OrderScreen: FC = () => {

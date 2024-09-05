@@ -29,6 +29,7 @@ import {MessageOptions, showMessage} from 'react-native-flash-message';
 import ViewMyOrderButton from '../../Components/ViewMyOrderButton';
 import PreferenceRadioCard from '../../Components/Onboarding/PreferenceRadioCard';
 import {HomeStackParamsList} from '../../Services/Navigation/HomeStack';
+import {useAppSelector} from '../../hooks/hooks';
 import styles from './style';
 
 type FoodItemScreenPropsType = NativeStackScreenProps<
@@ -37,6 +38,9 @@ type FoodItemScreenPropsType = NativeStackScreenProps<
 >;
 
 const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
+  const preferenceFromRedux = useAppSelector(
+    state => state.userDetails.preference,
+  );
   const currentUserId = auth().currentUser?.uid;
   const {food, hotel} = route.params;
   const [selectedProtein, setSelectedProtein] = useState<ProteinType>();
@@ -127,6 +131,7 @@ const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
               preferences: hotel.preferences,
             },
             foods: updatedFoods,
+            userPreference: preferenceFromRedux,
           };
           await firestore()
             .collection('orders')
@@ -180,6 +185,7 @@ const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
                         preferences: hotel.preferences,
                       },
                       foods: updatedFoods,
+                      userPreference: preferenceFromRedux,
                     };
                     await firestore()
                       .collection('orders')
@@ -207,6 +213,7 @@ const FoodItemScreen: FC<FoodItemScreenPropsType> = ({route}) => {
                         preferences: hotel.preferences,
                       },
                       foods: updatedFoods,
+                      userPreference: preferenceFromRedux,
                     };
                     await firestore()
                       .collection('orders')

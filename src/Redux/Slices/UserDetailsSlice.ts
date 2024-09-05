@@ -1,13 +1,13 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import StaticVariables from '../../Preferences/StaticVariables';
 
-export type PrefenceType = 'dine-in' | 'carry-out' | 'delivery' | undefined;
+export type PreferenceType = 'dine-in' | 'carry-out' | 'delivery' | undefined;
 
 export type UserDetailsReduxStateType = {
   zipcode: string;
   region: string;
   country: string;
-  preference: PrefenceType;
+  preference: PreferenceType;
   firstName: string;
   lastName: string;
   email: string;
@@ -42,7 +42,7 @@ const UserDetailsSlice = createSlice({
     updateCountry(state, action: PayloadAction<string>) {
       state.country = action.payload;
     },
-    updatePreference(state, action: PayloadAction<PrefenceType>) {
+    updatePreference(state, action: PayloadAction<PreferenceType>) {
       state.preference = action.payload;
     },
     updateFirstName(state, action: PayloadAction<string>) {
