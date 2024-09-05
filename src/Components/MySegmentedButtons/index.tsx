@@ -1,24 +1,59 @@
 import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
-import {updatePreference} from '../../Redux/Slices/UserDetailsSlice';
+import {
+  PreferenceType,
+  updatePreference,
+} from '../../Redux/Slices/UserDetailsSlice';
+import {OrderType} from '../../Modules/OrderScreen';
 import styles from './style';
+import LoadingComponent from '../LoadingComponent';
+import StaticVariables from '../../Preferences/StaticVariables';
 
 type MySegmentedButtonsPropsType = {
-  nonEditable?: boolean;
+  restrictedEditing?: boolean;
 };
 const MySegmentedButtons: React.FC<MySegmentedButtonsPropsType> = ({
-  nonEditable,
+  restrictedEditing,
 }) => {
+  const currentUserId = auth().currentUser?.uid;
   const navigation: any = useNavigation();
+  const [loading, setLoading] = useState(false);
+  const [order, setOrder] = useState<OrderType>();
+  const dispatch = useAppDispatch();
   const preferenceFromRedux = useAppSelector(
     state => state.userDetails.preference,
   );
-  const dispatch = useAppDispatch();
+  if (restrictedEditing) {
+    useEffect(() => {
+      fetchOrder();
+    }, []);
+  }
+  const fetchOrder = async () => {
+    setLoading(true);
+    try {
+      const querrySnapshot = await firestore()
+        .collection('orders')
+        .doc(currentUserId)
+        .get();
+      if (querrySnapshot.exists) {
+        const order: any = querrySnapshot.data();
+        setOrder(order);
+        dispatch(updatePreference(order.userPreference));
+      }
+    } catch (error) {
+      Alert.alert((error as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -29,27 +64,46 @@ const MySegmentedButtons: React.FC<MySegmentedButtonsPropsType> = ({
   );
   const renderNonEditableAlert = () => {
     return Alert.alert(
-      'Not now!',
-      'You cannot change this option at the moment. You can go back to Home screen and restart again if you want!',
+      'Unavailable!',
+      `Selected restaurant doesn't provide this option. Please change restaurant for this availing this option`,
       [
         {
-          text: 'Go to Home',
-          onPress: () => navigation.popToTop(),
-          style: 'cancel',
+          text: 'Change restaurant',
+          onPress: () => navigation.navigate(StaticVariables.HomeStack),
         },
-        {text: 'OK'},
+        {text: 'Cancel'},
       ],
     );
   };
+
+  const handlePress = async (clickedPreference: PreferenceType) => {
+    if (preferenceFromRedux != clickedPreference) {
+      if (order) {
+        if (order?.hotel.preferences.find(i => i == clickedPreference)) {
+          try {
+            setLoading(true);
+            await firestore().collection('orders').doc(currentUserId).update({
+              userPreference: clickedPreference,
+            });
+            dispatch(updatePreference(clickedPreference));
+          } catch (error) {
+            Alert.alert((error as Error).message);
+          } finally {
+            setLoading(false);
+          }
+        } else renderNonEditableAlert();
+      } else dispatch(updatePreference(clickedPreference));
+    }
+  };
+
+  if (loading) {
+    return <LoadingComponent />;
+  }
   return (
     <View style={screenStyles.MySegmentedButtonsContainer}>
       <View style={screenStyles.container}>
         <TouchableOpacity
-          onPress={() => {
-            if (nonEditable) {
-              renderNonEditableAlert();
-            } else dispatch(updatePreference('dine-in'));
-          }}
+          onPress={() => handlePress('dine-in')}
           style={[
             screenStyles.eachButtonStyle,
             {
@@ -73,11 +127,7 @@ const MySegmentedButtons: React.FC<MySegmentedButtonsPropsType> = ({
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => {
-            if (nonEditable) {
-              renderNonEditableAlert();
-            } else dispatch(updatePreference('carry-out'));
-          }}
+          onPress={() => handlePress('carry-out')}
           style={[
             screenStyles.eachButtonStyle,
             {
@@ -101,11 +151,7 @@ const MySegmentedButtons: React.FC<MySegmentedButtonsPropsType> = ({
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => {
-            if (nonEditable) {
-              renderNonEditableAlert();
-            } else dispatch(updatePreference('delivery'));
-          }}
+          onPress={() => handlePress('delivery')}
           style={[
             screenStyles.eachButtonStyle,
             {

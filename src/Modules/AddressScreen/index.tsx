@@ -7,7 +7,6 @@ import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import ThreeBitsComponent from '../../Components/ThreeBitsComponent';
-import MySegmentedButtons from '../../Components/MySegmentedButtons';
 import StaticVariables from '../../Preferences/StaticVariables';
 import MyTextInput from '../../Components/MyTextInput';
 import MyButton from '../../Components/MyButton';
@@ -98,7 +97,6 @@ const AddressScreen: FC = () => {
             Address Details
           </Text>
           <ThreeBitsComponent step={1} />
-          <MySegmentedButtons nonEditable />
           <View style={screenStyles.lineStyle}></View>
           <View style={screenStyles.bigContainer}>
             <Entypo name="location-pin" color={ColorPalette.red} size={60} />

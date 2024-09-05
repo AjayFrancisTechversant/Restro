@@ -1,11 +1,18 @@
-import {View, Text, Alert, ActivityIndicator, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  Alert,
+  ActivityIndicator,
+  ScrollView,
+  BackHandler,
+} from 'react-native';
 import React, {FC, useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import firestore from '@react-native-firebase/firestore';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import MyButton from '../../Components/MyButton';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
@@ -36,6 +43,27 @@ const SuccessScreenDelivery: FC = () => {
     fecthOrder();
   }, []);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      const backAction = () => {
+        Alert.alert('Hold on!', 'Are you sure you want to Exit?', [
+          {
+            text: 'Cancel',
+            onPress: () => null,
+            style: 'cancel',
+          },
+          {text: 'YES', onPress: () => BackHandler.exitApp()},
+        ]);
+        return true;
+      };
+      const backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        backAction,
+      );
+      return () => backHandler.remove();
+    }, []),
+  );
+
   const fecthOrder = async () => {
     try {
       const docSnapshot: any = await firestore()
@@ -56,7 +84,7 @@ const SuccessScreenDelivery: FC = () => {
       .doc(currentUserId)
       .delete()
       .then(() => {
-        navigation.popToTop();
+        navigation.navigate(StaticVariables.HomeStack);
       })
       .catch(error => Alert.alert((error as Error).message));
   };
@@ -169,18 +197,6 @@ const SuccessScreenDelivery: FC = () => {
         <View>
           {progress == 'inProgress' ? (
             <>
-              <Text style={[screenStyles.text, {color: ColorPalette.red}]}>
-                For more Information about your order, Contact us!
-              </Text>
-              <MyButton
-                onPress={() =>
-                  navigation.navigate(StaticVariables.ContactUsScreen)
-                }
-                style={screenStyles.contactUsButton}>
-                <Text style={[commonStyles.boldText, {color: ColorPalette.red}]}>
-                  Contact Us
-                </Text>
-              </MyButton>
               <MyButton
                 disabled={loading}
                 onPress={() =>
@@ -193,18 +209,22 @@ const SuccessScreenDelivery: FC = () => {
                   screenStyles.bottomButton,
                   {backgroundColor: ColorPalette.red},
                 ]}>
-                {!loading?<Text
-                  style={[commonStyles.boldText, {color: ColorPalette.white}]}>
-                  <MaterialCommunityIcons
-                    name="map-marker-question-outline"
-                    size={15}
-                    color={ColorPalette.white}
-                  />{' '}
-                  Track your Order!
-                </Text>
-                :
-                <ActivityIndicator size={20} color={ColorPalette.white}/>
-                }
+                {!loading ? (
+                  <Text
+                    style={[
+                      commonStyles.boldText,
+                      {color: ColorPalette.white},
+                    ]}>
+                    <MaterialCommunityIcons
+                      name="map-marker-question-outline"
+                      size={15}
+                      color={ColorPalette.white}
+                    />{' '}
+                    Track your Order!
+                  </Text>
+                ) : (
+                  <ActivityIndicator size={20} color={ColorPalette.white} />
+                )}
               </MyButton>
               <MyButton
                 onPress={() => {

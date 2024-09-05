@@ -21,7 +21,6 @@ import masterCard from '../../Assets/Images/masterCard.png';
 import visaCard from '../../Assets/Images/visaCard.png';
 import ThreeBitsComponent from '../../Components/ThreeBitsComponent';
 import StaticVariables from '../../Preferences/StaticVariables';
-import MySegmentedButtons from '../../Components/MySegmentedButtons';
 import MyTextInput from '../../Components/MyTextInput';
 import validate from '../../Validation/Validation';
 import MyButton from '../../Components/MyButton';
@@ -129,7 +128,6 @@ const PaymentInfoScreen: FC = () => {
             Payment Info
           </Text>
           <ThreeBitsComponent step={2} />
-          <MySegmentedButtons nonEditable />
           <View style={screenStyles.lineStyle}></View>
           <Text style={[commonStyles.bigBoldText, screenStyles.hotelName]}>
             {order?.hotel.name}

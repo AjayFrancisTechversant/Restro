@@ -9,7 +9,6 @@ import HeaderComponent from '../../Components/HeaderComponent';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import ThreeBitsComponent from '../../Components/ThreeBitsComponent';
-import MySegmentedButtons from '../../Components/MySegmentedButtons';
 import MyTextInput from '../../Components/MyTextInput';
 import styles from './style';
 import {
@@ -90,7 +89,6 @@ const VehicleScreen:FC = () => {
             Vehicle Details
           </Text>
           <ThreeBitsComponent step={1} />
-          <MySegmentedButtons nonEditable />
           <View style={screenStyles.lineStyle}></View>
           <View style={screenStyles.bigContainer}>
             <MaterialCommunityIcons

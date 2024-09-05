@@ -7,7 +7,6 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
 import HeaderComponent from '../../Components/HeaderComponent';
 import ThreeBitsComponent from '../../Components/ThreeBitsComponent';
-import MySegmentedButtons from '../../Components/MySegmentedButtons';
 import MyButton from '../../Components/MyButton';
 import PreferenceRadioCard from '../../Components/Onboarding/PreferenceRadioCard';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
@@ -43,29 +42,11 @@ const SummaryScreen: FC = () => {
     dispatch(clearCardDetails());
     dispatch(clearVehicleDetails());
     if (preferenceFromRedux == 'dine-in') {
-      navigation.reset({
-        index: 0,
-        routes: [
-          {name: StaticVariables.HomeScreen},
-          {name: StaticVariables.SuccessScreenDineIn},
-        ],
-      });
+      navigation.navigate(StaticVariables.SuccessScreenDineIn);
     } else if (preferenceFromRedux == 'carry-out') {
-      navigation.reset({
-        index: 0,
-        routes: [
-          {name: StaticVariables.HomeScreen},
-          {name: StaticVariables.SuccessScreenCarryOut},
-        ],
-      });
+      navigation.navigate(StaticVariables.SuccessScreenCarryOut);
     } else if (preferenceFromRedux == 'delivery') {
-      navigation.reset({
-        index: 0,
-        routes: [
-          {name: StaticVariables.HomeScreen},
-          {name: StaticVariables.SuccessScreenDelivery},
-        ],
-      });
+      navigation.navigate(StaticVariables.SuccessScreenDelivery);
     }
   };
 
@@ -80,7 +61,6 @@ const SummaryScreen: FC = () => {
             Order Summary
           </Text>
           <ThreeBitsComponent step={3} />
-          <MySegmentedButtons nonEditable />
           <View style={screenStyles.lineStyle}></View>
         </>
       }

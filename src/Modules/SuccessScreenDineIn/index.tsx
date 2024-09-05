@@ -1,10 +1,10 @@
-import {View, Text, Alert, ActivityIndicator, ScrollView} from 'react-native';
+import {View, Text, Alert, ActivityIndicator, ScrollView, BackHandler} from 'react-native';
 import React, {FC, useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import firestore from '@react-native-firebase/firestore';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import HeaderComponent from '../../Components/HeaderComponent';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
@@ -31,6 +31,26 @@ const SuccessScreenDineIn: FC = () => {
   useEffect(() => {
     fecthOrder();
   }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      const backAction = () => {
+        Alert.alert('Hold on!', 'Are you sure you want to Exit?', [
+          {
+            text: 'Cancel',
+            onPress: () => null,
+            style: 'cancel',
+          },
+          {text: 'YES', onPress: () => BackHandler.exitApp()},
+        ]);
+        return true;
+      };
+      const backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        backAction,
+      );
+      return () => backHandler.remove();
+    }, []),
+  );
 
   const fecthOrder = async () => {
     try {
@@ -52,7 +72,7 @@ const SuccessScreenDineIn: FC = () => {
       .doc(currentUserId)
       .delete()
       .then(() => {
-        navigation.popToTop();
+        navigation.navigate(StaticVariables.HomeStack);
       })
       .catch(error => Alert.alert((error as Error).message));
   };
@@ -90,23 +110,11 @@ const SuccessScreenDineIn: FC = () => {
             <ActivityIndicator size={20} color={ColorPalette.white} />
           )}
         </View>
-        <View>
-          <Text style={screenStyles.text}>
-            For more Information about your order, Contact us!
-          </Text>
-          <MyButton
-            onPress={() => navigation.navigate(StaticVariables.ContactUsScreen)}
-            style={screenStyles.bottomButton}>
-            <Text style={[commonStyles.boldText, commonStyles.redText]}>
-              Contact Us
-            </Text>
-          </MyButton>
           <MyButton onPress={handleFinish} style={screenStyles.bottomButton}>
             <Text style={[commonStyles.boldText, commonStyles.redText]}>
               Go To Home
             </Text>
           </MyButton>
-        </View>
       </View>
     </ScrollView>
   );

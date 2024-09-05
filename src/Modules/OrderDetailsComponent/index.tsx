@@ -43,6 +43,7 @@ const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
     tax: 0,
     total: 0,
   });
+  // console.log(order,'in order details component');
 
   useEffect(() => {
     const subscriber = firestore()
@@ -194,7 +195,7 @@ const OrderDetailsComponent: React.FC<OrderDetailsComponentPropsType> = ({
         <>
           <Text style={screenStyles.emptyCartText}>Empty Cart!</Text>
           <MyButton
-            onPress={() => navigation.popToTop()}
+            onPress={() => navigation.navigate(StaticVariables.HomeStack)}
             style={screenStyles.bottomButton}>
             <Text style={[commonStyles.redText, commonStyles.boldText]}>
               Go to Home

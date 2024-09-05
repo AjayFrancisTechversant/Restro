@@ -87,7 +87,7 @@ const OrderScreen: FC = () => {
           <Text style={[commonStyles.bigBoldText, screenStyles.heading]}>
             My Order
           </Text>
-          <MySegmentedButtons nonEditable />
+          <MySegmentedButtons restrictedEditing />
           <View style={screenStyles.lineStyle}></View>
         </View>
       }
