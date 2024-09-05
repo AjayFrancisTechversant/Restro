@@ -12,7 +12,7 @@ import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {commonStyles} from '../../CommonStyles/CommonStyles';
-import scooterImageSmall from '../../Assets/Images/scooterImageSmall.png';
+import pointerImage from '../../Assets/Images/pointerImage.png';
 import {gethotelLatLng, getRoute} from '../../Services/API/getRoute';
 import { OrderStackParamsList } from '../../Services/Navigation/OrderStack';
 import styles from './style';
@@ -70,7 +70,7 @@ const TrackingScreen: FC<TrackingScreenPropsType> = ({route}) => {
           style={commonStyles.flexOne}
           provider={PROVIDER_GOOGLE}
           showsUserLocation>
-          <Marker image={scooterImageSmall} coordinate={markerPosition} />
+          <Marker image={pointerImage} coordinate={markerPosition} />
           <Marker  coordinate={gethotelLatLng(hotelId)}>
             <Callout>
               <Text>{hotelId}</Text>
