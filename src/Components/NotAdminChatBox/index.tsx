@@ -1,29 +1,19 @@
-import {View, FlatList, Alert} from 'react-native';
+import {ActivityIndicator, Alert, View} from 'react-native';
 import auth from '@react-native-firebase/auth';
-import firestore, {Filter} from '@react-native-firebase/firestore';
-import {TextInput} from 'react-native-paper';
+import firestore, {arrayUnion, Filter} from '@react-native-firebase/firestore';
 import {ADMIN_EMAIL} from '@env';
-import React, {useEffect, useRef, useState} from 'react';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import MyTextInput from '../MyTextInput';
 import StaticVariables from '../../Preferences/StaticVariables';
-import ColorPalette from '../../Assets/Themes/ColorPalette';
-import {MessageType} from '../../Modules/ContactUsScreen';
-import EachMessageComponent from '../EachMessageComponent';
 import styles from './style';
+import {GiftedChat, IMessage} from 'react-native-gifted-chat';
 
 const NotAdminChatBox = () => {
-  const currentUserEmail = auth().currentUser?.email;
-  const [newMessage, setNewMessage] = useState<MessageType>({
-    createdAt: firestore.FieldValue.serverTimestamp(),
-    text: StaticVariables.EMPTY_STRING,
-    fromEmail: currentUserEmail,
-    toEmail: ADMIN_EMAIL,
-  });
-  const [messages, setMessages] = useState<MessageType[]>(
+  const currentUserId = auth().currentUser?.uid;
+  const [messages, setMessages] = useState<IMessage[]>(
     StaticVariables.EMPTY_ARRAY,
   );
-  const flatlisRef = useRef<FlatList>(null);
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -35,64 +25,72 @@ const NotAdminChatBox = () => {
 
   useEffect(() => {
     const subscriber = firestore()
-      .collection('messages')
-      .where(
-        Filter.or(
-          Filter('fromEmail', '==', currentUserEmail),
-          Filter('toEmail', '==', currentUserEmail),
-        ),
-      )
-      .onSnapshot(querrySnapshot => {
-        const sortedMessages: any = querrySnapshot?.docs
-          .map(i => i.data())
-          .sort((a, b) => a.createdAt - b.createdAt);
-        setMessages(sortedMessages);
+      .collection('chats')
+      .doc(currentUserId)
+      .onSnapshot(documentSnapshot => {
+        if (documentSnapshot.exists) {
+        const resData: any = documentSnapshot.data()
+        const sorted = resData?.messages?.sort((a: any, b: any) => b.createdAt - a.createdAt)
+          setMessages(sorted);
+        }
       });
     return () => subscriber();
   }, []);
-  
-  const handleSendMessage = () => {
-    setNewMessage({
+  // useEffect(() => {
+  //   const subscriber = firestore()
+  //     .collection('Chats')
+  //     .doc(isAdmin ? userID : currentUid)
+  //     .onSnapshot(documentSnapshot => {
+  //       const resData: any = documentSnapshot.data()
+  //       const filtered = resData?.messages?.sort((a: any, b: any) => b.createdAt - a.createdAt)
+  //       setAllRequest(filtered)
+  //     });
+  //   return () => {
+  //     subscriber()
+  //   };
+  // }, []);
+  const onSend = useCallback((newMessages: IMessage[] = []) => {
+    const newMessage = newMessages[0];
+    const formattedNewMessage: IMessage = {
       ...newMessage,
-      createdAt: firestore.FieldValue.serverTimestamp(),
-    });
-    firestore()
-      .collection('messages')
-      .add(newMessage)
-      .then(() => {
-        setNewMessage({
-          ...newMessage,
-          text: StaticVariables.EMPTY_STRING,
-          createdAt: firestore.FieldValue.serverTimestamp(),
-        });
-      })
-      .catch(error => Alert.alert(error));
+      createdAt: Date.now(),
+    };   
+    sendToFirestore(formattedNewMessage);
+  }, []);
+
+  const sendToFirestore = async (formattedNewMessage: IMessage) => {
+    try {
+      const isDocExisting = (
+        await firestore().collection('chats').doc(currentUserId).get()
+      ).exists;
+      if (!isDocExisting) {
+        //create a new array
+        await firestore()
+          .collection('chats')
+          .doc(currentUserId)
+          .set({messages: arrayUnion(formattedNewMessage)});
+      } else {
+        //push into array
+        await firestore()
+          .collection('chats')
+          .doc(currentUserId)
+          .update({messages: arrayUnion(formattedNewMessage)});
+      }
+    } catch (error) {
+      Alert.alert((error as Error).message);
+    }
   };
+
   return (
-    <View style={screenStyles.container}>
-      <FlatList
-        onContentSizeChange={() => flatlisRef.current?.scrollToEnd()}
-        ref={flatlisRef}
-        showsVerticalScrollIndicator={false}
-        data={messages}
-        renderItem={({item}) => <EachMessageComponent message={item} />}
-      />
-      <MyTextInput
-        value={newMessage.text}
-        multiline
-        style={screenStyles.textInput}
-        onChangeText={txt => setNewMessage({...newMessage, text: txt})}
-        right={
-          <TextInput.Icon
-            forceTextInputFocus={false}
-            disabled={!newMessage.text}
-            icon="send"
-            color={ColorPalette.blue}
-            onPress={handleSendMessage}
-          />
-        }
-      />
-    </View>
+    <GiftedChat
+      scrollToBottom={true}
+      messages={messages}
+      onSend={newMessages => onSend(newMessages)}
+      user={{
+        _id: currentUserId as string,
+      }}
+      renderAvatar={null}
+    />
   );
 };
 

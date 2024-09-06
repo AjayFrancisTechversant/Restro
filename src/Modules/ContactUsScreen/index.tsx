@@ -12,12 +12,7 @@ import NotAdminChatBox from '../../Components/NotAdminChatBox';
 import AdminChat from '../../Components/AdminChat';
 import styles from './style';
 
-export type MessageType = {
-  text: string;
-  createdAt: FieldValue;
-  toEmail: string | undefined | null;
-  fromEmail: string | undefined | null;
-};
+
 const ContactUsScreen = () => {
   const currentUserId = auth().currentUser?.uid;
   const isAdmin = currentUserId == ADMIN_UID;

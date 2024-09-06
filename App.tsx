@@ -24,28 +24,28 @@ function App(): React.JSX.Element {
 
   useEffect(() => {
     const subscriber1 = auth().onAuthStateChanged(onAuthStateChanged);
-    const subscriber2 = NetInfo.addEventListener(state => {
-      if (!state.isConnected) {
-        Alert.alert(
-          'No Internet!',
-          'Uh Oh!. Looks like theres no internet connection.',
-          [
-            {
-              text: 'Exit',
-              onPress: () => {
-                BackHandler.exitApp();
-              },
-            },
-          ],
-          {
-            cancelable: false,
-          },
-        );
-      }
-    });
+    // const subscriber2 = NetInfo.addEventListener(state => {
+    //   if (!state.isConnected) {
+    //     Alert.alert(
+    //       'No Internet!',
+    //       'Uh Oh!. Looks like theres no internet connection.',
+    //       [
+    //         {
+    //           text: 'Exit',
+    //           onPress: () => {
+    //             BackHandler.exitApp();
+    //           },
+    //         },
+    //       ],
+    //       {
+    //         cancelable: false,
+    //       },
+    //     );
+    //   }
+    // });
     return () => {
       subscriber1;
-      subscriber2;
+      // subscriber2;
     };
   }, []);
 
