@@ -24,7 +24,7 @@ const ChatBoxScreen: FC<ChatBoxScreenPropsType> = ({route}) => {
   const currentUserId = auth().currentUser?.uid;
   const isAdmin = currentUserId == ADMIN_UID;
   const navigation = useNavigation();
-  const {uid} = route.params;
+  const {email} = route.params;
   const [messages, setMessages] = useState<IMessage[]>(
     StaticVariables.EMPTY_ARRAY,
   );
@@ -40,7 +40,7 @@ const ChatBoxScreen: FC<ChatBoxScreenPropsType> = ({route}) => {
   useEffect(() => {
     const subscriber = firestore()
       .collection('chats')
-      .doc(uid)
+      .doc(email)
       .onSnapshot(documentSnapshot => {
         if (documentSnapshot.exists) {
           const resData: any = documentSnapshot.data();
@@ -65,19 +65,19 @@ const ChatBoxScreen: FC<ChatBoxScreenPropsType> = ({route}) => {
   const sendToFirestore = async (formattedNewMessage: IMessage) => {
     try {
       const isDocExisting = (
-        await firestore().collection('chats').doc(uid).get()
+        await firestore().collection('chats').doc(email).get()
       ).exists;
       if (!isDocExisting) {
         //create a new array
         await firestore()
           .collection('chats')
-          .doc(uid)
+          .doc(email)
           .set({messages: arrayUnion(formattedNewMessage)});
       } else {
         //push into array
         await firestore()
           .collection('chats')
-          .doc(uid)
+          .doc(email)
           .update({messages: arrayUnion(formattedNewMessage)});
       }
     } catch (error) {
@@ -97,7 +97,7 @@ const ChatBoxScreen: FC<ChatBoxScreenPropsType> = ({route}) => {
       ) : (
         <HeaderComponent color={ColorPalette.gray} />
       )}
-      <Text style={screenStyles.heading}>{isAdmin?uid:'Chat with Admin'}</Text>
+      <Text style={screenStyles.heading}>{isAdmin?email:'Chat with Admin'}</Text>
       <GiftedChat
         scrollToBottom={true}
         messages={messages}

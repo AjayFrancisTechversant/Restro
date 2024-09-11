@@ -6,9 +6,9 @@ import StaticVariables from '../../Preferences/StaticVariables';
 import styles from './style';
 
 type AdminChatCardPropsType = {
-  uid: string;
+  email: string;
 };
-const AdminChatCard: React.FC<AdminChatCardPropsType> = ({uid}) => {
+const AdminChatCard: React.FC<AdminChatCardPropsType> = ({email}) => {
   const navigation: any = useNavigation();
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -21,8 +21,8 @@ const AdminChatCard: React.FC<AdminChatCardPropsType> = ({uid}) => {
   return (
     <TouchableOpacity
       style={screenStyles.card}
-      onPress={() => navigation.navigate(StaticVariables.ChatBoxScreen, {uid})}>
-      <Text>{uid}</Text>
+      onPress={() => navigation.navigate(StaticVariables.ChatBoxScreen, {email})}>
+      <Text>{email}</Text>
     </TouchableOpacity>
   );
 };

@@ -39,7 +39,7 @@ const AdminChatScreen:FC = () => {
           <Text style={screenStyles.emptyTextStyle}>No one :)</Text>
         }
         data={users}
-        renderItem={({item}) => <AdminChatCard uid={item} />}
+        renderItem={({item}) => <AdminChatCard email={item} />}
       />
     </View>
   );

@@ -7,12 +7,13 @@ import AdminChatScreen from '../../Modules/AdminChatScreen';
 
 export type ContactUsStackParamsList = {
   AdminChatScreen: undefined;
-  ChatBoxScreen: {uid: string};
+  ChatBoxScreen: {email: string};
 };
 const Stack = createNativeStackNavigator<ContactUsStackParamsList>();
 
 const ContactUsStack = () => {
   const currentUserId = auth().currentUser?.uid;
+  const currentUserEmail = auth().currentUser?.email;
   const isAdmin = currentUserId == ADMIN_UID;
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
@@ -23,7 +24,7 @@ const ContactUsStack = () => {
         </>
       ) : (
         <Stack.Screen name="ChatBoxScreen"
-        initialParams={{uid:currentUserId}}
+        initialParams={currentUserEmail?{email:currentUserEmail}:{email:undefined}}
         component={ChatBoxScreen} />
       )}
     </Stack.Navigator>
