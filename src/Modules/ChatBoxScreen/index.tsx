@@ -1,11 +1,11 @@
-import {Alert, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, BackHandler, Text, TouchableOpacity, View} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import firestore, {arrayUnion} from '@react-native-firebase/firestore';
 import {GiftedChat, IMessage} from 'react-native-gifted-chat';
 import {ADMIN_UID} from '@env';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
@@ -28,14 +28,6 @@ const ChatBoxScreen: FC<ChatBoxScreenPropsType> = ({route}) => {
   const [messages, setMessages] = useState<IMessage[]>(
     StaticVariables.EMPTY_ARRAY,
   );
-  const screenContext = useScreenContext();
-  const screenStyles = styles(
-    screenContext.isPortrait ? screenContext.height : screenContext.width,
-    screenContext.isPortrait ? screenContext.width : screenContext.height,
-    screenContext.isPortrait,
-    screenContext.isTypeTablet,
-    screenContext,
-  );
 
   useEffect(() => {
     const subscriber = firestore()
@@ -52,6 +44,29 @@ const ChatBoxScreen: FC<ChatBoxScreenPropsType> = ({route}) => {
       });
     return () => subscriber();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const backAction = () => {
+        if (!isAdmin) {
+          Alert.alert('Hold on!', 'Are you sure you want to Exit?', [
+            {
+              text: 'Cancel',
+              onPress: () => null,
+              style: 'cancel',
+            },
+            {text: 'YES', onPress: () => BackHandler.exitApp()},
+          ]);
+          return true;
+        }
+      };
+      const backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        backAction,
+      );
+      return () => backHandler.remove();
+    }, []),
+  );
 
   const onSend = useCallback((newMessages: IMessage[] = []) => {
     const newMessage = newMessages[0];
@@ -84,7 +99,14 @@ const ChatBoxScreen: FC<ChatBoxScreenPropsType> = ({route}) => {
       Alert.alert((error as Error).message);
     }
   };
-
+  const screenContext = useScreenContext();
+  const screenStyles = styles(
+    screenContext.isPortrait ? screenContext.height : screenContext.width,
+    screenContext.isPortrait ? screenContext.width : screenContext.height,
+    screenContext.isPortrait,
+    screenContext.isTypeTablet,
+    screenContext,
+  );
   return (
     <View style={screenStyles.container}>
       {isAdmin ? (
@@ -97,7 +119,9 @@ const ChatBoxScreen: FC<ChatBoxScreenPropsType> = ({route}) => {
       ) : (
         <HeaderComponent color={ColorPalette.gray} />
       )}
-      <Text style={screenStyles.heading}>{isAdmin?email:'Chat with Admin'}</Text>
+      <Text style={screenStyles.heading}>
+        {isAdmin ? email : 'Chat with Admin'}
+      </Text>
       <GiftedChat
         scrollToBottom={true}
         messages={messages}
