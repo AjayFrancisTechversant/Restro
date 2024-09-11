@@ -11,9 +11,6 @@ const styles = (
 ) =>
   StyleSheet.create({
     container: {
-      borderRadius: 10,
-      borderWidth: 0.5,
-      borderColor: ColorPalette.gray,
       flex: 1,
       padding: height * 0.02,
     },
