@@ -28,6 +28,8 @@ const StaticVariables = {
   SuccessScreenCarryOut: 'SuccessScreenCarryOut',
   SuccessScreenDelivery: 'SuccessScreenDelivery',
   TrackingScreen: 'TrackingScreen',
-  ContactUsScreen: 'ContactUsScreen',
+  ContactUsStack: 'ContactUsStack',
+  AdminChatScreen: 'AdminChatScreen',
+  ChatBoxScreen: 'ChatBoxScreen',
 };
 export default StaticVariables;

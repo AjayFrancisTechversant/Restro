@@ -1,17 +1,15 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
 import {useScreenContext} from '../../Contexts/ScreenContext';
+import StaticVariables from '../../Preferences/StaticVariables';
 import styles from './style';
-import {SetStateType} from '../../Types/Types';
 
 type AdminChatCardPropsType = {
-  fromEmailId: string;
-  setSelectedEmail: SetStateType<string>;
+  uid: string;
 };
-const AdminChatCard: React.FC<AdminChatCardPropsType> = ({
-  fromEmailId,
-  setSelectedEmail,
-}) => {
+const AdminChatCard: React.FC<AdminChatCardPropsType> = ({uid}) => {
+  const navigation: any = useNavigation();
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext.isPortrait ? screenContext.height : screenContext.width,
@@ -23,8 +21,8 @@ const AdminChatCard: React.FC<AdminChatCardPropsType> = ({
   return (
     <TouchableOpacity
       style={screenStyles.card}
-      onPress={() => setSelectedEmail(fromEmailId)}>
-      <Text>{fromEmailId}</Text>
+      onPress={() => navigation.navigate(StaticVariables.ChatBoxScreen, {uid})}>
+      <Text>{uid}</Text>
     </TouchableOpacity>
   );
 };

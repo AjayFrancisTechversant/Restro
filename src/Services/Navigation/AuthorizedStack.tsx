@@ -6,10 +6,10 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import HomeStack from './HomeStack';
-import ContactUsScreen from '../../Modules/ContactUsScreen';
 import OrderStack from './OrderStack';
 import ProfileScreen from '../../Modules/ProfileScreen';
 import StaticVariables from '../../Preferences/StaticVariables';
+import ContactUsStack from './ContactUsStack';
 
 const Drawer = createDrawerNavigator();
 
@@ -68,8 +68,8 @@ const AuthorizedStack = () => {
             <Entypo name="chat" color={ColorPalette.red} size={20} />
           ),
         }}
-        name="ContactUsScreen"
-        component={ContactUsScreen}
+        name="ContactUsStack"
+        component={ContactUsStack}
       />
       <Drawer.Screen
         options={{
