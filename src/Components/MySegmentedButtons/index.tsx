@@ -69,7 +69,11 @@ const MySegmentedButtons: React.FC<MySegmentedButtonsPropsType> = ({
       [
         {
           text: 'Change restaurant',
-          onPress: () => navigation.navigate(StaticVariables.HomeStack),
+          onPress: () =>
+            navigation.navigate(
+              StaticVariables.HomeStack,
+              StaticVariables.HomeScreen,
+            ),
         },
         {text: 'Cancel'},
       ],

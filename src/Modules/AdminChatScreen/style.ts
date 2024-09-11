@@ -13,8 +13,14 @@ const styles = (
     container: {
       flex: 1,
       padding: height * 0.02,
+      backgroundColor: ColorPalette.white,
     },
-    emptyTextStyle: {alignSelf:'center',fontWeight:'bold',fontSize:20,margin:height*0.02},
+    emptyTextStyle: {
+      alignSelf: 'center',
+      fontWeight: 'bold',
+      fontSize: 20,
+      margin: height * 0.02,
+    },
   });
 
 export default styles;

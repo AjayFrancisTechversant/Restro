@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {ScreenContextType} from '../../Contexts/ScreenContext';
+import ColorPalette from '../../Assets/Themes/ColorPalette';
 
 const styles = (
   height: number,
@@ -9,9 +10,23 @@ const styles = (
   screenContext: ScreenContextType,
 ) =>
   StyleSheet.create({
-    container: {flex: 1, padding: height * 0.01},
-    backButton: {alignSelf:'flex-start',flexDirection:'row',alignItems:'center',padding:height*0.01},
-    heading:{alignSelf:'center',marginBottom:height*0.01,fontWeight:'bold'}
+    container: {
+      padding: height * 0.01,
+      height: isPortrait ? height : width,
+      width: isPortrait ? width : height,backgroundColor:ColorPalette.white,
+      paddingBottom:30
+    },
+    backButton: {
+      alignSelf: 'flex-start',
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: height * 0.01,
+    },
+    heading: {
+      alignSelf: 'center',
+      marginBottom: height * 0.01,
+      fontWeight: 'bold',
+    },
   });
 
 export default styles;
