@@ -16,17 +16,17 @@ const ContactUsStack = () => {
   const currentUserEmail = auth().currentUser?.email;
   const isAdmin = currentUserId == ADMIN_UID;
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
-      {isAdmin ? (
-        <>
-          <Stack.Screen name="AdminChatScreen" component={AdminChatScreen} />
-          <Stack.Screen name="ChatBoxScreen" component={ChatBoxScreen} />
-        </>
-      ) : (
-        <Stack.Screen name="ChatBoxScreen"
-        initialParams={currentUserEmail?{email:currentUserEmail}:{email:undefined}}
-        component={ChatBoxScreen} />
-      )}
+    <Stack.Navigator
+      screenOptions={{headerShown: false}}
+      initialRouteName={isAdmin ? 'AdminChatScreen' : 'ChatBoxScreen'}>
+      <Stack.Screen name="AdminChatScreen" component={AdminChatScreen} />
+      <Stack.Screen
+        name="ChatBoxScreen"
+        initialParams={
+          currentUserEmail ? {email: currentUserEmail} : {email: undefined}
+        }
+        component={ChatBoxScreen}
+      />
     </Stack.Navigator>
   );
 };
