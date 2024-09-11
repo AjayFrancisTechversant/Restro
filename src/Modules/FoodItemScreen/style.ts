@@ -45,20 +45,21 @@ const styles = (
     counterContainer: {
       flexDirection: 'row',
       gap: height * 0.01,
-      borderWidth: 2,
+      borderWidth: 1,
       borderColor: ColorPalette.red,
       borderRadius: 20,
       overflow: 'hidden',
-      alignItems: 'center',
     },
     minusButton: {
       paddingHorizontal:width * 0.01,
-      borderRightWidth: 2,
+      borderRightWidth: 1,
       borderRightColor: ColorPalette.red,
+      justifyContent:'center'
     },
     plusButton: {
       paddingHorizontal:width * 0.01,
       backgroundColor: ColorPalette.red,
+      justifyContent:'center'
     },
     addToOrderButton: {
       backgroundColor: ColorPalette.red,
